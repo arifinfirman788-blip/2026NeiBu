@@ -1,0 +1,7 @@
+{
+  "name": "Huang Xiaoxi - Guizhou Tourism AI（last)",
+  "description": "An intelligent travel assistant for Guizhou tourism, featuring trip planning, expert advice, and interactive chat.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}

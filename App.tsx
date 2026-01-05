@@ -19,7 +19,8 @@ import {
   Utensils, BedDouble, Truck, Search, Box, 
   FileSearch, MessageSquare, Star, Award, MapPin, 
   Headphones, Quote, Sparkles, Terminal, Heart,
-  BarChart3, LifeBuoy, Share2
+  BarChart3, LifeBuoy, Share2, Store, Download, 
+  FileText, Target, TrendingUp
 } from 'lucide-react';
 
 const SCENIC_PRODUCT_URL = (import.meta as any).env?.VITE_SCENIC_PRODUCT_URL || 'http://localhost:5173'
@@ -40,91 +41,160 @@ const MobileWrapper: React.FC<{ children: React.ReactNode; onBack: () => void }>
      </div>
 );
 
-// --- COMPONENT: Matrix Diagram (修复重叠，新增旅居智能体) ---
+// --- COMPONENT: Matrix Diagram (3D Matrix View) ---
 const MatrixDiagram = () => (
-  <div className="w-full bg-white rounded-[4rem] p-12 border border-slate-200 relative overflow-hidden shadow-xl">
-     <div className="absolute inset-0 opacity-[0.03] bg-[radial-gradient(#334155_1px,transparent_1px)] [background-size:30px_30px]"></div>
-     
-     <div className="relative z-10 flex flex-col items-center">
-        {/* Tier 1: 客源触点 */}
-        <div className="flex gap-4 mb-20 animate-in slide-in-from-top duration-700">
-           <span className="text-[10px] font-black text-indigo-600 bg-indigo-50 px-4 py-1.5 rounded-full border border-indigo-100 tracking-widest uppercase">全域触点</span>
-           {['微信生态', '抖音/小红书', 'HarmonyOS', '官方App', '线下扫码'].map(t => (
-             <div key={t} className="px-4 py-1.5 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-500 shadow-sm">{t}</div>
-           ))}
+  <div className="space-y-12 animate-in fade-in duration-500">
+    <div className="text-center max-w-3xl mx-auto mb-12">
+      <h3 className="text-2xl font-black text-slate-800 mb-4">贵州旅游行程服务总入口架构</h3>
+      <p className="text-slate-500 text-sm">意图识别 · 任务调度 · 决策支持</p>
+    </div>
+
+    <div className="relative flex flex-col items-center">
+      {/* 0. 顶部触点层 */}
+      <div className="flex gap-4 mb-16">
+        <div className="flex items-center gap-2 bg-gradient-to-r from-blue-50 to-indigo-50 px-4 py-2 rounded-full border border-indigo-100 shadow-sm">
+          <span className="text-xs font-black text-indigo-400">服务触点</span>
+          <div className="h-4 w-px bg-indigo-200"></div>
+          {['微信', '抖音', 'HarmonyOS', 'App', '各嵌入涉旅平台'].map(t => (
+            <span key={t} className="text-xs font-bold text-slate-600 px-2">{t}</span>
+          ))}
+        </div>
+      </div>
+
+      {/* 1. 核心圆柱体架构 (CSS 3D效果) */}
+      <div className="relative w-full max-w-5xl h-[600px] perspective-[2000px]">
+        
+        {/* A. 顶层：总入口核心 */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 z-50 w-64 text-center">
+          <div className="bg-gradient-to-b from-blue-500 to-indigo-600 p-6 rounded-2xl shadow-xl shadow-indigo-200 border-b-4 border-indigo-800 transform hover:scale-105 transition-transform duration-500">
+            <Box className="w-10 h-10 text-white mx-auto mb-2 opacity-90" />
+            <h4 className="text-white font-black text-lg">服务总入口</h4>
+            <p className="text-indigo-100 text-[10px] mt-1">意图识别 / 任务调度 / 决策支持</p>
+          </div>
+          {/* 连接线 */}
+          <div className="absolute top-full left-1/2 -translate-x-1/2 w-0.5 h-10 bg-gradient-to-b from-indigo-500 to-transparent"></div>
         </div>
 
-        {/* Tier 2: 环形架构 (7个智能体，防止重叠) */}
-        <div className="relative w-full max-w-5xl h-[500px] flex items-center justify-center border-2 border-dashed border-slate-100 rounded-[6rem]">
-           {/* Center Hub */}
-           <div className="absolute bg-white border-4 border-indigo-600 p-10 rounded-[3rem] shadow-2xl z-20 flex flex-col items-center group cursor-pointer hover:scale-105 transition-all">
-              <div className="w-16 h-16 bg-indigo-600 rounded-2xl flex items-center justify-center mb-4 animate-pulse shadow-lg shadow-indigo-200">
-                 <Network size={36} className="text-white" />
-              </div>
-              <h3 className="text-xl font-black text-slate-900 tracking-tighter">服务总入口中枢</h3>
-              <p className="text-[9px] text-indigo-500 font-mono mt-2 uppercase tracking-[0.2em] font-bold">Guizhou AI Controller</p>
-           </div>
-
-           {/* Orbiting Agents - 精确排布防止重叠 */}
-           <OrbitAgent icon={Utensils} label="餐饮智能体" pos="top-[-48px] left-[15%]" />
-           <OrbitAgent icon={BedDouble} label="酒店智能体" pos="top-[-48px] left-[50%] -translate-x-1/2" />
-           <OrbitAgent icon={Truck} label="出行智能体" pos="top-[-48px] right-[15%]" />
-           
-           <OrbitAgent icon={Heart} label="旅居智能体" pos="top-[50%] right-[-48px] -translate-y-1/2" color="rose" pulse />
-           
-           <OrbitAgent icon={Landmark} label="政府端智能体" pos="bottom-[-48px] left-[15%]" />
-           <OrbitAgent icon={Mountain} label="景区智能体" pos="bottom-[-48px] left-[50%] -translate-x-1/2" />
-           <OrbitAgent icon={Briefcase} label="旅行社智能体" pos="bottom-[-48px] right-[15%]" color="indigo" />
+        {/* B. 第一层环：企业端智能体 */}
+        <div className="absolute top-24 left-1/2 w-[800px] h-[160px] border-2 border-indigo-100 bg-indigo-50/30 rounded-[50%] [transform:translateX(-50%)_rotateX(60deg)] [transform-style:preserve-3d] z-40 flex items-center justify-center">
+          <RingLabel label="企业端智能体" color="indigo" className="-top-20 [transform:translateX(-50%)_rotateX(-60deg)]" />
+          
+          {/* 环绕节点 */}
+          <div className="absolute top-0 left-0 w-full h-full animate-spin-slow [transform-style:preserve-3d]" style={{ animationDuration: '60s' }}>
+            <MatrixNode label="餐饮智能体" angle={0} color="gray" />
+            <MatrixNode label="酒店智能体" angle={60} color="blue" />
+            <MatrixNode label="出行智能体" angle={120} color="gray" />
+            <MatrixNode label="政府智能体" angle={180} color="blue" />
+            <MatrixNode label="景区智能体" angle={240} color="blue" />
+            <MatrixNode label="旅行社智能体" angle={300} color="blue" />
+            <MatrixNode label="订购智能体" angle={330} color="blue" />
+          </div>
         </div>
 
-        {/* Tier 3: 角色集 */}
-        <div className="mt-24 grid grid-cols-2 lg:grid-cols-4 gap-6 w-full">
-           <RoleSet title="服务支持" roles={['前台/管家', '餐饮/客房', '礼宾接待']} />
-           <RoleSet title="专业运营" roles={['气象助手', '车队调度', '线路设计']} color="blue" />
-           <RoleSet title="行政监管" roles={['执法监督', '运行监测', '产业决策']} color="rose" />
-           <RoleSet title="执行末梢" roles={['金牌讲解', '专业导游', '旅拍跟拍']} color="emerald" />
+        {/* C. 第二层环：角色智能体 */}
+        <div className="absolute top-56 left-1/2 w-[900px] h-[200px] border-2 border-slate-300 bg-slate-50/50 rounded-[50%] [transform:translateX(-50%)_rotateX(60deg)] [transform-style:preserve-3d] z-30 shadow-lg">
+          <RingLabel label="角色智能体" color="violet" className="top-1/2 [transform:translate(-50%,-50%)_rotateX(-60deg)]" />
+          
+          {/* 环绕节点 - 分布在圆环轨迹上 */}
+          <div className="absolute top-0 left-0 w-full h-full animate-spin-slow [transform-style:preserve-3d]" style={{ animationDuration: '80s', animationDirection: 'reverse' }}>
+            {/* 右侧组 (0度附近) */}
+            <MatrixNode label="销售" angle={0} color="violet" />
+            <MatrixNode label="导游" angle={30} color="violet" />
+            <MatrixNode label="线路设计师" angle={330} color="violet" />
+
+            {/* 前侧组 (90度附近) */}
+            <MatrixNode label="行业专家" angle={90} color="violet" />
+            <MatrixNode label="气象助手" angle={110} color="violet" />
+            
+            {/* 左侧组 (180度附近) */}
+            <MatrixNode label="客房管家" angle={180} color="violet" />
+            <MatrixNode label="餐饮部" angle={210} color="violet" />
+            <MatrixNode label="前台接待" angle={150} color="violet" />
+
+            {/* 后侧组 (270度附近) */}
+            <MatrixNode label="执法监督" angle={270} color="violet" />
+            <MatrixNode label="运行监测" angle={290} color="violet" />
+          </div>
         </div>
-     </div>
+
+        {/* D. 第三层环：功能智能体 */}
+        <div className="absolute top-96 left-1/2 w-[1000px] h-[240px] border-2 border-teal-200 bg-teal-50/40 rounded-[50%] [transform:translateX(-50%)_rotateX(60deg)] [transform-style:preserve-3d] z-20 shadow-lg">
+          <RingLabel label="功能智能体" color="teal" className="top-1/2 [transform:translate(-50%,-50%)_rotateX(-60deg)]" />
+          
+          {/* 环绕节点 - 分布在圆环轨迹上 */}
+          <div className="absolute top-0 left-0 w-full h-full animate-spin-slow [transform-style:preserve-3d]" style={{ animationDuration: '100s' }}>
+            {/* 均匀分布的节点 */}
+            <MatrixNode label="房态查询" angle={0} color="teal" />
+            <MatrixNode label="预约送餐" angle={30} color="teal" />
+            <MatrixNode label="天气动态调整" angle={60} color="teal" />
+            <MatrixNode label="车辆调度" angle={90} color="teal" />
+            <MatrixNode label="前沿摘要" angle={120} color="teal" />
+            <MatrixNode label="政策问答" angle={150} color="teal" />
+            <MatrixNode label="智能导览" angle={180} color="teal" />
+            <MatrixNode label="客流预测" angle={210} color="teal" />
+            <MatrixNode label="活动智能推荐" angle={240} color="teal" />
+            <MatrixNode label="话术辅助" angle={270} color="teal" />
+            <MatrixNode label="投诉预警" angle={300} color="teal" />
+            <MatrixNode label="紧急救援" angle={330} color="teal" />
+          </div>
+        </div>
+
+      </div>
+    </div>
   </div>
 );
 
-const OrbitAgent = ({ icon: Icon, label, pos, color = 'slate', pulse }: any) => {
-  const colors: any = {
-    slate: 'border-slate-200 text-slate-400 bg-white',
-    indigo: 'border-indigo-200 text-indigo-600 bg-indigo-50/50 shadow-indigo-100',
-    rose: 'border-rose-200 text-rose-600 bg-rose-50/50 shadow-rose-100'
+// --- Helper: Ring Label ---
+const RingLabel = ({ label, color, className }: { label: string, color: 'indigo' | 'violet' | 'teal', className?: string }) => {
+  const styles = {
+    indigo: 'bg-indigo-600 text-white shadow-lg shadow-indigo-200 ring-4 ring-indigo-50',
+    violet: 'bg-violet-600 text-white shadow-lg shadow-violet-200 ring-4 ring-violet-50',
+    teal: 'bg-teal-600 text-white shadow-lg shadow-teal-200 ring-4 ring-teal-50',
   };
+
   return (
-   <div className={`absolute ${pos} flex flex-col items-center gap-3 animate-in zoom-in duration-1000`}>
-      <div className={`w-20 h-20 rounded-[1.75rem] border-2 ${colors[color]} flex items-center justify-center shadow-lg hover:scale-110 transition-all cursor-pointer group relative`}>
-         <Icon size={32} className="group-hover:rotate-12 transition-transform" />
-         {pulse && <span className="absolute -top-1 -right-1 w-3 h-3 bg-rose-500 rounded-full animate-ping"></span>}
-      </div>
-      <span className="text-[11px] font-black text-slate-600 tracking-tight">{label}</span>
-   </div>
+    <div className={`absolute left-1/2 px-4 py-1.5 rounded-full text-xs font-black tracking-wide ${styles[color]} z-50 ${className}`}>
+      {label}
+    </div>
   );
 };
 
-const RoleSet = ({ title, roles, color = 'indigo' }: any) => {
-   const variants: any = {
-      indigo: 'bg-indigo-50 border-indigo-100 text-indigo-700',
-      blue: 'bg-blue-50 border-blue-100 text-blue-700',
-      rose: 'bg-rose-50 border-rose-100 text-rose-700',
-      emerald: 'bg-emerald-50 border-emerald-100 text-emerald-700'
-   };
-   return (
-      <div className={`p-5 rounded-3xl border ${variants[color]} group hover:bg-white transition-all`}>
-         <h5 className="text-[10px] font-black uppercase tracking-[0.2em] mb-4 opacity-50">{title}</h5>
-         <div className="space-y-2">
-            {roles.map((r: string) => (
-              <div key={r} className="text-xs font-bold flex items-center gap-2">
-                 <div className="w-1 h-1 rounded-full bg-current opacity-40"></div>
-                 {r}
-              </div>
-            ))}
-         </div>
-      </div>
-   );
+// --- Helper: Matrix Node (Orbiting) ---
+const MatrixNode = ({ label, angle, color = 'slate', isCore }: any) => {
+  // Calculate position on ellipse
+  const rad = (angle * Math.PI) / 180;
+  
+  const x = 50 + 50 * Math.cos(rad); // 半径为 50%
+  const y = 50 + 50 * Math.sin(rad); // 半径为 50%
+  
+  const colorStyles: any = {
+    slate: 'bg-white text-slate-600 border-slate-200 hover:border-slate-300 hover:bg-slate-50 rounded-lg',
+    blue: 'bg-white text-blue-600 border-blue-200 hover:border-blue-300 hover:bg-blue-50 rounded-lg',
+    teal: 'bg-teal-50 text-teal-700 border-teal-200 hover:border-teal-300 hover:bg-teal-100 rounded-md border-dashed',
+    indigo: 'bg-white text-indigo-600 border-indigo-200 hover:border-indigo-300 hover:bg-indigo-50 rounded-lg',
+    violet: 'bg-violet-50 text-violet-700 border-violet-200 hover:border-violet-300 hover:bg-violet-100 rounded-full',
+    gray: 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed grayscale opacity-80 rounded-lg'
+  };
+
+  const specificStyle = colorStyles[color] || colorStyles.slate;
+
+  return (
+    <div 
+      className={`absolute px-3 py-1.5 text-xs font-bold shadow-sm whitespace-nowrap transition-all hover:scale-110 cursor-pointer origin-bottom border
+        ${isCore ? 'bg-indigo-600 text-white z-50 scale-110 shadow-indigo-200 rounded-lg' : specificStyle}
+      `}
+      style={{ 
+        left: `${x}%`, 
+        top: `${y}%`, 
+        // 关键：修改 transform，让元素以底部为轴心站立在圆环上
+        // translate(-50%, -100%) 将元素的底部中心移动到定位点
+        // rotateX(-60deg) 抵消父容器的旋转，使元素直立
+        transform: 'translate(-50%, -100%) rotateX(-60deg)' 
+      }}
+    >
+      {label}
+    </div>
+  );
 };
 
 // --- MAIN APP ---
@@ -192,41 +262,105 @@ const App: React.FC = () => {
                    <div className="animate-in fade-in duration-1000">
                       <MatrixDiagram />
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
-                         <SummaryCard title="数据底座：区块链凭证" icon={Database} color="indigo" desc="整合全省G端监管与B端履约数据，全行程状态透明化上链，构建诚信旅游闭环。" />
-                         <SummaryCard title="中枢逻辑：目标分解引擎" icon={Cpu} color="blue" desc="基于大模型的意图识别与任务分发，自动匹配最优资源方，实现全自动计调响应。" />
-                         <SummaryCard title="旅居生态：长周期服务" icon={Heart} color="rose" desc="针对数字游民及旅居人群，提供社区运营、灵活办公、在地生活深度管家服务。" />
+                         <SummaryCard title="第一层：企业端智能体" icon={Briefcase} color="indigo" desc="聚合餐饮、酒店、出行、政府、景区等核心实体，构建文旅产业全要素的数字化供给网络。" />
+                         <SummaryCard title="第二层：角色智能体" icon={Users} color="violet" desc="模拟销售、导游、线路设计师、行业专家等职业角色，通过人机协作处理复杂的非标准化业务。" />
+                         <SummaryCard title="第三层：功能智能体" icon={Zap} color="teal" desc="提供房态查询、车辆调度、客流预测、投诉预警等原子化工具能力，为上层应用提供高效支撑。" />
                       </div>
                    </div>
                 )}
 
                 {/* 2. 场景规划 (细分政府、景区、旅居) */}
                 {planningTab === 'scenario' && (
-                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 animate-in slide-in-from-bottom-8 duration-700">
-                      <ScenarioSection title="多彩黄小西 (C端)" color="teal" icon={Smartphone} scenarios={[
-                         { t: '三维行程导入', d: '文本、截图、链接多渠道一键解析，实现P1级行程同步。', p: 'P1' },
-                         { t: '灵动岛场景提醒', d: '行中关键节点、恶劣天气通过灵动岛/卡片强推送。', p: 'P1' },
-                         { t: 'AI游记自动分发', d: '游后自动整合素材生成视频/报告，满足游客分享裂变。', p: 'P1' }
-                      ]} />
-                      <ScenarioSection title="旅行社 (B端/导游)" color="indigo" icon={Briefcase} scenarios={[
-                         { t: 'OCR秒级创建', d: '扫描纸质单据毫秒级生成数字化行程，自动关联资源库。', p: 'P1' },
-                         { t: 'LBS合规全景监控', d: '实时团位视图，自动感知偏航、购物点逗留超时并预警。', p: 'P1' },
-                         { t: '导游合规工具包', d: '电子证照、任务打卡流集成，确保行中执行不偏移。', p: 'P1' }
-                      ]} />
-                      <ScenarioSection title="政府端 (G端监管)" color="rose" icon={Landmark} scenarios={[
-                         { t: '分析统计助手', d: '对文旅驾驶舱数据进行深度解读，解释波动原因并给建议。', p: 'P1' },
-                         { t: '自然语言问数', d: '管理者通过对话完成复杂数据查询并产出可视化图表。', p: 'P2' },
-                         { t: '智能政策问策', d: '全量检索中央及地方政策，为撰写及资源规划提供建议。', p: 'P1' }
-                      ]} />
-                      <ScenarioSection title="景区端 (S端服务)" color="emerald" icon={Mountain} scenarios={[
-                         { t: '景区百事通', d: '覆盖九大领域知识，形成景区专业问答引擎，降低人力。', p: 'P1' },
-                         { t: 'AI说书人', d: 'GPS自动触发讲解，可切换数字人风格，承载付费包业务。', p: 'P2' },
-                         { t: '智能周边推荐', d: '针对不同人群生成闭环游览路径，解决吃住行难题。', p: 'P1' }
-                      ]} />
-                      <ScenarioSection title="旅居端 (L端运营)" color="blue" icon={Heart} scenarios={[
-                         { t: '数字游民中心', d: '技能匹配旅居需求，构建虚实结合社交群，实现创收。', p: 'P3' },
-                         { t: '智能分销管理', d: '对接OTA及本地渠道，库存联动，统一管理佣金结算。', p: 'P1' },
-                         { t: '资源智能调配', d: '可视化展示资源分布，AI生成成本优化建议及派单。', p: 'P3' }
-                      ]} />
+                   <div className="animate-in slide-in-from-bottom-8 duration-700 space-y-12">
+                      {/* Top Section: Frontend Apps Header */}
+                      <div className="flex items-center gap-3">
+                         <div className="p-3 bg-blue-100 text-blue-600 rounded-xl">
+                            <LayoutDashboard size={24} />
+                         </div>
+                         <div>
+                            <h3 className="text-xl font-black text-slate-800">智能体前端应用</h3>
+                            <p className="text-slate-500 text-xs">AI Agent Frontend Applications</p>
+                         </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                          <ScenarioSection title="多彩黄小西 (C端)" color="teal" icon={Smartphone} scenarios={[
+                             { t: '三维行程导入', d: '文本、截图、链接多渠道一键解析，实现P1级行程同步。', p: 'P1' },
+                             { t: '灵动岛场景提醒', d: '行中关键节点、恶劣天气通过灵动岛/卡片强推送。', p: 'P1' },
+                             { t: 'AI游记自动分发', d: '游后自动整合素材生成视频/报告，满足游客分享裂变。', p: 'P1' }
+                          ]} />
+                          <ScenarioSection title="旅行社 (B端/导游)" color="indigo" icon={Briefcase} scenarios={[
+                             { t: 'OCR秒级创建', d: '扫描纸质单据毫秒级生成数字化行程，自动关联资源库。', p: 'P1' },
+                             { t: 'LBS合规全景监控', d: '实时团位视图，自动感知偏航、购物点逗留超时并预警。', p: 'P1' },
+                             { t: '导游合规工具包', d: '电子证照、任务打卡流集成，确保行中执行不偏移。', p: 'P1' }
+                          ]} />
+                          <ScenarioSection title="政府智能体 (G端监管)" color="rose" icon={Landmark} scenarios={[
+                             { t: '分析统计助手', d: '对文旅驾驶舱数据进行深度解读，解释波动原因并给建议。', p: 'P1' },
+                             { t: '自然语言问数', d: '管理者通过对话完成复杂数据查询并产出可视化图表。', p: 'P2' },
+                             { t: '智能政策问策', d: '全量检索中央及地方政策，为撰写及资源规划提供建议。', p: 'P1' }
+                          ]} />
+                          <ScenarioSection title="景区智能体 (B端及C端)" color="emerald" icon={Mountain} scenarios={[
+                             { t: '景区百事通', d: '覆盖九大领域知识，形成景区专业问答引擎，降低人力。', p: 'P1' },
+                             { t: 'AI说书人', d: 'GPS自动触发讲解，可切换数字人风格，承载付费包业务。', p: 'P2' },
+                             { t: '智能周边推荐', d: '针对不同人群生成闭环游览路径，解决吃住行难题。', p: 'P1' }
+                          ]} />
+                          <ScenarioSection title="旅居智能体 (B端及C端)" color="blue" icon={Heart} scenarios={[
+                             { t: '数字游民中心', d: '技能匹配旅居需求，构建虚实结合社交群，实现创收。', p: 'P3' },
+                             { t: '智能分销管理', d: '对接OTA及本地渠道，库存联动，统一管理佣金结算。', p: 'P1' },
+                             { t: '资源智能调配', d: '可视化展示资源分布，AI生成成本优化建议及派单。', p: 'P3' }
+                          ]} />
+                      </div>
+
+                      {/* New: Ability Marketplace */}
+                      <div className="pt-12 border-t border-slate-100">
+                         <div className="flex items-center gap-3 mb-8">
+                            <div className="p-3 bg-violet-100 text-violet-600 rounded-xl">
+                               <Store size={24} />
+                            </div>
+                            <div>
+                               <h3 className="text-xl font-black text-slate-800">能力插件集市</h3>
+                               <p className="text-slate-500 text-xs">AI Agent Skill Plugin Marketplace</p>
+                            </div>
+                         </div>
+
+                         <div className="grid grid-cols-1 gap-8">
+                            <MarketSection 
+                               title="智能体底层插件" 
+                               color="slate"
+                               items={[
+                                  { name: '知识库管理系统', p: 'P1', desc: '官方数据+用户UGC+合作伙伴数据三位一体' },
+                                  { name: '智能体配置功能', p: 'P1', desc: '单Agent/Multi-Agent标准化通信协议' },
+                                  { name: '用户偏好与画像', p: 'P2', desc: '多维度用户数据采集与权重优化' }
+                               ]}
+                            />
+                            <MarketSection 
+                               title="智能体功能插件" 
+                               color="blue"
+                               items={[
+                                  { name: '多语言助手', p: 'P2', desc: '快速搭建中英日韩的多语言版本' },
+                                  { name: '文件解析助手', p: 'P2', desc: 'PDF/WORD/EXCEL等内容研判解析' },
+                                  { name: '智能推荐', p: 'P2', desc: '基于用户画像的个性化内容生成' }
+                               ]}
+                            />
+                            <MarketSection 
+                               title="安全与合规管理" 
+                               color="red"
+                               items={[
+                                  { name: '敏感数据加密', p: 'P1', desc: '传输与存储加密，敏感词白名单' },
+                                  { name: '用户权限体系', p: 'P1', desc: '基于省市区/组织架构/菜单的数据权限' }
+                               ]}
+                            />
+                            <MarketSection 
+                               title="传统能力插件" 
+                               color="emerald"
+                               items={[
+                                  { name: '订购管理', p: 'P1', desc: '产品上架/分发/订单管理/售后管理' },
+                                  { name: '营销活动管理', p: 'P2', desc: '优惠券/积分商城/会员体系' },
+                                  { name: '合作伙伴管理', p: 'P1', desc: '供应商资质审核与分账结算自动化' }
+                               ]}
+                            />
+                         </div>
+                      </div>
                    </div>
                 )}
 
@@ -484,5 +618,36 @@ const DesignFeature = ({ icon: Icon, t, d }: any) => (
       </div>
    </li>
 );
+
+const MarketSection = ({ title, items, color }: any) => {
+  const colors: any = {
+     slate: 'bg-slate-50 border-slate-200 text-slate-700',
+     blue: 'bg-blue-50 border-blue-200 text-blue-700',
+     red: 'bg-red-50 border-red-200 text-red-700',
+     emerald: 'bg-emerald-50 border-emerald-200 text-emerald-700'
+  };
+  
+  return (
+     <div className={`rounded-2xl border p-6 ${colors[color].replace('bg-', 'border-').replace('text-', 'bg-').split(' ')[1]} bg-opacity-30`}>
+        <h4 className={`text-sm font-black mb-4 flex items-center gap-2 ${colors[color].split(' ')[2]}`}>
+           <div className={`w-2 h-2 rounded-full ${colors[color].split(' ')[2].replace('text-', 'bg-')}`}></div>
+           {title}
+        </h4>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+           {items.map((item: any) => (
+              <div key={item.name} className="bg-white p-4 rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+                 <div className="flex justify-between items-start mb-2">
+                    <span className="font-bold text-slate-700 text-sm">{item.name}</span>
+                    <span className={`text-[10px] font-black px-1.5 py-0.5 rounded ${item.p === 'P1' ? 'bg-rose-100 text-rose-600' : 'bg-slate-100 text-slate-500'}`}>
+                       {item.p}
+                    </span>
+                 </div>
+                 <p className="text-[10px] text-slate-400 leading-relaxed">{item.desc}</p>
+              </div>
+           ))}
+        </div>
+     </div>
+  );
+};
 
 export default App;

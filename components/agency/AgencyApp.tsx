@@ -53,7 +53,11 @@ const menuItems: MenuItem[] = [
   },
 ];
 
-const AgencyApp: React.FC = () => {
+interface AgencyAppProps {
+  onBack?: () => void;
+}
+
+const AgencyApp: React.FC<AgencyAppProps> = ({ onBack }) => {
   const [activeMenuId, setActiveMenuId] = useState<MenuId>('workbench');
   const [expandedMenus, setExpandedMenus] = useState<string[]>(['itinerary', 'policy', 'complaint']);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -172,7 +176,10 @@ const AgencyApp: React.FC = () => {
          </nav>
 
          <div className="p-4 border-t border-slate-800 bg-slate-950">
-            <button className={`flex items-center ${!isSidebarOpen ? 'justify-center' : 'gap-3'} w-full text-slate-400 hover:text-white transition-colors`}>
+            <button 
+               onClick={onBack}
+               className={`flex items-center ${!isSidebarOpen ? 'justify-center' : 'gap-3'} w-full text-slate-400 hover:text-white transition-colors`}
+            >
                <LogOut size={20} />
                {isSidebarOpen && <span>退出登录</span>}
             </button>

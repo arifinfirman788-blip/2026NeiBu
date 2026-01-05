@@ -520,7 +520,7 @@ const App: React.FC = () => {
   return (
     <div className="h-screen w-full">
       {userRole === 'agency' ? (
-        <AgencyApp />
+        <AgencyApp onBack={handleBackToPortal} />
       ) : userRole === 'guide' ? (
         <MobileWrapper onBack={handleBackToPortal}><GuideApp /></MobileWrapper>
       ) : (

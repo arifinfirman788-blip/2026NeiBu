@@ -94,6 +94,18 @@ export interface Complaint {
   time: string;
 }
 
+export interface Order {
+  id: string;
+  touristId: string;
+  touristName: string;
+  description: string;
+  price: string;
+  status: 'pending' | 'assigned' | 'processing' | 'completed' | 'cancelled';
+  createdAt: string;
+  guideId?: string;
+  guideName?: string;
+}
+
 // --- Trip Tracking Specific Types ---
 
 export interface TrackingEvent {

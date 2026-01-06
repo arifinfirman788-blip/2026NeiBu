@@ -53,11 +53,15 @@ const menuItems: MenuItem[] = [
   },
 ];
 
+import { Order } from '../../types';
+
 interface AgencyAppProps {
   onBack?: () => void;
+  orders?: Order[];
+  onUpdateOrder?: (order: Order) => void;
 }
 
-const AgencyApp: React.FC<AgencyAppProps> = ({ onBack }) => {
+const AgencyApp: React.FC<AgencyAppProps> = ({ onBack, orders, onUpdateOrder }) => {
   const [activeMenuId, setActiveMenuId] = useState<MenuId>('workbench');
   const [expandedMenus, setExpandedMenus] = useState<string[]>(['itinerary', 'policy', 'complaint']);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -73,7 +77,7 @@ const AgencyApp: React.FC<AgencyAppProps> = ({ onBack }) => {
   const renderContent = () => {
     switch (activeMenuId) {
       case 'workbench':
-        return <AgencyWorkbench onNavigate={(id) => setActiveMenuId(id)} />;
+        return <AgencyWorkbench onNavigate={(id) => setActiveMenuId(id)} orders={orders} onUpdateOrder={onUpdateOrder} />;
       case 'itinerary_original':
         return <ItineraryManager />;
       case 'itinerary_tracking':
@@ -89,7 +93,7 @@ const AgencyApp: React.FC<AgencyAppProps> = ({ onBack }) => {
       case 'complaint_wiki':
         return <ComplaintCenter initialTab="wiki" />;
       default:
-        return <AgencyWorkbench onNavigate={(id) => setActiveMenuId(id)} />;
+        return <AgencyWorkbench onNavigate={(id) => setActiveMenuId(id)} orders={orders} onUpdateOrder={onUpdateOrder} />;
     }
   };
 

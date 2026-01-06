@@ -9,7 +9,7 @@ import AgentChatView from './components/AgentChatView';
 import AgencyApp from './components/agency/AgencyApp';
 import GuideApp from './components/guide/GuideApp';
 import MineView from './components/MineView';
-import { ServiceItem, UserRole } from './types';
+import { ServiceItem, UserRole, Order } from './types';
 import { 
   Smartphone, LayoutDashboard, ArrowRight, Database, 
   ShieldCheck, Network, Cpu, Layers, Bot, 
@@ -20,7 +20,7 @@ import {
   FileSearch, MessageSquare, Star, Award, MapPin, 
   Headphones, Quote, Sparkles, Terminal, Heart,
   BarChart3, LifeBuoy, Share2, Store, Download, 
-  FileText, Target, TrendingUp
+  FileText, Target, TrendingUp, Megaphone
 } from 'lucide-react';
 
 const SCENIC_PRODUCT_URL = (import.meta as any).env?.VITE_SCENIC_PRODUCT_URL || 'http://localhost:5173'
@@ -204,6 +204,17 @@ const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState(0);
   const [subView, setSubView] = useState<'main' | 'experts' | 'chat'>('main');
   const [selectedAgent, setSelectedAgent] = useState<ServiceItem | null>(null);
+
+  // Shared Order State for Cross-Role Demo
+  const [orders, setOrders] = useState<Order[]>([]);
+
+  const handleCreateOrder = (newOrder: Order) => {
+    setOrders(prev => [newOrder, ...prev]);
+  };
+
+  const handleUpdateOrder = (updatedOrder: Order) => {
+    setOrders(prev => prev.map(o => o.id === updatedOrder.id ? updatedOrder : o));
+  };
 
   const [planningTab, setPlanningTab] = useState<'matrix' | 'scenario' | 'design'>('matrix');
   const [designTab, setDesignTab] = useState<'xiaoxi' | 'agency' | 'spot' | 'living' | 'gov'>('agency');
@@ -477,9 +488,35 @@ const App: React.FC = () => {
                                     </div>
                                  </div>
                                ) : (
-                                 <div className="text-center py-24 border-4 border-dashed border-slate-100 rounded-[3rem]">
-                                    <Layers size={64} className="mx-auto text-slate-200 mb-6" />
-                                    <p className="text-slate-400 font-bold text-xl">政府智能体设计中...</p>
+                                 <div className="animate-in slide-in-from-left-4">
+                                    <h3 className="text-3xl font-black text-blue-600 mb-6 flex items-center gap-3"><Landmark size={32}/> 政府智能体 · 监管决策中枢</h3>
+                                    <p className="text-slate-500 text-lg leading-relaxed mb-6">
+                                       政府智能体1.0版本已进入测试及验证阶段，初步构建起服务游客、企业、政府的协同产品矩阵，其中<span className="font-bold text-slate-700">贵州文旅智慧驾驶舱</span>已基本完成开发。
+                                    </p>
+                                    
+                                    <div className="bg-slate-50 rounded-3xl p-6 mb-8 border border-slate-100">
+                                       <h4 className="font-bold text-slate-800 mb-4 flex items-center gap-2">
+                                          <Sparkles size={16} className="text-blue-500"/> 2026年规划核心功能
+                                       </h4>
+                                       <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                          <DesignFeature icon={LineChart} t="智能报告 & 分析" d="工作报告助手、看板数据智能解读、自然语言问数。" />
+                                          <DesignFeature icon={Megaphone} t="宣推 & 产业助手" d="客源深度分析、旅游产业补链强链建议。" />
+                                          <DesignFeature icon={ShieldAlert} t="监管助手" d="数据异动实时提示、异常波动原因分析。" />
+                                          <DesignFeature icon={FileSearch} t="智能问策" d="政策解读、地方性法规撰写辅助、资源规划建议。" />
+                                       </ul>
+                                    </div>
+
+                                    <div className="flex flex-wrap gap-4 items-center">
+                                       <button
+                                          onClick={() => openExternal('https://glsw-provincescreen-test.aihuangxiaoxi.com/admin/#/index')}
+                                          className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-2xl font-black flex items-center gap-3 shadow-xl transition-all group"
+                                       >
+                                          进入政府智能体 <ArrowRight size={20} className="group-hover:translate-x-1" />
+                                       </button>
+                                       <div className="text-xs text-slate-400 font-mono">
+                                          状态: <span className="text-emerald-500 font-bold">1.0 测试验证中</span>
+                                       </div>
+                                    </div>
                                  </div>
                                )
                             )}
@@ -520,9 +557,9 @@ const App: React.FC = () => {
   return (
     <div className="h-screen w-full">
       {userRole === 'agency' ? (
-        <AgencyApp onBack={handleBackToPortal} />
+        <AgencyApp onBack={handleBackToPortal} orders={orders} onUpdateOrder={handleUpdateOrder} />
       ) : userRole === 'guide' ? (
-        <MobileWrapper onBack={handleBackToPortal}><GuideApp /></MobileWrapper>
+        <MobileWrapper onBack={handleBackToPortal}><GuideApp orders={orders} onUpdateOrder={handleUpdateOrder} /></MobileWrapper>
       ) : (
         <MobileWrapper onBack={handleBackToPortal}>
           <div className="flex flex-col h-full bg-slate-50 overflow-hidden">
@@ -531,7 +568,7 @@ const App: React.FC = () => {
               {activeTab === 0 && (
                 subView === 'main' ? <HomeView onOpenExperts={() => setSubView('experts')} /> :
                 subView === 'experts' ? <ExpertListView onBack={() => setSubView('main')} onConsult={(item) => { setSelectedAgent(item); setSubView('chat'); }} /> :
-                selectedAgent ? <AgentChatView agent={selectedAgent} onBack={() => setSubView('experts')} /> : null
+                selectedAgent ? <AgentChatView agent={selectedAgent} onBack={() => setSubView('experts')} onCreateOrder={handleCreateOrder} /> : null
               )}
               {activeTab === 1 && <ItineraryTimeline />}
               {activeTab === 3 && <MineView />}

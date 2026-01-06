@@ -40,7 +40,14 @@ const mockScheduleItems = [
   { id: 's5', time: "18:00", title: "晚餐: 苗家酸汤鱼", status: "pending" },
 ];
 
-const GuideApp: React.FC = () => {
+import { Order } from '../../types';
+
+interface GuideAppProps {
+  orders?: Order[];
+  onUpdateOrder?: (order: Order) => void;
+}
+
+const GuideApp: React.FC<GuideAppProps> = ({ orders, onUpdateOrder }) => {
   const [activeTab, setActiveTab] = useState<GuideTab>('itinerary');
   const [currentView, setCurrentView] = useState<'main' | 'chat_detail' | 'resource_lib'>('main');
   const [selectedChatId, setSelectedChatId] = useState<string | null>(null);
@@ -72,11 +79,56 @@ const GuideApp: React.FC = () => {
      }
   };
 
+  const handleAcceptOrder = (order: Order) => {
+    if (onUpdateOrder) {
+      onUpdateOrder({
+        ...order,
+        status: 'processing'
+      });
+      alert('已成功接单！');
+    }
+  };
+
   // --- Views ---
 
   // 1. Itinerary View (Current Mission)
-  const ItineraryView = () => (
+  const ItineraryView = () => {
+    const assignedOrders = orders?.filter(o => o.status === 'assigned') || [];
+
+    return (
     <div className="space-y-4 p-4 pb-24 relative">
+       {/* New Assigned Orders Alert */}
+       {assignedOrders.length > 0 && (
+          <div className="bg-indigo-600 rounded-2xl p-4 text-white shadow-lg shadow-indigo-200 animate-in slide-in-from-top-4 mb-2">
+             <div className="flex justify-between items-start mb-2">
+                <div className="flex items-center gap-2">
+                   <div className="p-1.5 bg-white/20 rounded-lg">
+                      <Bot size={16} className="text-white" />
+                   </div>
+                   <span className="font-bold text-sm">收到新任务派发</span>
+                </div>
+                <span className="bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full animate-pulse">New</span>
+             </div>
+             <div className="bg-indigo-700/50 rounded-xl p-3 space-y-2">
+                {assignedOrders.map(order => (
+                   <div key={order.id} className="text-xs">
+                      <div className="flex justify-between items-center mb-1">
+                         <span className="font-bold text-indigo-100">{order.touristName}</span>
+                         <span className="opacity-70">{order.createdAt}</span>
+                      </div>
+                      <p className="opacity-80 line-clamp-2 mb-2">{order.description}</p>
+                      <button 
+                        onClick={() => handleAcceptOrder(order)}
+                        className="w-full bg-white text-indigo-600 py-1.5 rounded-lg text-xs font-bold hover:bg-indigo-50 transition-colors"
+                      >
+                        确认接收
+                      </button>
+                   </div>
+                ))}
+             </div>
+          </div>
+       )}
+
        {/* Top Status Card */}
        <div className="bg-teal-600 rounded-2xl p-5 text-white shadow-lg shadow-teal-200 relative overflow-hidden">
           <div className="absolute top-0 right-0 p-4 opacity-10">
@@ -181,6 +233,7 @@ const GuideApp: React.FC = () => {
        )}
     </div>
   );
+  };
 
   // 2. Apps View (Tools)
   const AppsView = () => (

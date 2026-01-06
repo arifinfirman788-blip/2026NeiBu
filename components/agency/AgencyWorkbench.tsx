@@ -1,9 +1,11 @@
 import React from 'react';
-import { AlertCircle, CheckCircle2, FileBarChart, Users, ChevronRight, MapPin, Bell, Briefcase, TrendingUp, DollarSign } from 'lucide-react';
-import { Complaint } from '../../types';
+import { AlertCircle, CheckCircle2, FileBarChart, Users, ChevronRight, MapPin, Bell, Briefcase, TrendingUp, DollarSign, ClipboardList } from 'lucide-react';
+import { Complaint, Order } from '../../types';
 
 interface Props {
   onNavigate: (tab: any) => void;
+  orders?: Order[];
+  onUpdateOrder?: (order: Order) => void;
 }
 
 const mockComplaints: Complaint[] = [
@@ -12,7 +14,21 @@ const mockComplaints: Complaint[] = [
   { id: 'c3', touristName: '赵先生', level: 'general', content: '车辆空调故障', status: 'pending', time: '3小时前' },
 ];
 
-const AgencyWorkbench: React.FC<Props> = ({ onNavigate }) => {
+const AgencyWorkbench: React.FC<Props> = ({ onNavigate, orders, onUpdateOrder }) => {
+  const pendingOrders = orders?.filter(o => o.status === 'pending') || [];
+
+  const handleAssign = (order: Order) => {
+     if (onUpdateOrder) {
+        onUpdateOrder({
+           ...order,
+           status: 'assigned',
+           guideId: 'guide_001',
+           guideName: '王导'
+        });
+        alert('已成功派单给王导！');
+     }
+  };
+
   return (
     <div className="space-y-6">
       
@@ -54,6 +70,39 @@ const AgencyWorkbench: React.FC<Props> = ({ onNavigate }) => {
          {/* 2. Left Column: Complaints & Alerts (Wider) */}
          <div className="lg:col-span-2 space-y-6">
             
+            {/* New: Order Dispatch Center */}
+            {pendingOrders.length > 0 && (
+               <div className="bg-indigo-600 rounded-2xl p-6 shadow-lg shadow-indigo-200 text-white animate-in slide-in-from-top-4">
+                  <div className="flex justify-between items-center mb-4">
+                     <h3 className="font-bold flex items-center gap-2">
+                        <ClipboardList size={20} className="text-white" />
+                        新订单派发
+                        <span className="bg-white text-indigo-600 text-xs px-2 py-0.5 rounded-full font-bold animate-pulse">{pendingOrders.length} 待派单</span>
+                     </h3>
+                  </div>
+                  <div className="space-y-3">
+                     {pendingOrders.map(order => (
+                        <div key={order.id} className="bg-white/10 rounded-xl p-4 backdrop-blur-sm border border-white/10 flex justify-between items-center">
+                           <div>
+                              <div className="flex items-center gap-2 mb-1">
+                                 <span className="font-bold">{order.touristName}</span>
+                                 <span className="text-xs bg-indigo-500/50 px-1.5 py-0.5 rounded">{order.price}</span>
+                              </div>
+                              <div className="text-xs opacity-80">{order.description}</div>
+                              <div className="text-[10px] opacity-60 mt-1">创建时间: {order.createdAt}</div>
+                           </div>
+                           <button 
+                              onClick={() => handleAssign(order)}
+                              className="bg-white text-indigo-600 px-4 py-2 rounded-lg text-xs font-bold hover:bg-indigo-50 transition-colors shadow-sm"
+                           >
+                              派给王导
+                           </button>
+                        </div>
+                     ))}
+                  </div>
+               </div>
+            )}
+
             {/* Complaints Panel */}
             <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
                <div className="flex justify-between items-center mb-4">

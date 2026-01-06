@@ -1,15 +1,16 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { ArrowLeft, MoreHorizontal, Phone, Mic, Send, Plus, MapPin, Globe, ChevronRight, Sparkles, X, Medal, Menu } from 'lucide-react';
-import { ServiceItem, Message } from '../types';
+import { ServiceItem, Message, Order } from '../types';
 import { sendMessageToGemini } from '../services/geminiService';
 
 interface Props {
   agent: ServiceItem;
   onBack: () => void;
+  onCreateOrder?: (order: Order) => void;
 }
 
-const AgentChatView: React.FC<Props> = ({ agent, onBack }) => {
+const AgentChatView: React.FC<Props> = ({ agent, onBack, onCreateOrder }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
@@ -23,6 +24,29 @@ const AgentChatView: React.FC<Props> = ({ agent, onBack }) => {
   useEffect(() => {
     scrollToBottom();
   }, [messages, isTyping, hasStartedChat]);
+
+  const handleBooking = () => {
+    if (!onCreateOrder) return;
+    
+    const newOrder: Order = {
+       id: `ORD-${Date.now()}`,
+       touristId: 'user_001',
+       touristName: '陈女士', 
+       description: '黄果树+苗寨 5日深度游 (2成人 1儿童)',
+       price: '¥ 4,280',
+       status: 'pending',
+       createdAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    };
+
+    onCreateOrder(newOrder);
+    
+    if (!hasStartedChat) setHasStartedChat(true);
+    setMessages(prev => [
+       ...prev, 
+       { id: Date.now().toString(), role: 'user', text: '确认预订：黄果树+苗寨 5日深度游' },
+       { id: (Date.now()+1).toString(), role: 'model', text: '🎉 恭喜您预订成功！订单已发送至旅行社后台，稍后将有专属导游与您联系。' }
+    ]);
+  };
 
   const handleSend = async (text: string = input) => {
     if (!text.trim()) return;
@@ -174,6 +198,23 @@ const AgentChatView: React.FC<Props> = ({ agent, onBack }) => {
                     <ChevronRight size={16} className="text-slate-300 group-hover:text-slate-400" />
                  </div>
               ))}
+
+               {/* Demo Action: Create Order */}
+               <div 
+                 onClick={handleBooking}
+                 className="mt-4 bg-gradient-to-r from-indigo-600 to-violet-600 text-white p-3 rounded-xl flex items-center justify-between cursor-pointer active:scale-95 transition-transform shadow-lg shadow-indigo-200"
+               >
+                 <div className="flex items-center gap-3">
+                   <div className="p-2 bg-white/20 rounded-lg">
+                     <Medal size={18} className="text-yellow-300" />
+                   </div>
+                   <div className="text-left">
+                     <div className="font-bold text-sm">演示：生成智能体订单</div>
+                     <div className="text-[10px] opacity-90">模拟黄果树+苗寨5日游下单</div>
+                   </div>
+                 </div>
+                 <ChevronRight size={18} />
+               </div>
            </div>
         </div>
      </div>

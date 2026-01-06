@@ -29,6 +29,9 @@ import jingquImg1 from './image/jingqu1.png';
 import jingquImg2 from './image/jingqu2.png';
 import tiyanmaQrCode from './image/tiyanma.png';
 import jiudianImg from './image/jiudian.png';
+import canyinImg from './image/canyin.jpg';
+import dapingImg from './image/daping.png';
+import huangxiaoxiImg1 from './image/huangxiaoxi1.png';
 
 const SCENIC_PRODUCT_URL = (import.meta as any).env?.VITE_SCENIC_PRODUCT_URL || 'http://localhost:5173'
 const SOJOURN_AGENT_URL = (import.meta as any).env?.VITE_SOJOURN_AGENT_URL || 'http://localhost:5175'
@@ -78,11 +81,13 @@ const MatrixDiagram = ({ onNavigate, onAgentClick }: {
       <div className="relative w-full max-w-5xl h-[600px] perspective-[2000px]">
         
         {/* A. 顶层：总入口核心 */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 z-50 w-64 text-center">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 z-50 w-64 text-center cursor-pointer" onClick={() => {
+            onNavigate?.('design', 'xiaoxi');
+        }}>
           <div className="bg-gradient-to-b from-blue-500 to-indigo-600 p-6 rounded-2xl shadow-xl shadow-indigo-200 border-b-4 border-indigo-800 transform hover:scale-105 transition-transform duration-500">
-            <Box className="w-10 h-10 text-white mx-auto mb-2 opacity-90" />
-            <h4 className="text-white font-black text-lg">服务总入口</h4>
-            <p className="text-indigo-100 text-[10px] mt-1">意图识别 / 任务调度 / 决策支持</p>
+            <img src={huangxiaoxiImg1} alt="黄小西" className="w-16 h-16 mx-auto mb-2 rounded-full border-2 border-white/50" />
+            <h4 className="text-white font-black text-lg">黄小西</h4>
+            <p className="text-indigo-100 text-[10px] mt-1">全省旅游行程服务总入口</p>
           </div>
           {/* 连接线 */}
           <div className="absolute top-full left-1/2 -translate-x-1/2 w-0.5 h-10 bg-gradient-to-b from-indigo-500 to-transparent"></div>
@@ -293,11 +298,6 @@ const App: React.FC = () => {
                         onAgentClick={(agent) => {
                           setPlanningTab('design');
                           setDesignTab(agent === 'living' ? 'xiaoxi' : agent);
-                          if (agent === 'gov') openExternal('https://glsw-provincescreen-test.aihuangxiaoxi.com/admin/#/index');
-                          if (agent === 'spot') openExternal(SCENIC_PRODUCT_URL);
-                          if (agent === 'agency') openExternal(AGENCY_AGENT_URL);
-                          if (agent === 'hotel') openExternal(HOTEL_PRODUCT_URL);
-                          if (agent === 'dining') openExternal(DINING_PRODUCT_URL);
                         }}
                       />
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
@@ -528,27 +528,20 @@ const App: React.FC = () => {
                                      连接食客与餐厅，提供智能点餐、排队取号及个性化口味推荐，提升用餐体验与餐厅运营效率。
                                   </p>
                                   <ul className="space-y-4 mb-10">
-                                     <DesignFeature icon={Utensils} t="智能点餐" d="口味画像推荐、多人协作点餐、语音下单。" />
-                                     <DesignFeature icon={LayoutDashboard} t="餐厅管理" d="桌台状态实时同步、排队取号、到号预警。" />
-                                     <DesignFeature icon={Zap} t="呼叫服务" d="一键触发加水、催菜等原子化服务，直达服务员。" />
-                                  </ul>
-                                  <div className="flex flex-wrap gap-4 items-center">
-                                     <button
-                                        onClick={() => openExternal(DINING_PRODUCT_URL)}
-                                        className="bg-orange-600 hover:bg-orange-700 text-white px-8 py-4 rounded-2xl font-black flex items-center gap-3 shadow-xl transition-all group"
-                                     >
-                                        打开餐饮智能体 <ArrowRight size={20} className="group-hover:translate-x-1" />
-                                     </button>
-                                     <button
-                                        onClick={() => copyText(DINING_PRODUCT_URL)}
-                                        className="bg-white hover:bg-slate-50 text-slate-800 px-8 py-4 rounded-2xl font-black flex items-center gap-3 transition-all border border-slate-200"
-                                     >
-                                        复制链接
-                                     </button>
-                                     <div className="text-xs text-slate-400 font-mono">默认：{DINING_PRODUCT_URL}</div>
-                                  </div>
-                               </div>
-                            )}
+                                    <DesignFeature icon={Utensils} t="智能点餐" d="口味画像推荐、多人协作点餐、语音下单。" />
+                                    <DesignFeature icon={LayoutDashboard} t="餐厅管理" d="桌台状态实时同步、排队取号、到号预警。" />
+                                    <DesignFeature icon={Zap} t="呼叫服务" d="一键触发加水、催菜等原子化服务，直达服务员。" />
+                                 </ul>
+                                 <div className="flex flex-wrap gap-4 items-center">
+                                    <button
+                                       disabled
+                                       className="bg-slate-100 text-slate-400 px-8 py-4 rounded-2xl font-black flex items-center gap-3 cursor-not-allowed"
+                                    >
+                                       敬请期待
+                                    </button>
+                                 </div>
+                              </div>
+                           )}
 
                             {designTab === 'xiaoxi' && (
                                <div className="animate-in slide-in-from-left-4">
@@ -648,8 +641,8 @@ const App: React.FC = () => {
                                           进入政府智能体 <ArrowRight size={20} className="group-hover:translate-x-1" />
                                        </button>
                                        <div className="text-xs text-slate-400 font-mono">
-                                          状态: <span className="text-emerald-500 font-bold">1.0 测试验证中</span>
-                                       </div>
+                                         状态: <span className="text-emerald-500 font-bold">体验版</span>
+                                      </div>
                                     </div>
                                  </div>
                                )
@@ -676,6 +669,27 @@ const App: React.FC = () => {
                               <div className="h-[600px] w-[290px] rounded-[2.5rem] overflow-hidden shadow-2xl border-[8px] border-slate-800 bg-white relative">
                                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-6 bg-slate-800 rounded-b-xl z-10"></div>
                                  <img src={jiudianImg} alt="酒店智能体" className="w-full h-full object-cover" />
+                              </div>
+                           </div>
+                        ) : designTab === 'dining' ? (
+                           <div className="relative w-full h-[600px] flex items-center justify-center">
+                              <div className="h-[600px] w-[290px] rounded-[2.5rem] overflow-hidden shadow-2xl border-[8px] border-slate-800 bg-white relative">
+                                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-6 bg-slate-800 rounded-b-xl z-10"></div>
+                                 <img src={canyinImg} alt="餐饮智能体" className="w-full h-full object-cover" />
+                              </div>
+                           </div>
+                        ) : designTab === 'gov' ? (
+                           <div className="relative w-full h-[600px] flex items-center justify-center">
+                              <div className="w-[95%] bg-white rounded-xl shadow-2xl border border-slate-200 overflow-hidden z-10 flex flex-col">
+                                 <div className="w-full h-7 bg-slate-100 border-b border-slate-200 flex items-center px-3 gap-1.5 shrink-0">
+                                    <div className="w-2.5 h-2.5 rounded-full bg-red-400"></div>
+                                    <div className="w-2.5 h-2.5 rounded-full bg-yellow-400"></div>
+                                    <div className="w-2.5 h-2.5 rounded-full bg-green-400"></div>
+                                    <div className="ml-4 px-3 py-0.5 bg-white rounded-md text-[10px] text-slate-400 border border-slate-200 flex-1 text-center font-mono">gov.travel-guizhou.com</div>
+                                 </div>
+                                 <div className="w-full bg-slate-50">
+                                     <img src={dapingImg} alt="政府智能体" className="w-full h-auto block" />
+                                  </div>
                               </div>
                            </div>
                         ) : designTab === 'agency' ? (
@@ -717,24 +731,19 @@ const App: React.FC = () => {
                                         <BottomNav activeTab={0} onTabChange={() => {}} isMenuOpen={false} onToggleMenu={() => {}} />
                                      </div>
                                   ) : (
-                                     <>
-                                        <div className="bg-slate-200 h-1.5 w-24 mx-auto rounded-full mb-10"></div>
-                                        <div className="flex flex-col items-center justify-center h-full text-center space-y-6">
-                                           <div className={`w-20 h-20 rounded-full flex items-center justify-center ${
-                                              designTab === 'dining' ? 'bg-orange-50 text-orange-500' :
-                                              'bg-indigo-50 text-indigo-500'
-                                           }`}>
-                                              {designTab === 'dining' ? <Utensils size={40}/> :
-                                               <Smartphone size={40}/>}
-                                           </div>
-                                           <div>
-                                              <div className="text-slate-300 font-mono text-[10px] uppercase tracking-widest mb-2">Platform Mockup</div>
-                                              <div className="text-slate-800 font-black text-xl tracking-tight">
-                                                 {designTab === 'dining' ? 'SMART DINING' :
-                                                  'SMART INTERFACE'}
-                                              </div>
-                                           </div>
-                                           <div className="w-full space-y-4 pt-8">
+                                    <>
+                                       <div className="bg-slate-200 h-1.5 w-24 mx-auto rounded-full mb-10"></div>
+                                       <div className="flex flex-col items-center justify-center h-full text-center space-y-6">
+                                          <div className="w-20 h-20 rounded-full flex items-center justify-center bg-indigo-50 text-indigo-500">
+                                             <Smartphone size={40}/>
+                                          </div>
+                                          <div>
+                                             <div className="text-slate-300 font-mono text-[10px] uppercase tracking-widest mb-2">Platform Mockup</div>
+                                             <div className="text-slate-800 font-black text-xl tracking-tight">
+                                                SMART INTERFACE
+                                             </div>
+                                          </div>
+                                          <div className="w-full space-y-4 pt-8">
                                               <div className="h-2 bg-slate-50 rounded-full w-full"></div>
                                               <div className="h-2 bg-slate-50 rounded-full w-5/6"></div>
                                               <div className="h-2 bg-slate-50 rounded-full w-2/3"></div>

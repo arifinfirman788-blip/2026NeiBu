@@ -24,6 +24,11 @@ import {
 } from 'lucide-react';
 
 import hxxQrCode from './image/huangxiaoxi.png';
+import jingquQrCode from './image/jingqu.jpg';
+import jingquImg1 from './image/jingqu1.png';
+import jingquImg2 from './image/jingqu2.png';
+import tiyanmaQrCode from './image/tiyanma.png';
+import jiudianImg from './image/jiudian.png';
 
 const SCENIC_PRODUCT_URL = (import.meta as any).env?.VITE_SCENIC_PRODUCT_URL || 'http://localhost:5173'
 const SOJOURN_AGENT_URL = (import.meta as any).env?.VITE_SOJOURN_AGENT_URL || 'http://localhost:5175'
@@ -212,7 +217,7 @@ const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState(0);
   const [subView, setSubView] = useState<'main' | 'experts' | 'chat'>('main');
   const [selectedAgent, setSelectedAgent] = useState<ServiceItem | null>(null);
-  const [isQrCodeOpen, setIsQrCodeOpen] = useState(false);
+  const [activeQrCode, setActiveQrCode] = useState<string | null>(null);
 
   // Shared Order State for Cross-Role Demo
   const [orders, setOrders] = useState<Order[]>([]);
@@ -499,20 +504,19 @@ const App: React.FC = () => {
                                      <DesignFeature icon={LayoutDashboard} t="多租户管理" d="连锁集团统一后台，门店数据隔离与个性化配置。" />
                                      <DesignFeature icon={MessageSquare} t="客房管家" d="即时通讯、多语言翻译、快速响应服务需求。" />
                                   </ul>
-                                  <div className="flex flex-wrap gap-4 items-center">
+                                  <div className="flex flex-col gap-6 items-start">
                                      <button
-                                        onClick={() => openExternal(HOTEL_PRODUCT_URL)}
-                                        className="bg-violet-600 hover:bg-violet-700 text-white px-8 py-4 rounded-2xl font-black flex items-center gap-3 shadow-xl transition-all group"
+                                        disabled
+                                        className="bg-slate-100 text-slate-400 px-8 py-4 rounded-2xl font-black flex items-center gap-3 cursor-not-allowed"
                                      >
-                                        打开酒店智能体 <ArrowRight size={20} className="group-hover:translate-x-1" />
+                                        请扫码体验
                                      </button>
-                                     <button
-                                        onClick={() => copyText(HOTEL_PRODUCT_URL)}
-                                        className="bg-white hover:bg-slate-50 text-slate-800 px-8 py-4 rounded-2xl font-black flex items-center gap-3 transition-all border border-slate-200"
+                                     <div 
+                                        className="w-40 h-40 bg-white p-2 rounded-xl shadow-lg border border-slate-100 cursor-pointer hover:scale-105 transition-transform"
+                                        onClick={() => setActiveQrCode(tiyanmaQrCode)}
                                      >
-                                        复制链接
-                                     </button>
-                                     <div className="text-xs text-slate-400 font-mono">默认：{HOTEL_PRODUCT_URL}</div>
+                                        <img src={tiyanmaQrCode} alt="体验码" className="w-full h-full object-contain" />
+                                     </div>
                                   </div>
                                </div>
                             )}
@@ -561,7 +565,7 @@ const App: React.FC = () => {
                                      <button onClick={() => handleEnterApp('tourist')} className="bg-teal-600 hover:bg-teal-700 text-white px-8 py-4 rounded-2xl font-black shadow-xl">
                                         进入游客端演示
                                      </button>
-                                     <div className="flex items-center gap-3 p-2 bg-white rounded-xl border border-slate-100 shadow-sm cursor-pointer hover:shadow-md transition-all" onClick={() => setIsQrCodeOpen(true)}>
+                                     <div className="flex items-center gap-3 p-2 bg-white rounded-xl border border-slate-100 shadow-sm cursor-pointer hover:shadow-md transition-all" onClick={() => setActiveQrCode(hxxQrCode)}>
                                         <img src={hxxQrCode} alt="扫码体验" className="w-20 h-20 rounded-lg object-cover" />
                                         <div className="text-xs text-slate-500 font-medium">
                                            <div className="font-bold text-slate-800">扫码体验</div>
@@ -573,10 +577,10 @@ const App: React.FC = () => {
                             )}
 
                             {/* QR Code Modal */}
-                            {isQrCodeOpen && (
-                               <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm animate-in fade-in duration-200" onClick={() => setIsQrCodeOpen(false)}>
+                            {activeQrCode && (
+                               <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm animate-in fade-in duration-200" onClick={() => setActiveQrCode(null)}>
                                   <div className="bg-white p-4 rounded-3xl shadow-2xl scale-100 animate-in zoom-in-95 duration-200" onClick={e => e.stopPropagation()}>
-                                     <img src={hxxQrCode} alt="扫码体验" className="w-80 h-80 rounded-2xl object-cover" />
+                                     <img src={activeQrCode} alt="扫码体验" className="w-80 h-80 rounded-2xl object-contain" />
                                      <div className="text-center mt-4 text-slate-500 font-medium">
                                         <div className="text-lg font-bold text-slate-800">扫码立即体验</div>
                                         <div className="text-sm mt-1">支持 iOS 与 Android 设备</div>
@@ -602,20 +606,19 @@ const App: React.FC = () => {
                                           <div className="text-xs text-slate-500">与产品端方案联动，支持能力分发到各触点渠道。</div>
                                        </div>
                                     </div>
-                                    <div className="flex flex-wrap gap-4 items-center">
+                                    <div className="flex flex-col gap-6 items-start">
                                        <button
-                                          onClick={() => openExternal(SCENIC_PRODUCT_URL)}
-                                          className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-2xl font-black flex items-center gap-3 shadow-xl transition-all group"
+                                          disabled
+                                          className="bg-slate-100 text-slate-400 px-8 py-4 rounded-2xl font-black flex items-center gap-3 cursor-not-allowed"
                                        >
-                                          打开景区智能体（产品端） <ArrowRight size={20} className="group-hover:translate-x-1" />
+                                          请扫码体验
                                        </button>
-                                       <button
-                                          onClick={() => copyText(SCENIC_PRODUCT_URL)}
-                                          className="bg-white hover:bg-slate-50 text-slate-800 px-8 py-4 rounded-2xl font-black flex items-center gap-3 transition-all border border-slate-200"
+                                       <div 
+                                          className="w-40 h-40 bg-white p-2 rounded-xl shadow-lg border border-slate-100 cursor-pointer hover:scale-105 transition-transform"
+                                          onClick={() => setActiveQrCode(jingquQrCode)}
                                        >
-                                          复制链接
-                                       </button>
-                                       <div className="text-xs text-slate-400 font-mono">默认：{SCENIC_PRODUCT_URL}</div>
+                                          <img src={jingquQrCode} alt="景区二维码" className="w-full h-full object-contain" />
+                                       </div>
                                     </div>
                                  </div>
                                ) : (
@@ -657,8 +660,26 @@ const App: React.FC = () => {
                          <div className="relative">
                             <div className="absolute inset-0 bg-indigo-500/5 rounded-[4rem] blur-3xl"></div>
                             
-                            {designTab === 'agency' ? (
-                               <div className="relative w-full h-[600px] flex items-center justify-center">
+                            {designTab === 'spot' ? (
+                           <div className="relative w-full h-[600px] flex items-center justify-center gap-6">
+                              <div className="h-[500px] w-[240px] rounded-[2rem] overflow-hidden shadow-2xl border-[6px] border-slate-800 bg-white relative">
+                                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-5 bg-slate-800 rounded-b-xl z-10"></div>
+                                 <img src={jingquImg1} alt="景区首页" className="w-full h-full object-cover" />
+                              </div>
+                              <div className="h-[500px] w-[240px] rounded-[2rem] overflow-hidden shadow-2xl border-[6px] border-slate-800 bg-white relative">
+                                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-5 bg-slate-800 rounded-b-xl z-10"></div>
+                                 <img src={jingquImg2} alt="景区详情" className="w-full h-full object-cover" />
+                              </div>
+                           </div>
+                        ) : designTab === 'hotel' ? (
+                           <div className="relative w-full h-[600px] flex items-center justify-center">
+                              <div className="h-[600px] w-[290px] rounded-[2.5rem] overflow-hidden shadow-2xl border-[8px] border-slate-800 bg-white relative">
+                                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-6 bg-slate-800 rounded-b-xl z-10"></div>
+                                 <img src={jiudianImg} alt="酒店智能体" className="w-full h-full object-cover" />
+                              </div>
+                           </div>
+                        ) : designTab === 'agency' ? (
+                           <div className="relative w-full h-[600px] flex items-center justify-center">
                                   {/* Desktop: Agency B-Side */}
                                   <div className="absolute top-8 left-0 w-[90%] h-[450px] bg-white rounded-xl shadow-2xl border border-slate-200 overflow-hidden z-10 transition-transform hover:scale-105 duration-500 origin-bottom-left">
                                      <div className="w-full h-7 bg-slate-100 border-b border-slate-200 flex items-center px-3 gap-1.5">
@@ -700,19 +721,16 @@ const App: React.FC = () => {
                                         <div className="bg-slate-200 h-1.5 w-24 mx-auto rounded-full mb-10"></div>
                                         <div className="flex flex-col items-center justify-center h-full text-center space-y-6">
                                            <div className={`w-20 h-20 rounded-full flex items-center justify-center ${
-                                              designTab === 'hotel' ? 'bg-violet-50 text-violet-500' :
                                               designTab === 'dining' ? 'bg-orange-50 text-orange-500' :
                                               'bg-indigo-50 text-indigo-500'
                                            }`}>
-                                              {designTab === 'hotel' ? <BedDouble size={40}/> :
-                                               designTab === 'dining' ? <Utensils size={40}/> :
+                                              {designTab === 'dining' ? <Utensils size={40}/> :
                                                <Smartphone size={40}/>}
                                            </div>
                                            <div>
                                               <div className="text-slate-300 font-mono text-[10px] uppercase tracking-widest mb-2">Platform Mockup</div>
                                               <div className="text-slate-800 font-black text-xl tracking-tight">
-                                                 {designTab === 'hotel' ? 'HOTEL MGMT' :
-                                                  designTab === 'dining' ? 'SMART DINING' :
+                                                 {designTab === 'dining' ? 'SMART DINING' :
                                                   'SMART INTERFACE'}
                                               </div>
                                            </div>

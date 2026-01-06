@@ -26,6 +26,8 @@ import {
 const SCENIC_PRODUCT_URL = (import.meta as any).env?.VITE_SCENIC_PRODUCT_URL || 'http://localhost:5173'
 const SOJOURN_AGENT_URL = (import.meta as any).env?.VITE_SOJOURN_AGENT_URL || 'http://localhost:5175'
 const AGENCY_AGENT_URL = (import.meta as any).env?.VITE_AGENCY_AGENT_URL || 'http://localhost:5176'
+const HOTEL_PRODUCT_URL = (import.meta as any).env?.VITE_HOTEL_PRODUCT_URL || 'http://localhost:5178'
+const DINING_PRODUCT_URL = (import.meta as any).env?.VITE_DINING_PRODUCT_URL || 'http://localhost:5179'
 
 // --- MOBILE APP WRAPPER ---
 const MobileWrapper: React.FC<{ children: React.ReactNode; onBack: () => void }> = ({ children, onBack }) => (
@@ -44,8 +46,8 @@ const MobileWrapper: React.FC<{ children: React.ReactNode; onBack: () => void }>
 
 // --- COMPONENT: Matrix Diagram (3D Matrix View) ---
 const MatrixDiagram = ({ onNavigate, onAgentClick }: { 
-  onNavigate?: (tab: 'matrix' | 'scenario' | 'design', client?: 'xiaoxi' | 'agency' | 'spot' | 'living' | 'gov') => void,
-  onAgentClick?: (agent: 'gov' | 'spot' | 'agency' | 'living') => void
+  onNavigate?: (tab: 'matrix' | 'scenario' | 'design', client?: 'xiaoxi' | 'agency' | 'spot' | 'living' | 'gov' | 'hotel' | 'dining') => void,
+  onAgentClick?: (agent: 'gov' | 'spot' | 'agency' | 'living' | 'hotel' | 'dining') => void
 }) => (
   <div className="space-y-12 animate-in fade-in duration-500">
     <div className="text-center max-w-3xl mx-auto mb-12">
@@ -86,11 +88,11 @@ const MatrixDiagram = ({ onNavigate, onAgentClick }: {
           {/* 环绕节点 */}
           <div className="absolute top-0 left-0 w-full h-full animate-spin-slow [transform-style:preserve-3d]" style={{ animationDuration: '60s' }}>
             <MatrixNode label="旅行社智能体" angle={0} color="blue" onClick={() => onAgentClick?.('agency')} />
-            <MatrixNode label="酒店智能体" angle={60} color="blue" />
+            <MatrixNode label="酒店智能体" angle={60} color="blue" onClick={() => onAgentClick?.('hotel')} />
             <MatrixNode label="景区智能体" angle={120} color="blue" onClick={() => onAgentClick?.('spot')} />
             <MatrixNode label="政府智能体" angle={180} color="blue" onClick={() => onAgentClick?.('gov')} />
             <MatrixNode label="出行智能体" angle={240} color="gray" />
-            <MatrixNode label="餐饮智能体" angle={300} color="blue" />
+            <MatrixNode label="餐饮智能体" angle={300} color="blue" onClick={() => onAgentClick?.('dining')} />
           </div>
         </div>
 
@@ -221,7 +223,7 @@ const App: React.FC = () => {
   };
 
   const [planningTab, setPlanningTab] = useState<'matrix' | 'scenario' | 'design'>('matrix');
-  const [designTab, setDesignTab] = useState<'xiaoxi' | 'agency' | 'spot' | 'living' | 'gov'>('agency');
+  const [designTab, setDesignTab] = useState<'xiaoxi' | 'agency' | 'spot' | 'living' | 'gov' | 'hotel' | 'dining'>('agency');
 
   const handleEnterApp = (role: UserRole) => { 
     setUserRole(role); 
@@ -287,6 +289,8 @@ const App: React.FC = () => {
                           if (agent === 'spot') openExternal(SCENIC_PRODUCT_URL);
                           if (agent === 'agency') openExternal(AGENCY_AGENT_URL);
                           if (agent === 'living') openExternal(SOJOURN_AGENT_URL);
+                          if (agent === 'hotel') openExternal(HOTEL_PRODUCT_URL);
+                          if (agent === 'dining') openExternal(DINING_PRODUCT_URL);
                         }}
                       />
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
@@ -341,6 +345,11 @@ const App: React.FC = () => {
                              { t: '智能点菜', d: '基于口味画像与人数智能生成菜单，支持多人协作点餐及语音下单。', p: 'P1' },
                              { t: '餐厅预约', d: '实时同步餐厅桌台状态，提供在线排队取号与到号预警功能。', p: 'P1' },
                              { t: '呼叫服务', d: '餐中一键触发加水、催菜等原子化服务需求，直达服务员终端。', p: 'P1' }
+                          ]} />
+                          <ScenarioSection title="酒店智能体 (B端及C端)" color="violet" icon={BedDouble} scenarios={[
+                             { t: '订房服务', d: '支持VR看房、在线选房、自助办理入住与退房，实现无接触式服务闭环。', p: 'P1' },
+                             { t: '多租户配置', d: '针对连锁酒店集团提供统一管理后台，支持不同门店的个性化配置与数据隔离。', p: 'P1' },
+                             { t: '即时通讯', d: '连接住客与前台/管家，支持多语言实时翻译，快速响应客房服务需求。', p: 'P1' }
                           ]} />
                       </div>
 
@@ -403,9 +412,11 @@ const App: React.FC = () => {
                       <div className="flex gap-8 mb-16 overflow-x-auto no-scrollbar pb-4 border-b border-slate-100">
                          <DesignTabItem active={designTab === 'xiaoxi'} onClick={() => setDesignTab('xiaoxi')} label="多彩黄小西 C端" />
                          <DesignTabItem active={designTab === 'agency'} onClick={() => setDesignTab('agency')} label="旅行社智能体 (B+导)" />
-                         <DesignTabItem active={designTab === 'spot'} onClick={() => setDesignTab('spot')} label="景区智能体" />
-                         <DesignTabItem active={designTab === 'living'} onClick={() => setDesignTab('living')} label="旅居智能体" />
                          <DesignTabItem active={designTab === 'gov'} onClick={() => setDesignTab('gov')} label="政府智能体" />
+                         <DesignTabItem active={designTab === 'spot'} onClick={() => setDesignTab('spot')} label="景区智能体" />
+                         <DesignTabItem active={designTab === 'hotel'} onClick={() => setDesignTab('hotel')} label="酒店智能体" />
+                         <DesignTabItem active={designTab === 'dining'} onClick={() => setDesignTab('dining')} label="餐饮智能体" />
+                         <DesignTabItem active={designTab === 'living'} onClick={() => setDesignTab('living')} label="旅居智能体" />
                       </div>
 
                       <div className="grid grid-cols-1 xl:grid-cols-2 gap-20 items-center">
@@ -462,6 +473,64 @@ const App: React.FC = () => {
                                         复制链接
                                      </button>
                                      <div className="text-xs text-slate-400 font-mono">默认：{SOJOURN_AGENT_URL}</div>
+                                  </div>
+                               </div>
+                            )}
+
+                            {designTab === 'hotel' && (
+                               <div className="animate-in slide-in-from-left-4">
+                                  <h3 className="text-3xl font-black text-violet-600 mb-6 flex items-center gap-3"><BedDouble size={32}/> 酒店智能体 · 智慧住宿</h3>
+                                  <p className="text-slate-500 text-lg leading-relaxed mb-10">
+                                     面向住客与酒店管理方，提供从预订、入住到离店的全流程智慧服务，实现无接触式服务闭环与高效运营。
+                                  </p>
+                                  <ul className="space-y-4 mb-10">
+                                     <DesignFeature icon={BedDouble} t="无接触服务" d="VR看房、在线选房、自助入住/退房。" />
+                                     <DesignFeature icon={LayoutDashboard} t="多租户管理" d="连锁集团统一后台，门店数据隔离与个性化配置。" />
+                                     <DesignFeature icon={MessageSquare} t="客房管家" d="即时通讯、多语言翻译、快速响应服务需求。" />
+                                  </ul>
+                                  <div className="flex flex-wrap gap-4 items-center">
+                                     <button
+                                        onClick={() => openExternal(HOTEL_PRODUCT_URL)}
+                                        className="bg-violet-600 hover:bg-violet-700 text-white px-8 py-4 rounded-2xl font-black flex items-center gap-3 shadow-xl transition-all group"
+                                     >
+                                        打开酒店智能体 <ArrowRight size={20} className="group-hover:translate-x-1" />
+                                     </button>
+                                     <button
+                                        onClick={() => copyText(HOTEL_PRODUCT_URL)}
+                                        className="bg-white hover:bg-slate-50 text-slate-800 px-8 py-4 rounded-2xl font-black flex items-center gap-3 transition-all border border-slate-200"
+                                     >
+                                        复制链接
+                                     </button>
+                                     <div className="text-xs text-slate-400 font-mono">默认：{HOTEL_PRODUCT_URL}</div>
+                                  </div>
+                               </div>
+                            )}
+
+                            {designTab === 'dining' && (
+                               <div className="animate-in slide-in-from-left-4">
+                                  <h3 className="text-3xl font-black text-orange-600 mb-6 flex items-center gap-3"><Utensils size={32}/> 餐饮智能体 · 智慧美食</h3>
+                                  <p className="text-slate-500 text-lg leading-relaxed mb-10">
+                                     连接食客与餐厅，提供智能点餐、排队取号及个性化口味推荐，提升用餐体验与餐厅运营效率。
+                                  </p>
+                                  <ul className="space-y-4 mb-10">
+                                     <DesignFeature icon={Utensils} t="智能点餐" d="口味画像推荐、多人协作点餐、语音下单。" />
+                                     <DesignFeature icon={LayoutDashboard} t="餐厅管理" d="桌台状态实时同步、排队取号、到号预警。" />
+                                     <DesignFeature icon={Zap} t="呼叫服务" d="一键触发加水、催菜等原子化服务，直达服务员。" />
+                                  </ul>
+                                  <div className="flex flex-wrap gap-4 items-center">
+                                     <button
+                                        onClick={() => openExternal(DINING_PRODUCT_URL)}
+                                        className="bg-orange-600 hover:bg-orange-700 text-white px-8 py-4 rounded-2xl font-black flex items-center gap-3 shadow-xl transition-all group"
+                                     >
+                                        打开餐饮智能体 <ArrowRight size={20} className="group-hover:translate-x-1" />
+                                     </button>
+                                     <button
+                                        onClick={() => copyText(DINING_PRODUCT_URL)}
+                                        className="bg-white hover:bg-slate-50 text-slate-800 px-8 py-4 rounded-2xl font-black flex items-center gap-3 transition-all border border-slate-200"
+                                     >
+                                        复制链接
+                                     </button>
+                                     <div className="text-xs text-slate-400 font-mono">默认：{DINING_PRODUCT_URL}</div>
                                   </div>
                                </div>
                             )}
@@ -550,13 +619,25 @@ const App: React.FC = () => {
                             <div className="bg-white border-[12px] border-slate-100 rounded-[4rem] p-6 aspect-[9/18] shadow-2xl max-w-sm mx-auto overflow-hidden relative">
                                <div className="bg-slate-200 h-1.5 w-24 mx-auto rounded-full mb-10"></div>
                                <div className="flex flex-col items-center justify-center h-full text-center space-y-6">
-                                  <div className={`w-20 h-20 rounded-full flex items-center justify-center ${designTab === 'living' ? 'bg-rose-50 text-rose-500' : 'bg-indigo-50 text-indigo-500'}`}>
-                                     {designTab === 'living' ? <Heart size={40}/> : <Smartphone size={40}/>}
+                                  <div className={`w-20 h-20 rounded-full flex items-center justify-center ${
+                                     designTab === 'living' ? 'bg-rose-50 text-rose-500' : 
+                                     designTab === 'hotel' ? 'bg-violet-50 text-violet-500' :
+                                     designTab === 'dining' ? 'bg-orange-50 text-orange-500' :
+                                     'bg-indigo-50 text-indigo-500'
+                                  }`}>
+                                     {designTab === 'living' ? <Heart size={40}/> : 
+                                      designTab === 'hotel' ? <BedDouble size={40}/> :
+                                      designTab === 'dining' ? <Utensils size={40}/> :
+                                      <Smartphone size={40}/>}
                                   </div>
                                   <div>
                                      <div className="text-slate-300 font-mono text-[10px] uppercase tracking-widest mb-2">Platform Mockup</div>
                                      <div className="text-slate-800 font-black text-xl tracking-tight">
-                                        {designTab === 'agency' ? 'AGENCY PORTAL' : designTab === 'living' ? 'LIVING HUB' : 'SMART INTERFACE'}
+                                        {designTab === 'agency' ? 'AGENCY PORTAL' : 
+                                         designTab === 'living' ? 'LIVING HUB' : 
+                                         designTab === 'hotel' ? 'HOTEL MGMT' :
+                                         designTab === 'dining' ? 'SMART DINING' :
+                                         'SMART INTERFACE'}
                                      </div>
                                   </div>
                                   <div className="w-full space-y-4 pt-8">
@@ -637,7 +718,8 @@ const ScenarioSection = ({ title, icon: Icon, scenarios, color }: any) => {
       rose: 'text-rose-600 border-rose-100 bg-white',
       emerald: 'text-emerald-600 border-emerald-100 bg-white',
       blue: 'text-blue-600 border-blue-100 bg-white',
-      orange: 'text-orange-600 border-orange-100 bg-white'
+      orange: 'text-orange-600 border-orange-100 bg-white',
+      violet: 'text-violet-600 border-violet-100 bg-white'
    };
    return (
       <div className={`p-8 rounded-[3rem] border ${colors[color]} shadow-sm hover:shadow-xl transition-all`}>

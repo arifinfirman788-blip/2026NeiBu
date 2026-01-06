@@ -74,7 +74,7 @@ const PRDOverlay: React.FC<Props> = ({ onClose }) => {
                 <MatrixNode label="政府智能体" angle={180} color="indigo" isCore />
                 <MatrixNode label="景区智能体" angle={240} color="blue" />
                 <MatrixNode label="旅行社智能体" angle={300} color="blue" />
-                <MatrixNode label="订购智能体" angle={330} color="blue" />
+                <MatrixNode label="旅居智能体" angle={330} color="blue" />
              </div>
           </div>
 

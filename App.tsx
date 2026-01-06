@@ -25,6 +25,7 @@ import {
 
 const SCENIC_PRODUCT_URL = (import.meta as any).env?.VITE_SCENIC_PRODUCT_URL || 'http://localhost:5173'
 const SOJOURN_AGENT_URL = (import.meta as any).env?.VITE_SOJOURN_AGENT_URL || 'http://localhost:5175'
+const AGENCY_AGENT_URL = (import.meta as any).env?.VITE_AGENCY_AGENT_URL || 'http://localhost:5176'
 
 // --- MOBILE APP WRAPPER ---
 const MobileWrapper: React.FC<{ children: React.ReactNode; onBack: () => void }> = ({ children, onBack }) => (
@@ -42,7 +43,10 @@ const MobileWrapper: React.FC<{ children: React.ReactNode; onBack: () => void }>
 );
 
 // --- COMPONENT: Matrix Diagram (3D Matrix View) ---
-const MatrixDiagram = () => (
+const MatrixDiagram = ({ onNavigate, onAgentClick }: { 
+  onNavigate?: (tab: 'matrix' | 'scenario' | 'design', client?: 'xiaoxi' | 'agency' | 'spot' | 'living' | 'gov') => void,
+  onAgentClick?: (agent: 'gov' | 'spot' | 'agency' | 'living') => void
+}) => (
   <div className="space-y-12 animate-in fade-in duration-500">
     <div className="text-center max-w-3xl mx-auto mb-12">
       <h3 className="text-2xl font-black text-slate-800 mb-4">贵州旅游行程服务总入口架构</h3>
@@ -81,13 +85,13 @@ const MatrixDiagram = () => (
           
           {/* 环绕节点 */}
           <div className="absolute top-0 left-0 w-full h-full animate-spin-slow [transform-style:preserve-3d]" style={{ animationDuration: '60s' }}>
-            <MatrixNode label="餐饮智能体" angle={0} color="gray" />
+            <MatrixNode label="餐饮智能体" angle={0} color="blue" />
             <MatrixNode label="酒店智能体" angle={60} color="blue" />
             <MatrixNode label="出行智能体" angle={120} color="gray" />
-            <MatrixNode label="政府智能体" angle={180} color="blue" />
-            <MatrixNode label="景区智能体" angle={240} color="blue" />
-            <MatrixNode label="旅行社智能体" angle={300} color="blue" />
-            <MatrixNode label="订购智能体" angle={330} color="blue" />
+            <MatrixNode label="政府智能体" angle={180} color="blue" onClick={() => onAgentClick?.('gov')} />
+            <MatrixNode label="景区智能体" angle={240} color="blue" onClick={() => onAgentClick?.('spot')} />
+            <MatrixNode label="旅行社智能体" angle={300} color="blue" onClick={() => onAgentClick?.('agency')} />
+            <MatrixNode label="旅居智能体" angle={330} color="blue" onClick={() => onAgentClick?.('living')} />
           </div>
         </div>
 
@@ -128,7 +132,7 @@ const MatrixDiagram = () => (
             <MatrixNode label="预约送餐" angle={30} color="teal" />
             <MatrixNode label="天气动态调整" angle={60} color="teal" />
             <MatrixNode label="车辆调度" angle={90} color="teal" />
-            <MatrixNode label="前沿摘要" angle={120} color="teal" />
+            <MatrixNode label="智能订购" angle={120} color="teal" />
             <MatrixNode label="政策问答" angle={150} color="teal" />
             <MatrixNode label="智能导览" angle={180} color="teal" />
             <MatrixNode label="客流预测" angle={210} color="teal" />
@@ -160,7 +164,7 @@ const RingLabel = ({ label, color, className }: { label: string, color: 'indigo'
 };
 
 // --- Helper: Matrix Node (Orbiting) ---
-const MatrixNode = ({ label, angle, color = 'slate', isCore }: any) => {
+const MatrixNode = ({ label, angle, color = 'slate', isCore, onClick }: any) => {
   // Calculate position on ellipse
   const rad = (angle * Math.PI) / 180;
   
@@ -191,6 +195,7 @@ const MatrixNode = ({ label, angle, color = 'slate', isCore }: any) => {
         // rotateX(-60deg) 抵消父容器的旋转，使元素直立
         transform: 'translate(-50%, -100%) rotateX(-60deg)' 
       }}
+      onClick={onClick}
     >
       {label}
     </div>
@@ -271,7 +276,20 @@ const App: React.FC = () => {
                 {/* 1. 产品矩阵 */}
                 {planningTab === 'matrix' && (
                    <div className="animate-in fade-in duration-1000">
-                      <MatrixDiagram />
+                      <MatrixDiagram 
+                        onNavigate={(tab, client) => {
+                          setPlanningTab(tab);
+                          if (client) setDesignTab(client);
+                        }}
+                        onAgentClick={(agent) => {
+                          setPlanningTab('design');
+                          setDesignTab(agent);
+                          if (agent === 'gov') openExternal('https://glsw-provincescreen-test.aihuangxiaoxi.com/admin/#/index');
+                          if (agent === 'spot') openExternal(SCENIC_PRODUCT_URL);
+                          if (agent === 'agency') openExternal(AGENCY_AGENT_URL);
+                          if (agent === 'living') openExternal(SOJOURN_AGENT_URL);
+                        }}
+                      />
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
                          <SummaryCard title="第一层：企业端智能体" icon={Briefcase} color="indigo" desc="聚合餐饮、酒店、出行、政府、景区等核心实体，构建文旅产业全要素的数字化供给网络。" />
                          <SummaryCard title="第二层：角色智能体" icon={Users} color="violet" desc="模拟销售、导游、线路设计师、行业专家等职业角色，通过人机协作处理复杂的非标准化业务。" />
@@ -405,7 +423,7 @@ const App: React.FC = () => {
                                      </div>
                                   </div>
                                   <div className="flex gap-4">
-                                     <button onClick={() => handleEnterApp('agency')} className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-4 rounded-2xl font-black flex items-center gap-3 shadow-xl transition-all group">
+                                     <button onClick={() => openExternal(AGENCY_AGENT_URL)} className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-4 rounded-2xl font-black flex items-center gap-3 shadow-xl transition-all group">
                                         进入旅行社 B 端 <ArrowRight size={20} className="group-hover:translate-x-1" />
                                      </button>
                                      <button onClick={() => handleEnterApp('guide')} className="bg-slate-100 hover:bg-slate-200 text-slate-800 px-8 py-4 rounded-2xl font-black flex items-center gap-3 transition-all">

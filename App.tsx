@@ -23,6 +23,8 @@ import {
   FileText, Target, TrendingUp, Megaphone
 } from 'lucide-react';
 
+import hxxQrCode from './image/huangxiaoxi.png';
+
 const SCENIC_PRODUCT_URL = (import.meta as any).env?.VITE_SCENIC_PRODUCT_URL || 'http://localhost:5173'
 const SOJOURN_AGENT_URL = (import.meta as any).env?.VITE_SOJOURN_AGENT_URL || 'http://localhost:5175'
 const AGENCY_AGENT_URL = (import.meta as any).env?.VITE_AGENCY_AGENT_URL || 'http://localhost:5176'
@@ -210,6 +212,7 @@ const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState(0);
   const [subView, setSubView] = useState<'main' | 'experts' | 'chat'>('main');
   const [selectedAgent, setSelectedAgent] = useState<ServiceItem | null>(null);
+  const [isQrCodeOpen, setIsQrCodeOpen] = useState(false);
 
   // Shared Order State for Cross-Role Demo
   const [orders, setOrders] = useState<Order[]>([]);
@@ -284,11 +287,10 @@ const App: React.FC = () => {
                         }}
                         onAgentClick={(agent) => {
                           setPlanningTab('design');
-                          setDesignTab(agent);
+                          setDesignTab(agent === 'living' ? 'xiaoxi' : agent);
                           if (agent === 'gov') openExternal('https://glsw-provincescreen-test.aihuangxiaoxi.com/admin/#/index');
                           if (agent === 'spot') openExternal(SCENIC_PRODUCT_URL);
                           if (agent === 'agency') openExternal(AGENCY_AGENT_URL);
-                          if (agent === 'living') openExternal(SOJOURN_AGENT_URL);
                           if (agent === 'hotel') openExternal(HOTEL_PRODUCT_URL);
                           if (agent === 'dining') openExternal(DINING_PRODUCT_URL);
                         }}
@@ -416,7 +418,6 @@ const App: React.FC = () => {
                          <DesignTabItem active={designTab === 'spot'} onClick={() => setDesignTab('spot')} label="景区智能体" />
                          <DesignTabItem active={designTab === 'hotel'} onClick={() => setDesignTab('hotel')} label="酒店智能体" />
                          <DesignTabItem active={designTab === 'dining'} onClick={() => setDesignTab('dining')} label="餐饮智能体" />
-                         <DesignTabItem active={designTab === 'living'} onClick={() => setDesignTab('living')} label="旅居智能体" />
                       </div>
 
                       <div className="grid grid-cols-1 xl:grid-cols-2 gap-20 items-center">
@@ -446,35 +447,6 @@ const App: React.FC = () => {
                                      </button>
                                   </div>
                                 </div>
-                            )}
-
-                            {designTab === 'living' && (
-                               <div className="animate-in slide-in-from-left-4">
-                                  <h3 className="text-3xl font-black text-rose-600 mb-6 flex items-center gap-3"><Heart size={32}/> 旅居智能体 · 深度运营</h3>
-                                  <p className="text-slate-500 text-lg leading-relaxed mb-10">
-                                     面向数字游民与长期旅居人群，提供虚实结合的社区交互、灵活办公空间预约及在地化深度文化体验。
-                                  </p>
-                                  <ul className="space-y-4 mb-10">
-                                     <DesignFeature icon={Users} t="数字游民社区" d="技能交换、活动预约、兴趣搭子匹配。" />
-                                     <DesignFeature icon={LayoutDashboard} t="灵活分销系统" d="对接本地服务者（向导/非遗传承人）收入提现。" />
-                                     <DesignFeature icon={LifeBuoy} t="售后管家AI" d="天气/交通预警，行程临时变更自动同步。" />
-                                  </ul>
-                                  <div className="flex flex-wrap gap-4 items-center">
-                                     <button
-                                        onClick={() => openExternal(SOJOURN_AGENT_URL)}
-                                        className="bg-rose-600 hover:bg-rose-700 text-white px-8 py-4 rounded-2xl font-black flex items-center gap-3 shadow-xl transition-all group"
-                                     >
-                                        打开旅居智能体 <ArrowRight size={20} className="group-hover:translate-x-1" />
-                                     </button>
-                                     <button
-                                        onClick={() => copyText(SOJOURN_AGENT_URL)}
-                                        className="bg-white hover:bg-slate-50 text-slate-800 px-8 py-4 rounded-2xl font-black flex items-center gap-3 transition-all border border-slate-200"
-                                     >
-                                        复制链接
-                                     </button>
-                                     <div className="text-xs text-slate-400 font-mono">默认：{SOJOURN_AGENT_URL}</div>
-                                  </div>
-                               </div>
                             )}
 
                             {designTab === 'hotel' && (
@@ -538,10 +510,39 @@ const App: React.FC = () => {
                             {designTab === 'xiaoxi' && (
                                <div className="animate-in slide-in-from-left-4">
                                   <h3 className="text-3xl font-black text-teal-600 mb-6 flex items-center gap-3"><Bot size={32}/> 多彩黄小西 · C端伴游</h3>
-                                  <p className="text-slate-500 text-lg leading-relaxed mb-10">作为官方数字分身，提供 24h 1对1 服务。重点建立信任感与不确定性消除。</p>
-                                  <button onClick={() => handleEnterApp('tourist')} className="bg-teal-600 hover:bg-teal-700 text-white px-8 py-4 rounded-2xl font-black shadow-xl">
-                                     进入游客端演示
-                                  </button>
+                                  <p className="text-slate-500 text-lg leading-relaxed mb-10">作为官方数字分身，提供 24h 1对1 服务。重点建立信任感与不确定性消除。同时面向数字游民与长期旅居人群，提供虚实结合的社区交互、灵活办公空间预约及在地化深度文化体验。</p>
+                                  
+                                  <ul className="space-y-4 mb-10">
+                                     <DesignFeature icon={LayoutDashboard} t="省级旅游行程服务总入口" d="服务资源聚合，一站式获取全省景区、酒店及交通等官方服务。" />
+                                     <DesignFeature icon={LifeBuoy} t="24小时行程陪伴" d="智能AI全天候在线，提供实时问答、行程动态调整与应急响应。" />
+                                     <DesignFeature icon={Heart} t="旅居管家" d="面向长期旅居人群，提供租房对接、社群融入及本地生活指引。" />
+                                  </ul>
+
+                                  <div className="flex flex-wrap gap-6 items-center">
+                                     <button onClick={() => handleEnterApp('tourist')} className="bg-teal-600 hover:bg-teal-700 text-white px-8 py-4 rounded-2xl font-black shadow-xl">
+                                        进入游客端演示
+                                     </button>
+                                     <div className="flex items-center gap-3 p-2 bg-white rounded-xl border border-slate-100 shadow-sm cursor-pointer hover:shadow-md transition-all" onClick={() => setIsQrCodeOpen(true)}>
+                                        <img src={hxxQrCode} alt="扫码体验" className="w-20 h-20 rounded-lg object-cover" />
+                                        <div className="text-xs text-slate-500 font-medium">
+                                           <div className="font-bold text-slate-800">扫码体验</div>
+                                           <div className="text-[10px] text-slate-400 mt-1">iOS / Android</div>
+                                        </div>
+                                     </div>
+                                  </div>
+                               </div>
+                            )}
+
+                            {/* QR Code Modal */}
+                            {isQrCodeOpen && (
+                               <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm animate-in fade-in duration-200" onClick={() => setIsQrCodeOpen(false)}>
+                                  <div className="bg-white p-4 rounded-3xl shadow-2xl scale-100 animate-in zoom-in-95 duration-200" onClick={e => e.stopPropagation()}>
+                                     <img src={hxxQrCode} alt="扫码体验" className="w-80 h-80 rounded-2xl object-cover" />
+                                     <div className="text-center mt-4 text-slate-500 font-medium">
+                                        <div className="text-lg font-bold text-slate-800">扫码立即体验</div>
+                                        <div className="text-sm mt-1">支持 iOS 与 Android 设备</div>
+                                     </div>
+                                  </div>
                                </div>
                             )}
 
@@ -616,36 +617,48 @@ const App: React.FC = () => {
                          {/* Preview Screen */}
                          <div className="relative">
                             <div className="absolute inset-0 bg-indigo-500/5 rounded-[4rem] blur-3xl"></div>
-                            <div className="bg-white border-[12px] border-slate-100 rounded-[4rem] p-6 aspect-[9/18] shadow-2xl max-w-sm mx-auto overflow-hidden relative">
-                               <div className="bg-slate-200 h-1.5 w-24 mx-auto rounded-full mb-10"></div>
-                               <div className="flex flex-col items-center justify-center h-full text-center space-y-6">
-                                  <div className={`w-20 h-20 rounded-full flex items-center justify-center ${
-                                     designTab === 'living' ? 'bg-rose-50 text-rose-500' : 
-                                     designTab === 'hotel' ? 'bg-violet-50 text-violet-500' :
-                                     designTab === 'dining' ? 'bg-orange-50 text-orange-500' :
-                                     'bg-indigo-50 text-indigo-500'
-                                  }`}>
-                                     {designTab === 'living' ? <Heart size={40}/> : 
-                                      designTab === 'hotel' ? <BedDouble size={40}/> :
-                                      designTab === 'dining' ? <Utensils size={40}/> :
-                                      <Smartphone size={40}/>}
+                            <div className={`bg-white border-[12px] border-slate-100 rounded-[4rem] ${designTab === 'xiaoxi' ? 'p-0' : 'p-6'} aspect-[9/18] shadow-2xl max-w-sm mx-auto overflow-hidden relative transition-all duration-500`}>
+                               {designTab === 'xiaoxi' ? (
+                                  <div className="flex flex-col h-full bg-slate-50 relative">
+                                     <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-6 bg-slate-800 rounded-b-xl z-50 pointer-events-none"></div>
+                                     <Header userRole="tourist" onToggleRole={() => {}} />
+                                     <main className="flex-1 overflow-y-auto no-scrollbar px-2 relative">
+                                         <div className="scale-90 origin-top w-[111%] -ml-[5.5%]">
+                                            <HomeView onOpenExperts={() => {}} />
+                                         </div>
+                                     </main>
+                                     <BottomNav activeTab={0} onTabChange={() => {}} isMenuOpen={false} onToggleMenu={() => {}} />
                                   </div>
-                                  <div>
-                                     <div className="text-slate-300 font-mono text-[10px] uppercase tracking-widest mb-2">Platform Mockup</div>
-                                     <div className="text-slate-800 font-black text-xl tracking-tight">
-                                        {designTab === 'agency' ? 'AGENCY PORTAL' : 
-                                         designTab === 'living' ? 'LIVING HUB' : 
-                                         designTab === 'hotel' ? 'HOTEL MGMT' :
-                                         designTab === 'dining' ? 'SMART DINING' :
-                                         'SMART INTERFACE'}
+                               ) : (
+                                  <>
+                                     <div className="bg-slate-200 h-1.5 w-24 mx-auto rounded-full mb-10"></div>
+                                     <div className="flex flex-col items-center justify-center h-full text-center space-y-6">
+                                        <div className={`w-20 h-20 rounded-full flex items-center justify-center ${
+                                           designTab === 'hotel' ? 'bg-violet-50 text-violet-500' :
+                                           designTab === 'dining' ? 'bg-orange-50 text-orange-500' :
+                                           'bg-indigo-50 text-indigo-500'
+                                        }`}>
+                                           {designTab === 'hotel' ? <BedDouble size={40}/> :
+                                            designTab === 'dining' ? <Utensils size={40}/> :
+                                            <Smartphone size={40}/>}
+                                        </div>
+                                        <div>
+                                           <div className="text-slate-300 font-mono text-[10px] uppercase tracking-widest mb-2">Platform Mockup</div>
+                                           <div className="text-slate-800 font-black text-xl tracking-tight">
+                                              {designTab === 'agency' ? 'AGENCY PORTAL' : 
+                                               designTab === 'hotel' ? 'HOTEL MGMT' :
+                                               designTab === 'dining' ? 'SMART DINING' :
+                                               'SMART INTERFACE'}
+                                           </div>
+                                        </div>
+                                        <div className="w-full space-y-4 pt-8">
+                                           <div className="h-2 bg-slate-50 rounded-full w-full"></div>
+                                           <div className="h-2 bg-slate-50 rounded-full w-5/6"></div>
+                                           <div className="h-2 bg-slate-50 rounded-full w-2/3"></div>
+                                        </div>
                                      </div>
-                                  </div>
-                                  <div className="w-full space-y-4 pt-8">
-                                     <div className="h-2 bg-slate-50 rounded-full w-full"></div>
-                                     <div className="h-2 bg-slate-50 rounded-full w-5/6"></div>
-                                     <div className="h-2 bg-slate-50 rounded-full w-2/3"></div>
-                                  </div>
-                               </div>
+                                  </>
+                               )}
                             </div>
                          </div>
                       </div>

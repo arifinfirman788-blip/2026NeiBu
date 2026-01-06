@@ -85,13 +85,12 @@ const MatrixDiagram = ({ onNavigate, onAgentClick }: {
           
           {/* 环绕节点 */}
           <div className="absolute top-0 left-0 w-full h-full animate-spin-slow [transform-style:preserve-3d]" style={{ animationDuration: '60s' }}>
-            <MatrixNode label="餐饮智能体" angle={0} color="blue" />
+            <MatrixNode label="旅行社智能体" angle={0} color="blue" onClick={() => onAgentClick?.('agency')} />
             <MatrixNode label="酒店智能体" angle={60} color="blue" />
-            <MatrixNode label="出行智能体" angle={120} color="gray" />
+            <MatrixNode label="景区智能体" angle={120} color="blue" onClick={() => onAgentClick?.('spot')} />
             <MatrixNode label="政府智能体" angle={180} color="blue" onClick={() => onAgentClick?.('gov')} />
-            <MatrixNode label="景区智能体" angle={240} color="blue" onClick={() => onAgentClick?.('spot')} />
-            <MatrixNode label="旅行社智能体" angle={300} color="blue" onClick={() => onAgentClick?.('agency')} />
-            <MatrixNode label="旅居智能体" angle={330} color="blue" onClick={() => onAgentClick?.('living')} />
+            <MatrixNode label="出行智能体" angle={240} color="gray" />
+            <MatrixNode label="餐饮智能体" angle={300} color="blue" />
           </div>
         </div>
 
@@ -131,14 +130,14 @@ const MatrixDiagram = ({ onNavigate, onAgentClick }: {
             <MatrixNode label="房态查询" angle={0} color="teal" />
             <MatrixNode label="预约送餐" angle={30} color="teal" />
             <MatrixNode label="天气动态调整" angle={60} color="teal" />
-            <MatrixNode label="车辆调度" angle={90} color="teal" />
+            <MatrixNode label="智能行程规划" angle={90} color="teal" />
             <MatrixNode label="智能订购" angle={120} color="teal" />
             <MatrixNode label="政策问答" angle={150} color="teal" />
             <MatrixNode label="智能导览" angle={180} color="teal" />
             <MatrixNode label="客流预测" angle={210} color="teal" />
             <MatrixNode label="活动智能推荐" angle={240} color="teal" />
-            <MatrixNode label="话术辅助" angle={270} color="teal" />
-            <MatrixNode label="投诉预警" angle={300} color="teal" />
+            <MatrixNode label="游记生成" angle={270} color="teal" />
+            <MatrixNode label="旅居智能体" angle={300} color="teal" onClick={() => onAgentClick?.('living')} />
             <MatrixNode label="紧急救援" angle={330} color="teal" />
           </div>
         </div>
@@ -337,6 +336,11 @@ const App: React.FC = () => {
                              { t: '数字游民中心', d: '技能匹配旅居需求，构建虚实结合社交群，实现创收。', p: 'P3' },
                              { t: '智能分销管理', d: '对接OTA及本地渠道，库存联动，统一管理佣金结算。', p: 'P1' },
                              { t: '资源智能调配', d: '可视化展示资源分布，AI生成成本优化建议及派单。', p: 'P3' }
+                          ]} />
+                          <ScenarioSection title="餐饮智能体 (B端及C端)" color="orange" icon={Utensils} scenarios={[
+                             { t: '智能点菜', d: '基于口味画像与人数智能生成菜单，支持多人协作点餐及语音下单。', p: 'P1' },
+                             { t: '餐厅预约', d: '实时同步餐厅桌台状态，提供在线排队取号与到号预警功能。', p: 'P1' },
+                             { t: '呼叫服务', d: '餐中一键触发加水、催菜等原子化服务需求，直达服务员终端。', p: 'P1' }
                           ]} />
                       </div>
 
@@ -632,7 +636,8 @@ const ScenarioSection = ({ title, icon: Icon, scenarios, color }: any) => {
       indigo: 'text-indigo-600 border-indigo-100 bg-white', 
       rose: 'text-rose-600 border-rose-100 bg-white',
       emerald: 'text-emerald-600 border-emerald-100 bg-white',
-      blue: 'text-blue-600 border-blue-100 bg-white'
+      blue: 'text-blue-600 border-blue-100 bg-white',
+      orange: 'text-orange-600 border-orange-100 bg-white'
    };
    return (
       <div className={`p-8 rounded-[3rem] border ${colors[color]} shadow-sm hover:shadow-xl transition-all`}>

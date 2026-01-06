@@ -428,23 +428,62 @@ const App: React.FC = () => {
                                   <p className="text-slate-500 text-lg leading-relaxed mb-10">
                                      通过 OCR 解析与 LBS 地理围栏技术，将传统“人盯人”的带团监管转变为“AI实时哨兵”。重点解决合规风控与补贴自动化。
                                   </p>
-                                  <div className="grid grid-cols-2 gap-4 mb-10">
-                                     <div className="p-5 bg-slate-50 rounded-2xl border border-slate-100">
-                                        <div className="font-bold text-slate-800 mb-2">B端：指挥中枢</div>
-                                        <div className="text-xs text-slate-500">提供实时监控、投诉研判及政策申报闭环。</div>
+                                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                     {/* Card 1: Agency B-side */}
+                                     <div 
+                                        onClick={() => handleEnterApp('agency')}
+                                        className="group relative bg-indigo-50/50 hover:bg-indigo-50 border border-indigo-100 hover:border-indigo-200 rounded-3xl p-6 cursor-pointer transition-all hover:shadow-lg"
+                                     >
+                                        <div className="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                           <LayoutDashboard className="text-indigo-600" size={24} />
+                                        </div>
+                                        <h4 className="text-xl font-black text-slate-800 mb-1">B端 · 旅行社PC</h4>
+                                        <p className="text-xs font-mono text-slate-500 uppercase tracking-wider mb-4">Agency Management</p>
+                                        
+                                        <div className="flex gap-2 mb-6">
+                                           <span className="px-3 py-1 bg-indigo-100 text-indigo-700 text-xs font-bold rounded-lg">产品上架</span>
+                                           <span className="px-3 py-1 bg-indigo-100 text-indigo-700 text-xs font-bold rounded-lg">经营结算</span>
+                                        </div>
+
+                                        <ul className="space-y-3">
+                                           <li className="flex items-start gap-2 text-sm text-slate-600">
+                                              <CheckCircle2 className="text-indigo-500 shrink-0 mt-0.5" size={16} />
+                                              <span>供应商资源组织与上架管控</span>
+                                           </li>
+                                           <li className="flex items-start gap-2 text-sm text-slate-600">
+                                              <CheckCircle2 className="text-indigo-500 shrink-0 mt-0.5" size={16} />
+                                              <span>补贴一键申报 & 财务合规审计</span>
+                                           </li>
+                                        </ul>
                                      </div>
-                                     <div className="p-5 bg-slate-50 rounded-2xl border border-slate-100">
-                                        <div className="font-bold text-slate-800 mb-2">导游：任务终端</div>
-                                        <div className="text-xs text-slate-500">电子证照、闪电报账、风险语音简报。</div>
+
+                                     {/* Card 2: Guide App */}
+                                     <div 
+                                        onClick={() => handleEnterApp('guide')}
+                                        className="group relative bg-orange-50/50 hover:bg-orange-50 border border-orange-100 hover:border-orange-200 rounded-3xl p-6 cursor-pointer transition-all hover:shadow-lg"
+                                     >
+                                        <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                           <Briefcase className="text-orange-600" size={24} />
+                                        </div>
+                                        <h4 className="text-xl font-black text-slate-800 mb-1">员工端 · 导游APP</h4>
+                                        <p className="text-xs font-mono text-slate-500 uppercase tracking-wider mb-4">Guide & Staff App</p>
+                                        
+                                        <div className="flex gap-2 mb-6">
+                                           <span className="px-3 py-1 bg-orange-100 text-orange-700 text-xs font-bold rounded-lg">分销推广</span>
+                                           <span className="px-3 py-1 bg-orange-100 text-orange-700 text-xs font-bold rounded-lg">收益管理</span>
+                                        </div>
+
+                                        <ul className="space-y-3">
+                                           <li className="flex items-start gap-2 text-sm text-slate-600">
+                                              <CheckCircle2 className="text-orange-500 shrink-0 mt-0.5" size={16} />
+                                              <span>个人分销二维码/ID实时生成</span>
+                                           </li>
+                                           <li className="flex items-start gap-2 text-sm text-slate-600">
+                                              <CheckCircle2 className="text-orange-500 shrink-0 mt-0.5" size={16} />
+                                              <span>带团佣金分成实时入账统计</span>
+                                           </li>
+                                        </ul>
                                      </div>
-                                  </div>
-                                  <div className="flex gap-4">
-                                     <button onClick={() => openExternal(AGENCY_AGENT_URL)} className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-4 rounded-2xl font-black flex items-center gap-3 shadow-xl transition-all group">
-                                        进入旅行社 B 端 <ArrowRight size={20} className="group-hover:translate-x-1" />
-                                     </button>
-                                     <button onClick={() => handleEnterApp('guide')} className="bg-slate-100 hover:bg-slate-200 text-slate-800 px-8 py-4 rounded-2xl font-black flex items-center gap-3 transition-all">
-                                        进入导游 App
-                                     </button>
                                   </div>
                                 </div>
                             )}
@@ -617,49 +656,76 @@ const App: React.FC = () => {
                          {/* Preview Screen */}
                          <div className="relative">
                             <div className="absolute inset-0 bg-indigo-500/5 rounded-[4rem] blur-3xl"></div>
-                            <div className={`bg-white border-[12px] border-slate-100 rounded-[4rem] ${designTab === 'xiaoxi' ? 'p-0' : 'p-6'} aspect-[9/18] shadow-2xl max-w-sm mx-auto overflow-hidden relative transition-all duration-500`}>
-                               {designTab === 'xiaoxi' ? (
-                                  <div className="flex flex-col h-full bg-slate-50 relative">
-                                     <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-6 bg-slate-800 rounded-b-xl z-50 pointer-events-none"></div>
-                                     <Header userRole="tourist" onToggleRole={() => {}} />
-                                     <main className="flex-1 overflow-y-auto no-scrollbar px-2 relative">
-                                         <div className="scale-90 origin-top w-[111%] -ml-[5.5%]">
-                                            <HomeView onOpenExperts={() => {}} />
-                                         </div>
-                                     </main>
-                                     <BottomNav activeTab={0} onTabChange={() => {}} isMenuOpen={false} onToggleMenu={() => {}} />
-                                  </div>
-                               ) : (
-                                  <>
-                                     <div className="bg-slate-200 h-1.5 w-24 mx-auto rounded-full mb-10"></div>
-                                     <div className="flex flex-col items-center justify-center h-full text-center space-y-6">
-                                        <div className={`w-20 h-20 rounded-full flex items-center justify-center ${
-                                           designTab === 'hotel' ? 'bg-violet-50 text-violet-500' :
-                                           designTab === 'dining' ? 'bg-orange-50 text-orange-500' :
-                                           'bg-indigo-50 text-indigo-500'
-                                        }`}>
-                                           {designTab === 'hotel' ? <BedDouble size={40}/> :
-                                            designTab === 'dining' ? <Utensils size={40}/> :
-                                            <Smartphone size={40}/>}
-                                        </div>
-                                        <div>
-                                           <div className="text-slate-300 font-mono text-[10px] uppercase tracking-widest mb-2">Platform Mockup</div>
-                                           <div className="text-slate-800 font-black text-xl tracking-tight">
-                                              {designTab === 'agency' ? 'AGENCY PORTAL' : 
-                                               designTab === 'hotel' ? 'HOTEL MGMT' :
-                                               designTab === 'dining' ? 'SMART DINING' :
-                                               'SMART INTERFACE'}
-                                           </div>
-                                        </div>
-                                        <div className="w-full space-y-4 pt-8">
-                                           <div className="h-2 bg-slate-50 rounded-full w-full"></div>
-                                           <div className="h-2 bg-slate-50 rounded-full w-5/6"></div>
-                                           <div className="h-2 bg-slate-50 rounded-full w-2/3"></div>
+                            
+                            {designTab === 'agency' ? (
+                               <div className="relative w-full h-[600px] flex items-center justify-center">
+                                  {/* Desktop: Agency B-Side */}
+                                  <div className="absolute top-8 left-0 w-[90%] h-[450px] bg-white rounded-xl shadow-2xl border border-slate-200 overflow-hidden z-10 transition-transform hover:scale-105 duration-500 origin-bottom-left">
+                                     <div className="w-full h-7 bg-slate-100 border-b border-slate-200 flex items-center px-3 gap-1.5">
+                                        <div className="w-2.5 h-2.5 rounded-full bg-red-400"></div>
+                                        <div className="w-2.5 h-2.5 rounded-full bg-yellow-400"></div>
+                                        <div className="w-2.5 h-2.5 rounded-full bg-green-400"></div>
+                                        <div className="ml-4 px-3 py-0.5 bg-white rounded-md text-[10px] text-slate-400 border border-slate-200 flex-1 text-center font-mono">agency.travel-guizhou.com</div>
+                                     </div>
+                                     <div className="w-full h-full overflow-hidden bg-slate-50 relative">
+                                        <div className="w-[222%] h-[222%] origin-top-left transform scale-[0.45]">
+                                           <AgencyApp onBack={() => {}} orders={orders} onUpdateOrder={handleUpdateOrder} />
                                         </div>
                                      </div>
-                                  </>
-                               )}
-                            </div>
+                                  </div>
+
+                                  {/* Mobile: Guide App */}
+                                  <div className="absolute bottom-0 right-0 w-[220px] h-[450px] bg-white rounded-[2.5rem] border-[6px] border-slate-800 shadow-2xl overflow-hidden z-20 transition-transform hover:scale-105 duration-500 origin-bottom-right">
+                                     <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-5 bg-slate-800 rounded-b-xl z-50"></div>
+                                     <div className="w-[390px] h-[844px] origin-top-left transform scale-[0.53] bg-white">
+                                        <GuideApp orders={orders} onUpdateOrder={handleUpdateOrder} />
+                                     </div>
+                                  </div>
+                               </div>
+                            ) : (
+                               <div className={`bg-white border-[12px] border-slate-100 rounded-[4rem] ${designTab === 'xiaoxi' ? 'p-0' : 'p-6'} aspect-[9/18] shadow-2xl max-w-sm mx-auto overflow-hidden relative transition-all duration-500`}>
+                                  {designTab === 'xiaoxi' ? (
+                                     <div className="flex flex-col h-full bg-slate-50 relative">
+                                        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-6 bg-slate-800 rounded-b-xl z-50 pointer-events-none"></div>
+                                        <Header userRole="tourist" onToggleRole={() => {}} />
+                                        <main className="flex-1 overflow-y-auto no-scrollbar px-2 relative">
+                                            <div className="scale-90 origin-top w-[111%] -ml-[5.5%]">
+                                               <HomeView onOpenExperts={() => {}} />
+                                            </div>
+                                        </main>
+                                        <BottomNav activeTab={0} onTabChange={() => {}} isMenuOpen={false} onToggleMenu={() => {}} />
+                                     </div>
+                                  ) : (
+                                     <>
+                                        <div className="bg-slate-200 h-1.5 w-24 mx-auto rounded-full mb-10"></div>
+                                        <div className="flex flex-col items-center justify-center h-full text-center space-y-6">
+                                           <div className={`w-20 h-20 rounded-full flex items-center justify-center ${
+                                              designTab === 'hotel' ? 'bg-violet-50 text-violet-500' :
+                                              designTab === 'dining' ? 'bg-orange-50 text-orange-500' :
+                                              'bg-indigo-50 text-indigo-500'
+                                           }`}>
+                                              {designTab === 'hotel' ? <BedDouble size={40}/> :
+                                               designTab === 'dining' ? <Utensils size={40}/> :
+                                               <Smartphone size={40}/>}
+                                           </div>
+                                           <div>
+                                              <div className="text-slate-300 font-mono text-[10px] uppercase tracking-widest mb-2">Platform Mockup</div>
+                                              <div className="text-slate-800 font-black text-xl tracking-tight">
+                                                 {designTab === 'hotel' ? 'HOTEL MGMT' :
+                                                  designTab === 'dining' ? 'SMART DINING' :
+                                                  'SMART INTERFACE'}
+                                              </div>
+                                           </div>
+                                           <div className="w-full space-y-4 pt-8">
+                                              <div className="h-2 bg-slate-50 rounded-full w-full"></div>
+                                              <div className="h-2 bg-slate-50 rounded-full w-5/6"></div>
+                                              <div className="h-2 bg-slate-50 rounded-full w-2/3"></div>
+                                           </div>
+                                        </div>
+                                     </>
+                                  )}
+                               </div>
+                            )}
                          </div>
                       </div>
                    </div>

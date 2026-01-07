@@ -223,6 +223,7 @@ const App: React.FC = () => {
   const [subView, setSubView] = useState<'main' | 'experts' | 'chat'>('main');
   const [selectedAgent, setSelectedAgent] = useState<ServiceItem | null>(null);
   const [activeQrCode, setActiveQrCode] = useState<string | null>(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // Shared Order State for Cross-Role Demo
   const [orders, setOrders] = useState<Order[]>([]);
@@ -728,7 +729,35 @@ const App: React.FC = () => {
                                                <HomeView onOpenExperts={() => {}} />
                                             </div>
                                         </main>
-                                        <BottomNav activeTab={0} onTabChange={() => {}} isMenuOpen={false} onToggleMenu={() => {}} />
+                                        {/* Quick Action Overlay */}
+                                       {isMenuOpen && (
+                                          <div className="absolute inset-0 z-40 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200" onClick={() => setIsMenuOpen(false)}>
+                                             <div className="absolute bottom-24 left-4 flex items-end gap-4" onClick={e => e.stopPropagation()}>
+                                                <img src={huangxiaoxiImg1} className="w-32 h-auto drop-shadow-2xl animate-in slide-in-from-bottom-10 duration-500" alt="Huang Xiaoxi" />
+                                                <div className="flex flex-col gap-4 mb-8">
+                                                   <button className="bg-gradient-to-r from-indigo-500 to-purple-500 text-white px-6 py-3 rounded-2xl shadow-xl flex items-center gap-3 animate-in slide-in-from-right-8 duration-300 delay-100 transform active:scale-95 transition-all hover:scale-105">
+                                                      <div className="text-left">
+                                                         <div className="font-bold text-sm">创建新行程</div>
+                                                         <div className="text-[10px] opacity-80">召唤智能行程规划师，为您定制规划</div>
+                                                      </div>
+                                                   </button>
+                                                   <button className="bg-white text-slate-800 px-6 py-3 rounded-2xl shadow-xl flex items-center gap-3 animate-in slide-in-from-right-8 duration-300 delay-200 transform active:scale-95 transition-all hover:scale-105">
+                                                       <div className="text-left">
+                                                         <div className="font-bold text-sm">加入行程</div>
+                                                         <div className="text-[10px] text-slate-500">加入好友创建的旅行，开启奇妙旅途</div>
+                                                      </div>
+                                                   </button>
+                                                   <button className="bg-white text-slate-800 px-6 py-3 rounded-2xl shadow-xl flex items-center gap-3 animate-in slide-in-from-right-8 duration-300 delay-300 transform active:scale-95 transition-all hover:scale-105">
+                                                       <div className="text-left">
+                                                         <div className="font-bold text-sm">智能导入地点/行程</div>
+                                                         <div className="text-[10px] text-slate-500">粘贴链接、文本、上传图片进行识别</div>
+                                                      </div>
+                                                   </button>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       )}
+                                       <BottomNav activeTab={0} onTabChange={() => {}} isMenuOpen={isMenuOpen} onToggleMenu={() => setIsMenuOpen(!isMenuOpen)} />
                                      </div>
                                   ) : (
                                     <>
@@ -782,8 +811,36 @@ const App: React.FC = () => {
               {activeTab === 1 && <ItineraryTimeline />}
               {activeTab === 3 && <MineView />}
             </main>
+            {/* Quick Action Overlay */}
+            {isMenuOpen && (
+               <div className="absolute inset-0 z-40 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200" onClick={() => setIsMenuOpen(false)}>
+                  <div className="absolute bottom-24 left-4 flex items-end gap-4" onClick={e => e.stopPropagation()}>
+                     <img src={huangxiaoxiImg1} className="w-32 h-auto drop-shadow-2xl animate-in slide-in-from-bottom-10 duration-500" alt="Huang Xiaoxi" />
+                     <div className="flex flex-col gap-4 mb-8">
+                        <button className="bg-gradient-to-r from-indigo-500 to-purple-500 text-white px-6 py-3 rounded-2xl shadow-xl flex items-center gap-3 animate-in slide-in-from-right-8 duration-300 delay-100 transform active:scale-95 transition-all hover:scale-105">
+                           <div className="text-left">
+                              <div className="font-bold text-sm">创建新行程</div>
+                              <div className="text-[10px] opacity-80">召唤智能行程规划师，为您定制规划</div>
+                           </div>
+                        </button>
+                        <button className="bg-white text-slate-800 px-6 py-3 rounded-2xl shadow-xl flex items-center gap-3 animate-in slide-in-from-right-8 duration-300 delay-200 transform active:scale-95 transition-all hover:scale-105">
+                            <div className="text-left">
+                              <div className="font-bold text-sm">加入行程</div>
+                              <div className="text-[10px] text-slate-500">加入好友创建的旅行，开启奇妙旅途</div>
+                           </div>
+                        </button>
+                        <button className="bg-white text-slate-800 px-6 py-3 rounded-2xl shadow-xl flex items-center gap-3 animate-in slide-in-from-right-8 duration-300 delay-300 transform active:scale-95 transition-all hover:scale-105">
+                            <div className="text-left">
+                              <div className="font-bold text-sm">智能导入地点/行程</div>
+                              <div className="text-[10px] text-slate-500">粘贴链接、文本、上传图片进行识别</div>
+                           </div>
+                        </button>
+                     </div>
+                  </div>
+               </div>
+            )}
             {subView !== 'chat' && (
-               <BottomNav activeTab={activeTab} onTabChange={setActiveTab} isMenuOpen={false} onToggleMenu={() => {}} />
+               <BottomNav activeTab={activeTab} onTabChange={setActiveTab} isMenuOpen={isMenuOpen} onToggleMenu={() => setIsMenuOpen(!isMenuOpen)} />
             )}
           </div>
         </MobileWrapper>

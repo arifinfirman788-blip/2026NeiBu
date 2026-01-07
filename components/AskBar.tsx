@@ -4,8 +4,8 @@ import { Mic, Map, PenTool, MessageSquare } from 'lucide-react';
 
 const AskBar: React.FC = () => {
   return (
-    <div className="fixed bottom-24 left-0 right-0 z-40 px-4">
-       <div className="max-w-md mx-auto">
+    <div className="absolute bottom-24 left-0 right-0 z-40 px-4">
+       <div className="w-full">
           {/* Suggestion Chips */}
           <div className="flex gap-2 mb-3">
              <button className="bg-white/90 backdrop-blur shadow-sm border border-gray-100 rounded-xl px-3 py-1.5 flex items-center gap-1.5 text-xs font-medium text-gray-700 hover:bg-gray-50 active:scale-95 transition-transform">

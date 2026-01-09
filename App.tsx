@@ -946,45 +946,64 @@ const App: React.FC = () => {
                             </div>
                             <div className="bg-slate-900 rounded-3xl p-8 text-slate-300 shadow-xl shadow-slate-200 relative overflow-hidden group">
                               <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-bl-[4rem] -mr-12 -mt-12 transition-transform group-hover:scale-110" />
-                              <p className="text-sm leading-relaxed relative z-10 font-medium opacity-90">
-                                数据管理平台是实现旅游数据全生命周期管理的核心枢纽。通过建立统一的数据资产目录、标准化的数据治理流程以及全方位的安全审计机制，将原始数据转化为高质量的文旅数字要素，为上层应用提供坚实的数据底座支撑。
-                              </p>
+                              <div className="relative z-10 space-y-4">
+                                <p className="text-sm leading-relaxed font-medium opacity-90">
+                                  数据管理平台主要用于管理及治理汇聚的各类涉旅数据。通过标准化的治理流程，将原始数据转化为高质量的文旅数字资产，为大模型及各类涉旅应用提供精准的数据支撑。
+                                </p>
+                                <div className="flex flex-wrap gap-2 pt-2">
+                                  {['数据采集人员', '数据治理人员', '数据管理人员'].map(role => (
+                                    <span key={role} className="px-3 py-1 bg-white/10 rounded-full text-[10px] font-bold text-amber-400 border border-white/10">
+                                      {role}
+                                    </span>
+                                  ))}
+                                </div>
+                              </div>
                             </div>
                           </div>
 
                           <div className="space-y-4">
-                            <div className="text-xs font-bold text-slate-400 uppercase tracking-widest px-2">功能治理模块</div>
+                            <div className="text-xs font-bold text-slate-400 uppercase tracking-widest px-2 flex justify-between items-center">
+                              <span>功能治理模块</span>
+                              <span className="text-[10px] normal-case opacity-60">Management & Governance</span>
+                            </div>
                             <div className="grid grid-cols-1 gap-4">
                               {[
                                 {
-                                  title: '数据资产管理',
-                                  desc: '建立全省涉旅数据资产地图，实现资产挂接与编目。',
-                                  icon: Layers,
+                                  title: '数据采集',
+                                  desc: '支持采集表单快速搭建，通过权限配置及多组织架构，实现多级数据隔离及分级采集。',
+                                  icon: ClipboardList,
                                   color: 'amber',
-                                  features: ['资产地图', '资源挂载']
+                                  features: ['表单搭建', '分级采集']
                                 },
                                 {
-                                  title: '数据治理中台',
-                                  desc: '标准化清洗加工，原始数据转化为文旅数字要素。',
-                                  icon: Zap,
+                                  title: '数据管理',
+                                  desc: '涵盖原始数据（三方汇聚）与资源数据（治理后的景区、酒店、餐饮等旅游资源）。',
+                                  icon: Database,
                                   color: 'orange',
-                                  features: ['质量监控', '自动化清洗']
+                                  features: ['原始数据', '资源资产']
                                 },
                                 {
-                                  title: '安全审计中心',
-                                  desc: '全生命周期安全防护，确保流通权责清晰、操作留痕。',
+                                  title: '数据问题管理',
+                                  desc: '设置校验规则，对应用至大模型的数据进行质量校验，并实时记录问题数据。',
                                   icon: ShieldAlert,
                                   color: 'red',
-                                  features: ['全链路存证', '权限管控']
+                                  features: ['质量校验', '问题存证']
+                                },
+                                {
+                                  title: '报表统计',
+                                  desc: '对全省汇聚的旅游资源数据进行多维度统计分析与可视化展示。',
+                                  icon: LineChart,
+                                  color: 'emerald',
+                                  features: ['多维统计', '分析展示']
                                 }
                               ].map((item, i) => (
-                                <div key={i} className="group bg-white rounded-2xl p-6 border border-slate-200 shadow-sm transition-all hover:translate-x-2 hover:shadow-md">
-                                  <div className="flex items-center gap-5">
+                                <div key={i} className="group bg-white rounded-2xl p-5 border border-slate-200 shadow-sm transition-all hover:translate-x-2 hover:shadow-md">
+                                  <div className="flex items-start gap-5">
                                     <div className={`w-12 h-12 rounded-xl bg-${item.color}-100 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform`}>
                                       <item.icon className={`text-${item.color}-600`} size={24} />
                                     </div>
                                     <div className="flex-grow min-w-0">
-                                      <div className="flex items-center justify-between gap-2 mb-2">
+                                      <div className="flex items-center justify-between gap-2 mb-1.5">
                                         <h4 className="text-lg font-bold text-slate-900 truncate">{item.title}</h4>
                                         <div className="flex gap-1.5">
                                           {item.features.map((f, idx) => (
@@ -994,11 +1013,37 @@ const App: React.FC = () => {
                                           ))}
                                         </div>
                                       </div>
-                                      <p className="text-slate-500 text-xs leading-relaxed">{item.desc}</p>
+                                      <p className="text-slate-500 text-[11px] leading-relaxed">{item.desc}</p>
                                     </div>
                                   </div>
                                 </div>
                               ))}
+                            </div>
+                            
+                            {/* 平台访问入口 */}
+                            <div className="mt-6 p-6 bg-amber-50 rounded-2xl border border-amber-100 shadow-sm shadow-amber-50">
+                              <div className="flex items-center justify-between gap-4">
+                                <div className="space-y-1">
+                                  <div className="text-[10px] font-black text-amber-600 uppercase tracking-widest">系统访问入口</div>
+                                  <div className="text-slate-900 font-bold text-sm">数据管理平台 (演示环境)</div>
+                                  <div className="text-[10px] font-mono text-amber-700 opacity-70">账号: yanshi / 密码: glsw@123456</div>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                  <button 
+                                    onClick={() => copyText('yanshi glsw@123456')}
+                                    className="w-10 h-10 flex items-center justify-center text-amber-600 hover:bg-white rounded-xl transition-all shadow-sm"
+                                    title="复制凭证"
+                                  >
+                                    <ClipboardList size={18} />
+                                  </button>
+                                  <button 
+                                    onClick={() => openExternal('http://117.187.1.7:8000')}
+                                    className="bg-amber-600 text-white px-6 py-2.5 rounded-xl text-xs font-bold hover:bg-amber-700 transition-all shadow-lg shadow-amber-200 active:scale-95"
+                                  >
+                                    立即进入
+                                  </button>
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>

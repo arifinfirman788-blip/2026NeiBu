@@ -574,7 +574,7 @@ const App: React.FC = () => {
     setOrders(prev => prev.map(o => o.id === updatedOrder.id ? updatedOrder : o));
   };
 
-  const [activeModule, setActiveModule] = useState<'architecture' | 'data' | 'platform' | 'agent'>('agent');
+  const [activeModule, setActiveModule] = useState<'architecture' | 'data' | 'platform' | 'agent'>('architecture');
   const [planningTab, setPlanningTab] = useState<'matrix' | 'scenario' | 'design'>('matrix');
   const [designTab, setDesignTab] = useState<'xiaoxi' | 'agency' | 'spot' | 'living' | 'gov' | 'hotel' | 'dining'>('agency');
 
@@ -658,215 +658,168 @@ const App: React.FC = () => {
 
             <div className="max-w-[1400px] mx-auto px-8 py-12">
                 {activeModule === 'architecture' && (
-                   <div className="animate-in fade-in duration-700 space-y-12 pb-20">
-                      <div className="flex items-center gap-6 mb-12">
-                         <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-200">
-                            <Layers size={32} className="text-white" />
+                   <div className="animate-in fade-in duration-700 space-y-8 pb-20">
+                      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
+                         <div className="flex items-center gap-6">
+                            <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-200">
+                               <Layers size={32} className="text-white" />
+                            </div>
+                            <div>
+                               <h2 className="text-4xl font-black text-slate-900">总体架构</h2>
+                               <p className="text-slate-500 mt-1 uppercase tracking-widest text-xs font-bold">2.1 "1+1+1+N" Overall Design</p>
+                            </div>
                          </div>
-                         <div>
-                            <h2 className="text-4xl font-black text-slate-900">总体架构</h2>
-                            <p className="text-slate-500 mt-1 uppercase tracking-widest text-xs font-bold">2.1 "1+1+1+N" Overall Design</p>
+                         <div className="flex items-center gap-3 bg-blue-50 px-6 py-3 rounded-2xl border border-blue-100">
+                            <span className="text-blue-600 font-black text-xl">1+1+1+N</span>
+                            <div className="w-px h-6 bg-blue-200"></div>
+                            <span className="text-slate-500 text-xs font-bold leading-tight">3个底座平台<br/>N类服务渠道</span>
                          </div>
                       </div>
 
+                      {/* 总体架构说明文字 */}
+                      <div className="max-w-5xl mx-auto mb-10 bg-blue-50/50 border border-blue-100/50 rounded-3xl p-8 backdrop-blur-sm">
+                        <p className="text-slate-600 text-lg leading-relaxed font-medium">
+                          平台按照<span className="text-blue-600 font-bold">“1个旅游可信数据空间 + 1个数智互联运营平台 + 1个旅游大模型技术底座 + N类渠道合作”</span>的体系架构进行建设。该架构采用分层解耦与模块化设计，在确保系统安全、稳定与可信的同时，具备极高的扩展性与灵活性。以可信数据空间为底座，数智互联平台为中枢，大模型技术为智能核心，面向游客、企业与政府输出全方位的智能化服务，全面支撑贵州省旅游产业数字化转型的长期发展需求。
+                        </p>
+                      </div>
+
                       {/* 1+1+1+N Architecture Diagram */}
-                      <div className="relative max-w-6xl mx-auto space-y-4">
+                      <div className="relative max-w-5xl mx-auto">
                         
-                        {/* Layer 1: N类渠道 */}
-                        <div className="relative">
-                          <div className="flex justify-center mb-4">
-                            <div className="bg-blue-600 text-white px-8 py-2 rounded-full font-black shadow-lg z-10">N类渠道</div>
+                        {/* N: 渠道层 - 紧凑化 */}
+                        <div className="relative mb-6">
+                          <div className="flex items-center gap-4 mb-3">
+                            <div className="bg-blue-600 text-white px-4 py-1 rounded-lg font-black text-sm shadow-sm">N</div>
+                            <span className="text-slate-800 font-bold text-lg">N类触点渠道</span>
                           </div>
-                          <div className="bg-white/50 backdrop-blur-sm border-2 border-dashed border-blue-200 rounded-3xl p-6 flex flex-wrap justify-center gap-6 items-center">
+                          <div className="bg-white/50 backdrop-blur-sm border border-slate-200 rounded-2xl p-4 flex flex-wrap justify-center gap-3 items-center">
                             {['黄小西', '一码游贵州', '贵客荟', '贵人家族', '智游黔东南', '同程旅行', '携程', 'HarmonyOS', '...'].map((item, idx) => (
-                              <div key={idx} className="bg-white px-4 py-2 rounded-xl shadow-sm border border-slate-100 text-xs font-bold text-slate-600 hover:scale-105 transition-transform cursor-default">
+                              <div key={idx} className="bg-white px-3 py-1.5 rounded-lg shadow-sm border border-slate-100 text-[11px] font-bold text-slate-600">
                                 {item}
                               </div>
                             ))}
                           </div>
-                          {/* Arrows down to terminals */}
-                          <div className="flex justify-center gap-40 mt-4 h-8">
-                            <div className="w-px h-full bg-gradient-to-b from-blue-300 to-transparent relative">
-                              <div className="absolute -bottom-1 -left-1 text-blue-300"><ChevronRight className="rotate-90" size={12} /></div>
-                              <div className="absolute -top-6 left-2 text-[10px] font-bold text-blue-400 whitespace-nowrap">数据汇聚</div>
-                            </div>
-                            <div className="w-px h-full bg-gradient-to-t from-blue-300 to-transparent relative">
-                              <div className="absolute -top-1 -left-1 text-blue-300"><ChevronRight className="-rotate-90" size={12} /></div>
-                              <div className="absolute -top-6 left-2 text-[10px] font-bold text-blue-400 whitespace-nowrap">数据赋能</div>
-                            </div>
-                          </div>
                         </div>
 
-                        {/* Layer 2: Terminals (C/B/G) */}
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative py-8">
-                          {/* C端: 游客端 */}
-                          <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-[2.5rem] p-8 text-white shadow-xl relative overflow-hidden group hover:-translate-y-2 transition-all duration-500">
-                            <div className="absolute -right-4 -bottom-4 opacity-10 group-hover:scale-110 transition-transform duration-700">
-                              <Smartphone size={160} />
-                            </div>
-                            <div className="relative z-10">
-                              <div className="bg-white/20 w-12 h-12 rounded-2xl flex items-center justify-center mb-6">
-                                <Users size={24} />
-                              </div>
-                              <h4 className="text-2xl font-black mb-4">游客端</h4>
-                              <ul className="space-y-3">
-                                {['行程规划', '智能订购', 'AI伴游'].map(f => (
-                                  <li key={f} className="flex items-center gap-2 text-sm font-medium opacity-90">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-blue-200" /> {f}
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                          </div>
-
-                          {/* B端: 企业端 */}
-                          <div className="bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-[2.5rem] p-8 text-white shadow-xl relative overflow-hidden group hover:-translate-y-2 transition-all duration-500">
-                            <div className="absolute -right-4 -bottom-4 opacity-10 group-hover:scale-110 transition-transform duration-700">
-                              <Store size={160} />
-                            </div>
-                            <div className="relative z-10">
-                              <div className="bg-white/20 w-12 h-12 rounded-2xl flex items-center justify-center mb-6">
-                                <Briefcase size={24} />
-                              </div>
-                              <h4 className="text-2xl font-black mb-4">企业端</h4>
-                              <ul className="space-y-3">
-                                {['智能客服', '智能营销', '智能分析'].map(f => (
-                                  <li key={f} className="flex items-center gap-2 text-sm font-medium opacity-90">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-indigo-200" /> {f}
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                          </div>
-
-                          {/* G端: 政府端 */}
-                          <div className="bg-gradient-to-br from-slate-700 to-slate-800 rounded-[2.5rem] p-8 text-white shadow-xl relative overflow-hidden group hover:-translate-y-2 transition-all duration-500">
-                            <div className="absolute -right-4 -bottom-4 opacity-10 group-hover:scale-110 transition-transform duration-700">
-                              <Landmark size={160} />
-                            </div>
-                            <div className="relative z-10">
-                              <div className="bg-white/20 w-12 h-12 rounded-2xl flex items-center justify-center mb-6">
-                                <LineChart size={24} />
-                              </div>
-                              <h4 className="text-2xl font-black mb-4">政府端</h4>
-                              <ul className="space-y-3">
-                                {['经济分析', '智慧监管', '文旅资源管理'].map(f => (
-                                  <li key={f} className="flex items-center gap-2 text-sm font-medium opacity-90">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-slate-400" /> {f}
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Arrows from Terminals to Model Base */}
-                        <div className="flex justify-center -my-2 h-6">
-                          <div className="flex gap-4 items-center text-blue-300">
-                            <ChevronRight className="rotate-90" size={16} />
-                            <div className="w-px h-full bg-blue-100"></div>
-                            <ChevronRight className="rotate-90" size={16} />
-                          </div>
-                        </div>
-
-                        {/* Layer 3: Model Base */}
-                        <div className="relative py-4">
-                          <div className="bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-600 h-20 rounded-2xl flex items-center justify-center shadow-lg relative overflow-hidden group">
-                            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10"></div>
-                            <div className="absolute inset-0 flex items-center justify-around">
-                              {[...Array(10)].map((_, i) => (
-                                <div key={i} className="w-1 h-full bg-white/5 skew-x-12 animate-pulse" style={{ animationDelay: `${i * 0.2}s` }} />
+                        {/* 第一层：智能终端与模型底座 (Merged Layer) */}
+                        <div className="relative mb-8 group">
+                          <div className="absolute -left-12 top-1/2 -translate-y-1/2 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-black text-sm shadow-lg z-10">1</div>
+                          <div className="bg-white/60 backdrop-blur-md border-2 border-blue-100 rounded-[2.5rem] p-6 shadow-xl shadow-blue-50/50 transition-all hover:border-blue-200">
+                            {/* 三端触点 */}
+                            <div className="grid grid-cols-3 gap-4 mb-6">
+                              {[
+                                { t: '游客端', c: 'from-blue-500 to-blue-600', icon: Users, desc: '行程/订购/伴游' },
+                                { t: '企业端', c: 'from-indigo-500 to-indigo-600', icon: Briefcase, desc: '客服/营销/分析' },
+                                { t: '政府端', c: 'from-slate-700 to-slate-800', icon: LineChart, desc: '分析/监管/资源' }
+                              ].map(item => (
+                                <div key={item.t} className={`bg-gradient-to-br ${item.c} rounded-2xl p-4 text-white shadow-md relative overflow-hidden group/item`}>
+                                  <div className="relative z-10">
+                                    <div className="flex items-center gap-3 mb-1">
+                                      <item.icon size={16} className="opacity-80" />
+                                      <h4 className="font-black text-sm">{item.t}</h4>
+                                    </div>
+                                    <p className="text-[10px] opacity-90 font-medium">{item.desc}</p>
+                                  </div>
+                                </div>
                               ))}
                             </div>
-                            <div className="relative z-10 flex items-center gap-4">
-                              <Cpu className="text-blue-200 animate-spin-slow" size={32} />
-                              <span className="text-white text-2xl font-black tracking-widest">旅游行业大模型底座</span>
-                            </div>
-                          </div>
-                          {/* Data Input/Output Labels */}
-                          <div className="flex justify-around mt-2">
-                            {['文旅资源数据', '产品商品数据', '交易结算数据', '企业经营数据'].map(t => (
-                              <div key={t} className="flex flex-col items-center gap-1">
-                                <div className="text-blue-400"><ChevronRight className="-rotate-90" size={14} /></div>
-                                <span className="text-[10px] font-bold text-slate-400">{t}</span>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
 
-                        {/* Layer 4: Digital Platform */}
-                        <div className="relative py-4">
-                          <div className="bg-white border-2 border-blue-500 rounded-[2rem] p-6 shadow-xl relative overflow-hidden group hover:border-blue-600 transition-colors">
-                            <div className="absolute top-0 right-0 w-32 h-full bg-blue-50 -skew-x-12 translate-x-16 group-hover:translate-x-12 transition-transform duration-700"></div>
-                            <div className="relative z-10 flex flex-col items-center">
-                              <div className="bg-blue-600 text-white px-10 py-3 rounded-2xl font-black text-xl shadow-lg mb-4">数智互联运营平台</div>
-                              <div className="flex justify-center gap-12 text-slate-500 text-sm font-medium">
-                                <span className="flex items-center gap-2"><CheckCircle2 size={16} className="text-blue-500" /> 有效整合旅游要素资源</span>
-                                <span className="flex items-center gap-2"><CheckCircle2 size={16} className="text-blue-500" /> 推动文旅商品本地化交易</span>
-                              </div>
-                            </div>
-                          </div>
-                          {/* Bi-directional arrows */}
-                          <div className="flex justify-center gap-20 my-2">
-                            <div className="flex flex-col items-center text-blue-400">
-                              <span className="text-[10px] font-black mb-1">反哺</span>
-                              <ChevronRight className="rotate-90" size={14} />
-                            </div>
-                            <div className="flex flex-col items-center text-blue-400">
-                              <ChevronRight className="-rotate-90" size={14} />
-                              <span className="text-[10px] font-black mt-1">赋能</span>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Layer 5: Trusted Data Space */}
-                        <div className="relative py-4">
-                          <div className="bg-blue-900 rounded-[2.5rem] p-8 shadow-2xl relative overflow-hidden">
-                            <div className="absolute inset-0 bg-grid-white/[0.05] bg-[size:20px_20px]"></div>
-                            <div className="relative z-10 flex flex-col items-center">
-                              <div className="bg-blue-500 text-white px-10 py-3 rounded-2xl font-black text-xl shadow-lg mb-8">旅游可信数据空间</div>
-                              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full">
-                                {['区块链', '隐私计算', '可信认证', '数据沙箱'].map(t => (
-                                  <div key={t} className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl py-4 flex flex-col items-center justify-center group hover:bg-white/20 transition-all cursor-default">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-blue-400 mb-2 group-hover:scale-150 transition-transform" />
-                                    <span className="text-white text-sm font-bold">{t}</span>
+                            {/* 大模型底座 - 紧接在三端下方 */}
+                            <div className="bg-gradient-to-r from-blue-600 to-indigo-700 p-5 rounded-2xl shadow-lg flex items-center justify-between">
+                              <div className="flex items-center gap-4">
+                                <div className="p-3 bg-white/10 rounded-xl">
+                                  <Cpu className="text-white animate-spin-slow" size={24} />
+                                </div>
+                                <div>
+                                  <h4 className="text-white font-black text-lg">旅游行业大模型底座</h4>
+                                  <div className="flex gap-4 mt-1">
+                                    {['文旅资源', '产品商品', '交易结算', '企业经营'].map(t => (
+                                      <span key={t} className="text-[10px] text-blue-100 font-bold opacity-80">{t}数据</span>
+                                    ))}
                                   </div>
-                                ))}
+                                </div>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <div className="flex -space-x-2">
+                                  {[1,2,3].map(i => <div key={i} className="w-6 h-6 rounded-full border-2 border-blue-500 bg-blue-400/30 backdrop-blur-sm" />)}
+                                </div>
+                                <ChevronRight className="text-white/30" size={24} />
                               </div>
                             </div>
                           </div>
                         </div>
 
-                        {/* Arrows from Data Space to Data Sources */}
-                        <div className="flex justify-center -my-2 h-6">
-                          <div className="flex gap-4 items-center text-blue-300">
-                            <ChevronRight className="rotate-90" size={16} />
-                            <div className="w-px h-full bg-blue-100"></div>
-                            <ChevronRight className="rotate-90" size={16} />
+                        {/* 核心 1+1 区域 - 运营平台与数据空间 */}
+                        <div className="space-y-4 relative">
+                          {/* 装饰性背景 */}
+                          <div className="absolute -inset-4 bg-slate-50/50 rounded-[2.5rem] border border-slate-100 -z-10"></div>
+                          
+                          {/* 2. 运营平台 */}
+                          <div className="relative group">
+                            <div className="absolute -left-12 top-1/2 -translate-y-1/2 w-8 h-8 bg-indigo-600 text-white rounded-full flex items-center justify-center font-black text-sm shadow-lg">1</div>
+                            <div className="bg-white border-2 border-indigo-500 p-5 rounded-2xl shadow-lg flex items-center justify-between group-hover:border-indigo-600 transition-all">
+                              <div className="flex items-center gap-4">
+                                <div className="p-3 bg-indigo-50 rounded-xl">
+                                  <Zap className="text-indigo-600" size={24} />
+                                </div>
+                                <div>
+                                  <h4 className="text-slate-900 font-black text-lg">数智互联运营平台</h4>
+                                  <div className="flex gap-6 mt-1 text-[10px] text-slate-500 font-bold">
+                                    <span className="flex items-center gap-1"><CheckCircle2 size={12} className="text-indigo-500" /> 整合要素资源</span>
+                                    <span className="flex items-center gap-1"><CheckCircle2 size={12} className="text-indigo-500" /> 本地化交易反哺</span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="flex flex-col items-center gap-1 mr-2">
+                                <div className="text-indigo-400 flex flex-col items-center leading-none">
+                                  <ChevronRight className="-rotate-90" size={12} />
+                                  <span className="text-[8px] font-black scale-90">赋能</span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* 3. 可信数据空间 */}
+                          <div className="relative group">
+                            <div className="absolute -left-12 top-1/2 -translate-y-1/2 w-8 h-8 bg-slate-800 text-white rounded-full flex items-center justify-center font-black text-sm shadow-lg">1</div>
+                            <div className="bg-slate-900 p-5 rounded-2xl shadow-xl flex items-center justify-between group-hover:bg-slate-800 transition-all">
+                              <div className="flex items-center gap-4">
+                                <div className="p-3 bg-white/5 rounded-xl border border-white/10">
+                                  <Database className="text-blue-400" size={24} />
+                                </div>
+                                <div>
+                                  <h4 className="text-white font-black text-lg">旅游可信数据空间</h4>
+                                  <div className="flex gap-4 mt-1">
+                                    {['区块链', '隐私计算', '可信认证', '数据沙箱'].map(t => (
+                                      <span key={t} className="text-[10px] text-slate-400 font-bold flex items-center gap-1">
+                                        <div className="w-1 h-1 rounded-full bg-blue-500"></div>{t}
+                                      </span>
+                                    ))}
+                                  </div>
+                                </div>
+                              </div>
+                              <ShieldCheck className="text-white/20" size={24} />
+                            </div>
                           </div>
                         </div>
 
-                        {/* Layer 6: Data Sources */}
-                        <div className="relative pt-8">
-                          <div className="flex justify-center gap-4 items-center mb-6">
-                            <div className="h-px w-20 bg-gradient-to-r from-transparent to-blue-200"></div>
-                            <div className="flex items-center gap-4 text-blue-600">
-                              <span className="text-xs font-black uppercase tracking-widest">数据汇聚</span>
-                              <div className="w-2 h-2 rounded-full bg-blue-600 animate-ping"></div>
-                              <span className="text-xs font-black uppercase tracking-widest">交叉验证</span>
-                            </div>
-                            <div className="h-px w-20 bg-gradient-to-l from-transparent to-blue-200"></div>
+                        {/* 数据源层 - 简化 */}
+                        <div className="mt-8 pt-6 border-t border-slate-100">
+                          <div className="flex justify-center gap-4 items-center mb-4">
+                            <div className="h-px w-12 bg-slate-100"></div>
+                            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">多源数据汇聚与验证</span>
+                            <div className="h-px w-12 bg-slate-100"></div>
                           </div>
-                          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                          <div className="grid grid-cols-4 gap-3">
                             {[
-                              { t: '省级公共数据', icon: Landmark },
-                              { t: '各市州公共数据', icon: Map },
-                              { t: '各类涉旅企业数据', icon: Store },
-                              { t: '互联网平台数据', icon: Network }
+                              { t: '省级公共数据', i: Landmark },
+                              { t: '市州公共数据', i: Map },
+                              { t: '涉旅企业数据', i: Store },
+                              { t: '互联网平台数据', i: Network }
                             ].map((item, idx) => (
-                              <div key={idx} className="bg-white border border-slate-100 rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow text-center flex flex-col items-center gap-2">
-                                <item.icon size={16} className="text-blue-400 opacity-50" />
-                                <div className="text-blue-600 font-bold text-sm">{item.t}</div>
+                              <div key={idx} className="bg-slate-50 border border-slate-100 rounded-xl p-3 text-center flex flex-col items-center gap-1.5 group hover:bg-white hover:shadow-sm transition-all">
+                                <item.i size={14} className="text-slate-400 group-hover:text-blue-500 transition-colors" />
+                                <div className="text-slate-600 font-bold text-[10px]">{item.t}</div>
                               </div>
                             ))}
                           </div>

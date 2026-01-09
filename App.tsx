@@ -64,7 +64,32 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
     <div className="space-y-12 animate-in fade-in duration-500">
       <div className="text-center max-w-3xl mx-auto mb-12">
         <h3 className="text-2xl font-black text-slate-800 mb-4">贵州旅游行程服务总入口架构</h3>
-        <p className="text-slate-500 text-sm">意图识别 · 任务调度 · 决策支持</p>
+        <p className="text-slate-500 text-sm mb-8">意图识别 · 任务调度 · 决策支持</p>
+        
+        {/* Ring Info Buttons */}
+        <div className="flex flex-wrap justify-center gap-4">
+          <button 
+            onClick={() => onRingClick?.('org')}
+            className="px-6 py-2.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 rounded-full border border-indigo-200 font-bold text-sm transition-all active:scale-95 flex items-center gap-2 shadow-sm"
+          >
+            <div className="w-2 h-2 rounded-full bg-indigo-500"></div>
+            组织端智能体
+          </button>
+          <button 
+            onClick={() => onRingClick?.('role')}
+            className="px-6 py-2.5 bg-violet-50 hover:bg-violet-100 text-violet-700 rounded-full border border-violet-200 font-bold text-sm transition-all active:scale-95 flex items-center gap-2 shadow-sm"
+          >
+            <div className="w-2 h-2 rounded-full bg-violet-500"></div>
+            角色智能体
+          </button>
+          <button 
+            onClick={() => onRingClick?.('func')}
+            className="px-6 py-2.5 bg-teal-50 hover:bg-teal-100 text-teal-700 rounded-full border border-teal-200 font-bold text-sm transition-all active:scale-95 flex items-center gap-2 shadow-sm"
+          >
+            <div className="w-2 h-2 rounded-full bg-teal-500"></div>
+            功能智能体
+          </button>
+        </div>
       </div>
 
       <div className="relative flex flex-col items-center overflow-hidden">
@@ -100,11 +125,9 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
 
             {/* B. 第一层环：企业端智能体 */}
             <div 
-              onClick={() => onRingClick?.('org')}
-              title="点击查看企业端智能体规划"
-              className="absolute top-24 left-1/2 w-[800px] h-[160px] border-2 hover:border-4 border-indigo-100 bg-indigo-50/30 rounded-[50%] [transform:translateX(-50%)_rotateX(60deg)] [transform-style:preserve-3d] z-40 flex items-center justify-center cursor-pointer hover:bg-indigo-100/40 transition-all group/ring"
+              className="absolute top-24 left-1/2 w-[800px] h-[160px] border-2 border-indigo-100 bg-indigo-50/10 rounded-[50%] [transform:translateX(-50%)_rotateX(60deg)] [transform-style:preserve-3d] z-40 flex items-center justify-center transition-all group/ring"
             >
-              <RingLabel label="企业端智能体" color="indigo" className="-top-20 [transform:translateX(-50%)_rotateX(-60deg)]" onClick={() => onRingClick?.('org')} />
+              <RingLabel label="企业端智能体" color="indigo" className="-top-20 [transform:translateX(-50%)_rotateX(-60deg)]" />
               
               <div className="absolute top-0 left-0 w-full h-full animate-spin-slow [transform-style:preserve-3d]" style={{ animationDuration: '60s' }}>
                 <MatrixNode label="旅行社智能体" angle={0} color="blue" onClick={(e: any) => { e.stopPropagation(); setCurrentDesign('agency'); setIsExpanded(true); }} />
@@ -118,11 +141,9 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
 
             {/* C. 第二层环：角色智能体 */}
             <div 
-              onClick={() => onRingClick?.('role')}
-              title="点击查看角色智能体规划"
-              className="absolute top-56 left-1/2 w-[900px] h-[200px] border-2 hover:border-4 border-slate-300 bg-slate-50/50 rounded-[50%] [transform:translateX(-50%)_rotateX(60deg)] [transform-style:preserve-3d] z-30 shadow-lg cursor-pointer hover:bg-slate-100/60 transition-all group/ring"
+              className="absolute top-56 left-1/2 w-[900px] h-[200px] border-2 border-slate-200 bg-slate-50/20 rounded-[50%] [transform:translateX(-50%)_rotateX(60deg)] [transform-style:preserve-3d] z-30 shadow-sm transition-all group/ring"
             >
-              <RingLabel label="角色智能体" color="violet" className="top-1/2 [transform:translate(-50%,-50%)_rotateX(-60deg)]" onClick={() => onRingClick?.('role')} />
+              <RingLabel label="角色智能体" color="violet" className="top-1/2 [transform:translate(-50%,-50%)_rotateX(-60deg)]" />
               
               <div className="absolute top-0 left-0 w-full h-full animate-spin-slow [transform-style:preserve-3d]" style={{ animationDuration: '80s', animationDirection: 'reverse' }}>
                 <MatrixNode label="销售" angle={0} color="violet" />
@@ -140,11 +161,9 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
 
             {/* D. 第三层环：功能智能体 */}
             <div 
-              onClick={() => onRingClick?.('func')}
-              title="点击查看功能智能体规划"
-              className="absolute top-96 left-1/2 w-[1000px] h-[240px] border-2 hover:border-4 border-teal-200 bg-teal-50/40 rounded-[50%] [transform:translateX(-50%)_rotateX(60deg)] [transform-style:preserve-3d] z-20 shadow-lg cursor-pointer hover:bg-teal-100/40 transition-all group/ring"
+              className="absolute top-96 left-1/2 w-[1000px] h-[240px] border-2 border-teal-100 bg-teal-50/10 rounded-[50%] [transform:translateX(-50%)_rotateX(60deg)] [transform-style:preserve-3d] z-20 shadow-sm transition-all group/ring"
             >
-              <RingLabel label="功能智能体" color="teal" className="top-1/2 [transform:translate(-50%,-50%)_rotateX(-60deg)]" onClick={() => onRingClick?.('func')} />
+              <RingLabel label="功能智能体" color="teal" className="top-1/2 [transform:translate(-50%,-50%)_rotateX(-60deg)]" />
               
               <div className="absolute top-0 left-0 w-full h-full animate-spin-slow [transform-style:preserve-3d]" style={{ animationDuration: '100s' }}>
                 <MatrixNode label="房态查询" angle={0} color="teal" />
@@ -462,13 +481,7 @@ const RingLabel = ({ label, color, className, onClick }: { label: string, color:
 
   return (
     <div 
-      onClick={(e) => {
-        if (onClick) {
-          e.stopPropagation();
-          onClick();
-        }
-      }}
-      className={`absolute left-1/2 px-4 py-1.5 rounded-full text-xs font-black tracking-wide ${styles[color]} z-50 cursor-pointer hover:scale-105 transition-transform active:scale-95 ${className}`}
+      className={`absolute left-1/2 px-4 py-1.5 rounded-full text-xs font-black tracking-wide ${styles[color]} z-50 transition-transform ${className}`}
     >
       {label}
     </div>

@@ -6,7 +6,7 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, '.', '');
     return {
-      base: '/2026-/',
+      base: '/2026NeiBu/',
       server: {
         port: 3000,
         host: '0.0.0.0',

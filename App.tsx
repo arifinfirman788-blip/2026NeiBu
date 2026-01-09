@@ -497,8 +497,8 @@ const MatrixNode = ({ label, angle, color = 'slate', isCore, onClick }: any) => 
 
   return (
     <div 
-      className={`absolute px-3 py-1.5 text-xs font-bold shadow-sm whitespace-nowrap transition-all hover:scale-110 cursor-pointer origin-bottom border
-        ${isCore ? 'bg-indigo-600 text-white z-50 scale-110 shadow-indigo-200 rounded-lg' : specificStyle}
+      className={`absolute px-3 py-1.5 text-xs font-bold shadow-sm whitespace-nowrap transition-all hover:scale-110 cursor-pointer origin-bottom border z-[60]
+        ${isCore ? 'bg-indigo-600 text-white scale-110 shadow-indigo-200 rounded-lg' : specificStyle}
       `}
       style={{ 
         left: `${x}%`, 
@@ -509,10 +509,8 @@ const MatrixNode = ({ label, angle, color = 'slate', isCore, onClick }: any) => 
         transform: 'translate(-50%, -100%) rotateX(-60deg)' 
       }}
       onClick={(e) => {
-        if (onClick) {
-          e.stopPropagation();
-          onClick();
-        }
+        e.stopPropagation();
+        if (onClick) onClick(e);
       }}
     >
       {label}

@@ -11,16 +11,11 @@ import GuideApp from './components/guide/GuideApp';
 import MineView from './components/MineView';
 import { ServiceItem, UserRole, Order } from './types';
 import { 
-  Smartphone, LayoutDashboard, ArrowRight, Database, 
-  ShieldCheck, Network, Cpu, Layers, Bot, 
-  Flag, Briefcase, Landmark, Globe, Zap, 
-  Mountain, Map, LineChart, ClipboardList, 
-  ChevronRight, Users, CheckCircle2, ShieldAlert,
-  Utensils, BedDouble, Truck, Search, Box, 
-  FileSearch, MessageSquare, Star, Award, MapPin, 
-  Headphones, Quote, Sparkles, Terminal, Heart,
-  BarChart3, LifeBuoy, Share2, Store, Download, 
-  FileText, Target, TrendingUp, Megaphone
+  Smartphone, LayoutDashboard, ArrowRight, Layers, Bot, 
+  Briefcase, Landmark, Zap, Mountain, Map, LineChart, 
+  CheckCircle2, ShieldAlert, Utensils, BedDouble, 
+  FileSearch, MessageSquare, Sparkles, Heart,
+  LifeBuoy, Store, Megaphone, X, ChevronRight, Cpu, Users, Database, ShieldCheck, Box, Network, ClipboardList
 } from 'lucide-react';
 
 import hxxQrCode from './image/huangxiaoxi.png';
@@ -32,12 +27,6 @@ import jiudianImg from './image/jiudian.png';
 import canyinImg from './image/canyin.jpg';
 import dapingImg from './image/daping.png';
 import huangxiaoxiImg1 from './image/huangxiaoxi1.png';
-
-const SCENIC_PRODUCT_URL = (import.meta as any).env?.VITE_SCENIC_PRODUCT_URL || 'http://localhost:5173'
-const SOJOURN_AGENT_URL = (import.meta as any).env?.VITE_SOJOURN_AGENT_URL || 'http://localhost:5175'
-const AGENCY_AGENT_URL = (import.meta as any).env?.VITE_AGENCY_AGENT_URL || 'http://localhost:5176'
-const HOTEL_PRODUCT_URL = (import.meta as any).env?.VITE_HOTEL_PRODUCT_URL || 'http://localhost:5178'
-const DINING_PRODUCT_URL = (import.meta as any).env?.VITE_DINING_PRODUCT_URL || 'http://localhost:5179'
 
 // --- MOBILE APP WRAPPER ---
 const MobileWrapper: React.FC<{ children: React.ReactNode; onBack: () => void }> = ({ children, onBack }) => (
@@ -55,114 +44,416 @@ const MobileWrapper: React.FC<{ children: React.ReactNode; onBack: () => void }>
 );
 
 // --- COMPONENT: Matrix Diagram (3D Matrix View) ---
-const MatrixDiagram = ({ onNavigate, onAgentClick }: { 
+const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterApp, orders, handleUpdateOrder, isMenuOpen, setIsMenuOpen, onRingClick }: { 
   onNavigate?: (tab: 'matrix' | 'scenario' | 'design', client?: 'xiaoxi' | 'agency' | 'spot' | 'living' | 'gov' | 'hotel' | 'dining') => void,
-  onAgentClick?: (agent: 'gov' | 'spot' | 'agency' | 'living' | 'hotel' | 'dining') => void
-}) => (
-  <div className="space-y-12 animate-in fade-in duration-500">
-    <div className="text-center max-w-3xl mx-auto mb-12">
-      <h3 className="text-2xl font-black text-slate-800 mb-4">贵州旅游行程服务总入口架构</h3>
-      <p className="text-slate-500 text-sm">意图识别 · 任务调度 · 决策支持</p>
-    </div>
+  onAgentClick?: (agent: 'gov' | 'spot' | 'agency' | 'living' | 'hotel' | 'dining') => void,
+  setActiveQrCode: (code: string | null) => void,
+  handleEnterApp: (role: UserRole) => void,
+  orders: Order[],
+  handleUpdateOrder: (order: Order) => void,
+  isMenuOpen: boolean,
+  setIsMenuOpen: (open: boolean) => void,
+  onRingClick?: (ring: 'org' | 'role' | 'func') => void
+}) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [currentDesign, setCurrentDesign] = useState<'xiaoxi' | 'agency' | 'spot' | 'living' | 'gov' | 'hotel' | 'dining'>('xiaoxi');
 
-    <div className="relative flex flex-col items-center">
-      {/* 0. 顶部触点层 */}
-      <div className="flex gap-4 mb-16">
-        <div className="flex items-center gap-2 bg-gradient-to-r from-blue-50 to-indigo-50 px-4 py-2 rounded-full border border-indigo-100 shadow-sm">
-          <span className="text-xs font-black text-indigo-400">服务触点</span>
-          <div className="h-4 w-px bg-indigo-200"></div>
-          {['微信', '抖音', 'HarmonyOS', 'App', '各嵌入涉旅平台'].map(t => (
-            <span key={t} className="text-xs font-bold text-slate-600 px-2">{t}</span>
-          ))}
-        </div>
+  const openExternal = (url: string) => window.open(url, '_blank', 'noopener,noreferrer');
+
+  return (
+    <div className="space-y-12 animate-in fade-in duration-500">
+      <div className="text-center max-w-3xl mx-auto mb-12">
+        <h3 className="text-2xl font-black text-slate-800 mb-4">贵州旅游行程服务总入口架构</h3>
+        <p className="text-slate-500 text-sm">意图识别 · 任务调度 · 决策支持</p>
       </div>
 
-      {/* 1. 核心圆柱体架构 (CSS 3D效果) */}
-      <div className="relative w-full max-w-5xl h-[600px] perspective-[2000px]">
-        
-        {/* A. 顶层：总入口核心 */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 z-50 w-64 text-center cursor-pointer" onClick={() => {
-            onNavigate?.('design', 'xiaoxi');
-        }}>
-          <div className="bg-gradient-to-b from-blue-500 to-indigo-600 p-6 rounded-2xl shadow-xl shadow-indigo-200 border-b-4 border-indigo-800 transform hover:scale-105 transition-transform duration-500">
-            <img src={huangxiaoxiImg1} alt="黄小西" className="w-16 h-16 mx-auto mb-2 rounded-full border-2 border-white/50" />
-            <h4 className="text-white font-black text-lg">黄小西</h4>
-            <p className="text-indigo-100 text-[10px] mt-1">全省旅游行程服务总入口</p>
-          </div>
-          {/* 连接线 */}
-          <div className="absolute top-full left-1/2 -translate-x-1/2 w-0.5 h-10 bg-gradient-to-b from-indigo-500 to-transparent"></div>
-        </div>
-
-        {/* B. 第一层环：企业端智能体 */}
-        <div className="absolute top-24 left-1/2 w-[800px] h-[160px] border-2 border-indigo-100 bg-indigo-50/30 rounded-[50%] [transform:translateX(-50%)_rotateX(60deg)] [transform-style:preserve-3d] z-40 flex items-center justify-center">
-          <RingLabel label="企业端智能体" color="indigo" className="-top-20 [transform:translateX(-50%)_rotateX(-60deg)]" />
-          
-          {/* 环绕节点 */}
-          <div className="absolute top-0 left-0 w-full h-full animate-spin-slow [transform-style:preserve-3d]" style={{ animationDuration: '60s' }}>
-            <MatrixNode label="旅行社智能体" angle={0} color="blue" onClick={() => onAgentClick?.('agency')} />
-            <MatrixNode label="酒店智能体" angle={60} color="blue" onClick={() => onAgentClick?.('hotel')} />
-            <MatrixNode label="景区智能体" angle={120} color="blue" onClick={() => onAgentClick?.('spot')} />
-            <MatrixNode label="政府智能体" angle={180} color="blue" onClick={() => onAgentClick?.('gov')} />
-            <MatrixNode label="出行智能体" angle={240} color="gray" />
-            <MatrixNode label="餐饮智能体" angle={300} color="blue" onClick={() => onAgentClick?.('dining')} />
+      <div className="relative flex flex-col items-center overflow-hidden">
+        {/* 0. 顶部触点层 */}
+        <div className={`flex gap-4 mb-16 transition-all duration-700 ${isExpanded ? '-translate-x-[400px]' : ''}`}>
+          <div className="flex items-center gap-2 bg-gradient-to-r from-blue-50 to-indigo-50 px-4 py-2 rounded-full border border-indigo-100 shadow-sm">
+            <span className="text-xs font-black text-indigo-400">服务触点</span>
+            <div className="h-4 w-px bg-indigo-200"></div>
+            {['微信', '抖音', 'HarmonyOS', 'App', '各嵌入涉旅平台'].map(t => (
+              <span key={t} className="text-xs font-bold text-slate-600 px-2">{t}</span>
+            ))}
           </div>
         </div>
 
-        {/* C. 第二层环：角色智能体 */}
-        <div className="absolute top-56 left-1/2 w-[900px] h-[200px] border-2 border-slate-300 bg-slate-50/50 rounded-[50%] [transform:translateX(-50%)_rotateX(60deg)] [transform-style:preserve-3d] z-30 shadow-lg">
-          <RingLabel label="角色智能体" color="violet" className="top-1/2 [transform:translate(-50%,-50%)_rotateX(-60deg)]" />
-          
-          {/* 环绕节点 - 分布在圆环轨迹上 */}
-          <div className="absolute top-0 left-0 w-full h-full animate-spin-slow [transform-style:preserve-3d]" style={{ animationDuration: '80s', animationDirection: 'reverse' }}>
-            {/* 右侧组 (0度附近) */}
-            <MatrixNode label="销售" angle={0} color="violet" />
-            <MatrixNode label="导游" angle={30} color="violet" />
-            <MatrixNode label="线路设计师" angle={330} color="violet" />
-
-            {/* 前侧组 (90度附近) */}
-            <MatrixNode label="行业专家" angle={90} color="violet" />
-            <MatrixNode label="气象助手" angle={110} color="violet" />
+        <div className="w-full flex justify-center relative min-h-[800px]" onClick={() => isExpanded && setIsExpanded(false)}>
+          {/* Architecture Diagram Container */}
+          <div className={`relative w-full max-w-5xl h-[600px] perspective-[2000px] transition-all duration-700 ease-in-out ${isExpanded ? 'scale-[0.6] -translate-x-[50%] -translate-y-10' : ''}`} onClick={(e) => e.stopPropagation()}>
             
-            {/* 左侧组 (180度附近) */}
-            <MatrixNode label="客房管家" angle={180} color="violet" />
-            <MatrixNode label="餐饮部" angle={210} color="violet" />
-            <MatrixNode label="前台接待" angle={150} color="violet" />
+            {/* A. 顶层：总入口核心 */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 z-50 w-64 text-center cursor-pointer" onClick={(e) => {
+                e.stopPropagation();
+                setCurrentDesign('xiaoxi');
+                setIsExpanded(!isExpanded);
+            }}>
+              <div className="bg-gradient-to-b from-blue-500 to-indigo-600 p-6 rounded-2xl shadow-xl shadow-indigo-200 border-b-4 border-indigo-800 transform hover:scale-105 transition-transform duration-500">
+                <img src={huangxiaoxiImg1} alt="黄小西" className="w-16 h-16 mx-auto mb-2 rounded-full border-2 border-white/50" />
+                <h4 className="text-white font-black text-lg">黄小西</h4>
+                <p className="text-indigo-100 text-[10px] mt-1">全省旅游行程服务总入口</p>
+              </div>
+              {/* 连接线 */}
+              <div className="absolute top-full left-1/2 -translate-x-1/2 w-0.5 h-10 bg-gradient-to-b from-indigo-500 to-transparent"></div>
+            </div>
 
-            {/* 后侧组 (270度附近) */}
-            <MatrixNode label="执法监督" angle={270} color="violet" />
-            <MatrixNode label="运行监测" angle={290} color="violet" />
+            {/* B. 第一层环：企业端智能体 */}
+            <div 
+              onClick={() => onRingClick?.('org')}
+              title="点击查看企业端智能体规划"
+              className="absolute top-24 left-1/2 w-[800px] h-[160px] border-2 hover:border-4 border-indigo-100 bg-indigo-50/30 rounded-[50%] [transform:translateX(-50%)_rotateX(60deg)] [transform-style:preserve-3d] z-40 flex items-center justify-center cursor-pointer hover:bg-indigo-100/40 transition-all group/ring"
+            >
+              <RingLabel label="企业端智能体" color="indigo" className="-top-20 [transform:translateX(-50%)_rotateX(-60deg)]" onClick={() => onRingClick?.('org')} />
+              
+              <div className="absolute top-0 left-0 w-full h-full animate-spin-slow [transform-style:preserve-3d]" style={{ animationDuration: '60s' }}>
+                <MatrixNode label="旅行社智能体" angle={0} color="blue" onClick={(e: any) => { e.stopPropagation(); setCurrentDesign('agency'); setIsExpanded(true); }} />
+                <MatrixNode label="酒店智能体" angle={60} color="blue" onClick={(e: any) => { e.stopPropagation(); setCurrentDesign('hotel'); setIsExpanded(true); }} />
+                <MatrixNode label="景区智能体" angle={120} color="blue" onClick={(e: any) => { e.stopPropagation(); setCurrentDesign('spot'); setIsExpanded(true); }} />
+                <MatrixNode label="政府智能体" angle={180} color="gov" onClick={(e: any) => { e.stopPropagation(); setCurrentDesign('gov'); setIsExpanded(true); }} />
+                <MatrixNode label="出行智能体" angle={240} color="gray" />
+                <MatrixNode label="餐饮智能体" angle={300} color="blue" onClick={(e: any) => { e.stopPropagation(); setCurrentDesign('dining'); setIsExpanded(true); }} />
+              </div>
+            </div>
+
+            {/* C. 第二层环：角色智能体 */}
+            <div 
+              onClick={() => onRingClick?.('role')}
+              title="点击查看角色智能体规划"
+              className="absolute top-56 left-1/2 w-[900px] h-[200px] border-2 hover:border-4 border-slate-300 bg-slate-50/50 rounded-[50%] [transform:translateX(-50%)_rotateX(60deg)] [transform-style:preserve-3d] z-30 shadow-lg cursor-pointer hover:bg-slate-100/60 transition-all group/ring"
+            >
+              <RingLabel label="角色智能体" color="violet" className="top-1/2 [transform:translate(-50%,-50%)_rotateX(-60deg)]" onClick={() => onRingClick?.('role')} />
+              
+              <div className="absolute top-0 left-0 w-full h-full animate-spin-slow [transform-style:preserve-3d]" style={{ animationDuration: '80s', animationDirection: 'reverse' }}>
+                <MatrixNode label="销售" angle={0} color="violet" />
+                <MatrixNode label="导游" angle={30} color="violet" />
+                <MatrixNode label="线路设计师" angle={330} color="violet" />
+                <MatrixNode label="行业专家" angle={90} color="violet" />
+                <MatrixNode label="气象助手" angle={110} color="violet" />
+                <MatrixNode label="客房管家" angle={180} color="violet" />
+                <MatrixNode label="餐饮部" angle={210} color="violet" />
+                <MatrixNode label="前台接待" angle={150} color="violet" />
+                <MatrixNode label="执法监督" angle={270} color="violet" />
+                <MatrixNode label="运行监测" angle={290} color="violet" />
+              </div>
+            </div>
+
+            {/* D. 第三层环：功能智能体 */}
+            <div 
+              onClick={() => onRingClick?.('func')}
+              title="点击查看功能智能体规划"
+              className="absolute top-96 left-1/2 w-[1000px] h-[240px] border-2 hover:border-4 border-teal-200 bg-teal-50/40 rounded-[50%] [transform:translateX(-50%)_rotateX(60deg)] [transform-style:preserve-3d] z-20 shadow-lg cursor-pointer hover:bg-teal-100/40 transition-all group/ring"
+            >
+              <RingLabel label="功能智能体" color="teal" className="top-1/2 [transform:translate(-50%,-50%)_rotateX(-60deg)]" onClick={() => onRingClick?.('func')} />
+              
+              <div className="absolute top-0 left-0 w-full h-full animate-spin-slow [transform-style:preserve-3d]" style={{ animationDuration: '100s' }}>
+                <MatrixNode label="房态查询" angle={0} color="teal" />
+                <MatrixNode label="预约送餐" angle={30} color="teal" />
+                <MatrixNode label="天气动态调整" angle={60} color="teal" />
+                <MatrixNode label="智能行程规划" angle={90} color="teal" />
+                <MatrixNode label="智能订购" angle={120} color="teal" />
+                <MatrixNode label="政策问答" angle={150} color="teal" />
+                <MatrixNode label="智能导览" angle={180} color="teal" />
+                <MatrixNode label="客流预测" angle={210} color="teal" />
+                <MatrixNode label="活动智能推荐" angle={240} color="teal" />
+                <MatrixNode label="游记生成" angle={270} color="teal" />
+                <MatrixNode label="旅居智能体" angle={300} color="teal" onClick={(e: any) => { e.stopPropagation(); setCurrentDesign('xiaoxi'); setIsExpanded(true); }} />
+                <MatrixNode label="紧急救援" angle={330} color="teal" />
+              </div>
+            </div>
+          </div>
+
+          {/* Right Side Content Panel */}
+          <div 
+            className={`absolute right-0 top-0 w-[800px] h-full transition-all duration-700 ease-in-out ${isExpanded ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-12 pointer-events-none'}`}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="bg-white/90 backdrop-blur-xl rounded-[3rem] p-10 border border-white shadow-2xl h-[750px] overflow-y-auto no-scrollbar relative">
+               <button 
+                  onClick={() => setIsExpanded(false)}
+                  className="absolute top-8 right-8 w-10 h-10 bg-slate-100 hover:bg-slate-200 text-slate-500 rounded-full flex items-center justify-center transition-colors z-50"
+               >
+                  <ArrowRight size={20} />
+               </button>
+
+               <div className="grid grid-cols-1 xl:grid-cols-2 gap-10 animate-in slide-in-from-right-12 duration-700">
+                  {/* Text Content */}
+                  <div className="space-y-8">
+                     {currentDesign === 'xiaoxi' && (
+                        <>
+                           <h3 className="text-4xl font-black text-teal-600 flex items-center gap-3"><Bot size={40}/> 多彩黄小西 · C端伴游</h3>
+                           <p className="text-slate-500 text-lg leading-relaxed">作为官方数字分身，提供 24h 1对1 服务。重点建立信任感与不确定性消除。同时面向数字游民与长期旅居人群，提供虚实结合的社区交互、灵活办公空间预约及在地化深度文化体验。</p>
+                           <ul className="space-y-4">
+                              <DesignFeature icon={LayoutDashboard} t="省级旅游行程服务总入口" d="服务资源聚合，一站式获取全省景区、酒店及交通等官方服务。" />
+                              <DesignFeature icon={LifeBuoy} t="24小时行程陪伴" d="智能AI全天候在线，提供实时问答、行程动态调整与应急响应。" />
+                              <DesignFeature icon={Heart} t="旅居管家" d="面向长期旅居人群，提供租房对接、社群融入及本地生活指引。" />
+                           </ul>
+                           <div className="flex flex-col gap-6 pt-4">
+                              <button onClick={() => handleEnterApp('tourist')} className="w-full bg-teal-600 hover:bg-teal-700 text-white px-8 py-5 rounded-2xl font-black shadow-xl transition-all active:scale-95 text-lg">
+                                 进入游客端演示
+                              </button>
+                              <div className="flex items-center gap-4 p-4 bg-white rounded-2xl border border-slate-100 shadow-sm cursor-pointer hover:shadow-md transition-all" onClick={() => setActiveQrCode(hxxQrCode)}>
+                                 <img src={hxxQrCode} alt="扫码体验" className="w-24 h-24 rounded-xl object-cover" />
+                                 <div>
+                                    <div className="font-bold text-slate-800 text-lg">扫码体验</div>
+                                    <div className="text-xs text-slate-400 mt-1">支持 iOS / Android / 微信小程序</div>
+                                 </div>
+                              </div>
+                           </div>
+                        </>
+                     )}
+
+                     {currentDesign === 'spot' && (
+                        <>
+                           <h3 className="text-4xl font-black text-emerald-600 flex items-center gap-3"><Mountain size={40}/> 景区智能体 · 产品设计</h3>
+                           <p className="text-slate-500 text-lg leading-relaxed">面向游客的景区内实时服务入口，聚合门票、导览、攻略与现场问答，强调拟物化体验与“点到即得”的高频服务闭环。</p>
+                           <div className="grid grid-cols-1 gap-4">
+                              <div className="p-6 bg-emerald-50/60 rounded-3xl border border-emerald-100">
+                                 <div className="font-bold text-slate-800 mb-2">核心能力</div>
+                                 <div className="text-sm text-slate-500">景区问答、地图导览、票务/厕所/交通快捷入口。</div>
+                              </div>
+                              <div className="p-6 bg-slate-50 rounded-3xl border border-slate-100">
+                                 <div className="font-bold text-slate-800 mb-2">对接路径</div>
+                                 <div className="text-sm text-slate-500">与产品端方案联动，支持能力分发到各触点渠道。</div>
+                              </div>
+                           </div>
+                           <div className="flex flex-col gap-6 pt-4">
+                              <div className="flex items-center gap-4 p-4 bg-white rounded-2xl border border-slate-100 shadow-sm cursor-pointer hover:shadow-md transition-all" onClick={() => setActiveQrCode(jingquQrCode)}>
+                                 <img src={jingquQrCode} alt="扫码体验" className="w-24 h-24 rounded-xl object-cover" />
+                                 <div>
+                                    <div className="font-bold text-slate-800 text-lg">扫码体验景区服务</div>
+                                    <div className="text-xs text-slate-400 mt-1">获取景区实时导览与智能问答</div>
+                                 </div>
+                              </div>
+                           </div>
+                        </>
+                     )}
+
+                     {currentDesign === 'agency' && (
+                        <>
+                           <h3 className="text-4xl font-black text-indigo-600 flex items-center gap-3"><Briefcase size={40}/> 旅行社智能体 · B端工作台</h3>
+                           <p className="text-slate-500 text-lg leading-relaxed">专为旅行社打造的 AI 协同办公系统，涵盖线路设计、销售转化、导游调度等核心业务流程，通过大模型能力显著提升人效。</p>
+                           
+                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                              <div className="p-6 bg-indigo-50/50 border border-indigo-100 rounded-3xl">
+                                 <LayoutDashboard className="text-indigo-600 mb-4" size={24} />
+                                 <h4 className="font-bold text-slate-800 mb-1 text-lg">B端 · 旅行社PC</h4>
+                                 <p className="text-xs text-slate-400 mb-3 uppercase tracking-wider">Agency Management</p>
+                                 <ul className="space-y-2">
+                                    <li className="text-xs text-slate-500 flex items-center gap-2">
+                                       <CheckCircle2 size={14} className="text-indigo-500" /> 供应商资源组织与上架管控
+                                    </li>
+                                    <li className="text-xs text-slate-500 flex items-center gap-2">
+                                       <CheckCircle2 size={14} className="text-indigo-500" /> 补贴一键申报 & 财务审计
+                                    </li>
+                                 </ul>
+                              </div>
+                              <div className="p-6 bg-orange-50/50 border border-orange-100 rounded-3xl">
+                                 <Briefcase className="text-orange-600 mb-4" size={24} />
+                                 <h4 className="font-bold text-slate-800 mb-1 text-lg">员工端 · 导游APP</h4>
+                                 <p className="text-xs text-slate-400 mb-3 uppercase tracking-wider">Guide & Staff App</p>
+                                 <ul className="space-y-2">
+                                    <li className="text-xs text-slate-500 flex items-center gap-2">
+                                       <CheckCircle2 size={14} className="text-orange-500" /> 个人分销二维码实时生成
+                                    </li>
+                                    <li className="text-xs text-slate-500 flex items-center gap-2">
+                                       <CheckCircle2 size={14} className="text-orange-500" /> 带团佣金分成实时入账
+                                    </li>
+                                 </ul>
+                              </div>
+                           </div>
+
+                           <div className="flex flex-col gap-6 pt-4">
+                              <button onClick={() => handleEnterApp('agency')} className="w-full bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-5 rounded-2xl font-black shadow-xl transition-all active:scale-95 text-lg">
+                                 进入旅行社端演示
+                              </button>
+                           </div>
+                        </>
+                     )}
+
+                     {currentDesign === 'hotel' && (
+                        <>
+                           <h3 className="text-4xl font-black text-violet-600 flex items-center gap-3"><BedDouble size={40}/> 酒店智能体 · 智慧住宿</h3>
+                           <p className="text-slate-500 text-lg leading-relaxed">提供从预订、入住到离店的全流程智慧服务，实现无接触式服务闭环与高效运营。</p>
+                           <ul className="space-y-4">
+                              <DesignFeature icon={BedDouble} t="无接触服务" d="VR看房、在线选房、自助入住/退房。" />
+                              <DesignFeature icon={LayoutDashboard} t="多租户管理" d="连锁集团统一后台，门店数据隔离与个性化配置。" />
+                              <DesignFeature icon={MessageSquare} t="客房管家" d="即时通讯、多语言翻译、快速响应服务需求。" />
+                           </ul>
+                           <div className="flex flex-col gap-6 pt-4">
+                              <div className="flex items-center gap-4 p-4 bg-white rounded-2xl border border-slate-100 shadow-sm cursor-pointer hover:shadow-md transition-all" onClick={() => setActiveQrCode(tiyanmaQrCode)}>
+                                 <img src={tiyanmaQrCode} alt="扫码体验" className="w-24 h-24 rounded-xl object-cover" />
+                                 <div>
+                                    <div className="font-bold text-slate-800 text-lg">扫码体验</div>
+                                    <div className="text-xs text-slate-400 mt-1">获取酒店智能体全流程体验</div>
+                                 </div>
+                              </div>
+                           </div>
+                        </>
+                     )}
+
+                     {currentDesign === 'dining' && (
+                        <>
+                           <h3 className="text-4xl font-black text-orange-600 flex items-center gap-3"><Utensils size={40}/> 餐饮智能体 · 智慧美食</h3>
+                           <p className="text-slate-500 text-lg leading-relaxed">连接食客与餐厅，提供智能点餐、排队取号及个性化口味推荐，提升用餐体验与餐厅运营效率。</p>
+                           <ul className="space-y-4">
+                             <DesignFeature icon={Utensils} t="智能点餐" d="口味画像推荐、多人协作点餐、语音下单。" />
+                             <DesignFeature icon={LayoutDashboard} t="餐厅管理" d="桌台状态实时同步、排队取号、到号预警。" />
+                             <DesignFeature icon={Zap} t="呼叫服务" d="一键触发加水、催菜等原子化服务，直达服务员。" />
+                          </ul>
+                           <div className="flex flex-col gap-6 pt-4">
+                              <div className="p-6 bg-slate-50 rounded-2xl border border-slate-100 text-center">
+                                 <div className="text-slate-400 font-bold">敬请期待</div>
+                              </div>
+                           </div>
+                        </>
+                     )}
+
+                     {currentDesign === 'gov' && (
+                        <>
+                           <h3 className="text-4xl font-black text-blue-600 flex items-center gap-3"><Landmark size={40}/> 政府智能体 · 监管决策中枢</h3>
+                           <p className="text-slate-500 text-lg leading-relaxed">贵州文旅智慧驾驶舱，为政府提供全省旅游数据实时监测、异常波动预警及产业分析建议。</p>
+                           <div className="bg-slate-50 rounded-3xl p-6 border border-slate-100">
+                              <h4 className="font-bold text-slate-800 mb-4 flex items-center gap-2">2026年规划核心功能</h4>
+                              <ul className="grid grid-cols-1 gap-4">
+                                 <DesignFeature icon={LineChart} t="智能报告 & 分析" d="工作报告助手、看板数据智能解读、自然语言问数。" />
+                                 <DesignFeature icon={Megaphone} t="宣推 & 产业助手" d="客源深度分析、旅游产业补链强链建议。" />
+                                 <DesignFeature icon={ShieldAlert} t="监管助手" d="数据异动实时提示、异常波动原因分析。" />
+                                 <DesignFeature icon={FileSearch} t="智能问策" d="政策解读、地方性法规撰写辅助、资源规划建议。" />
+                              </ul>
+                           </div>
+                           <button onClick={() => openExternal('https://glsw-provincescreen-test.aihuangxiaoxi.com/admin/#/index')} className="w-full bg-blue-600 hover:bg-blue-700 text-white px-8 py-5 rounded-2xl font-black shadow-xl flex items-center justify-center gap-3 group">
+                              进入政府智能体 <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                           </button>
+                        </>
+                     )}
+                  </div>
+
+                  {/* Preview Content */}
+                  <div className="relative flex items-center justify-center min-h-[500px]">
+                     <div className="absolute inset-0 bg-indigo-500/5 rounded-[4rem] blur-3xl"></div>
+                     
+                     {currentDesign === 'xiaoxi' && (
+                        <div className="relative w-full h-full flex flex-col items-center justify-center scale-90">
+                           <div className="bg-white border-[12px] border-slate-900 rounded-[3.5rem] w-[320px] h-[650px] shadow-2xl overflow-hidden relative isolate">
+                              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-6 bg-slate-900 rounded-b-xl z-50"></div>
+                              <div className="flex flex-col h-full bg-slate-50 relative overflow-hidden rounded-[2.5rem] transform-gpu">
+                                 <Header userRole="tourist" onToggleRole={() => {}} className="rounded-t-[2.5rem]" />
+                                 <main className="flex-1 overflow-y-auto no-scrollbar px-2 relative">
+                                    <div className="scale-95 origin-top w-full">
+                                       <HomeView onOpenExperts={() => {}} />
+                                    </div>
+                                 </main>
+                                 {isMenuOpen && (
+                                    <div className="absolute inset-0 z-40 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200" onClick={() => setIsMenuOpen(false)}>
+                                       <div className="absolute bottom-24 left-4 flex items-end gap-4" onClick={e => e.stopPropagation()}>
+                                          <img src={huangxiaoxiImg1} className="w-24 h-auto drop-shadow-2xl animate-in slide-in-from-bottom-10 duration-500" alt="Huang Xiaoxi" />
+                                          <div className="flex flex-col gap-2 mb-4">
+                                             <div className="bg-white p-3 rounded-xl shadow-lg text-xs font-bold text-slate-800">创建新行程</div>
+                                             <div className="bg-white p-3 rounded-xl shadow-lg text-xs font-bold text-slate-800">加入行程</div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 )}
+                                 <BottomNav activeTab={0} onTabChange={() => {}} isMenuOpen={isMenuOpen} onToggleMenu={() => setIsMenuOpen(!isMenuOpen)} />
+                              </div>
+                           </div>
+                        </div>
+                     )}
+
+                     {currentDesign === 'spot' && (
+                        <div className="flex flex-col gap-6 items-center justify-center scale-90">
+                           <div className="flex gap-4">
+                              <div className="h-[450px] w-[210px] rounded-[2rem] overflow-hidden shadow-2xl border-[6px] border-slate-800 bg-white relative">
+                                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-16 h-4 bg-slate-800 rounded-b-xl z-10"></div>
+                                 <img src={jingquImg1} alt="景区首页" className="w-full h-full object-cover" />
+                              </div>
+                              <div className="h-[450px] w-[210px] rounded-[2rem] overflow-hidden shadow-2xl border-[6px] border-slate-800 bg-white relative">
+                                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-16 h-4 bg-slate-800 rounded-b-xl z-10"></div>
+                                 <img src={jingquImg2} alt="景区详情" className="w-full h-full object-cover" />
+                              </div>
+                           </div>
+                           <div className="bg-white/50 backdrop-blur px-4 py-2 rounded-full border border-white text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                              Scenic Area Interface
+                           </div>
+                        </div>
+                     )}
+
+                     {currentDesign === 'hotel' && (
+                        <div className="flex flex-col items-center justify-center scale-90">
+                           <div className="h-[550px] w-[260px] rounded-[2.5rem] overflow-hidden shadow-2xl border-[8px] border-slate-800 bg-white relative">
+                              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-5 bg-slate-800 rounded-b-xl z-10"></div>
+                              <img src={jiudianImg} alt="酒店智能体" className="w-full h-full object-cover" />
+                           </div>
+                           <div className="mt-6 bg-white/50 backdrop-blur px-4 py-2 rounded-full border border-white text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                              Hotel Smart Stay
+                           </div>
+                        </div>
+                     )}
+
+                     {currentDesign === 'dining' && (
+                        <div className="flex flex-col items-center justify-center scale-90">
+                           <div className="h-[550px] w-[260px] rounded-[2.5rem] overflow-hidden shadow-2xl border-[8px] border-slate-800 bg-white relative">
+                              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-5 bg-slate-800 rounded-b-xl z-10"></div>
+                              <img src={canyinImg} alt="餐饮智能体" className="w-full h-full object-cover" />
+                           </div>
+                           <div className="mt-6 bg-white/50 backdrop-blur px-4 py-2 rounded-full border border-white text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                              Dining Experience
+                           </div>
+                        </div>
+                     )}
+
+                     {currentDesign === 'gov' && (
+                        <div className="w-full bg-white rounded-xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col scale-90 origin-center">
+                           <div className="w-full h-7 bg-slate-100 border-b border-slate-200 flex items-center px-3 gap-1.5 shrink-0">
+                              <div className="w-2.5 h-2.5 rounded-full bg-red-400"></div>
+                              <div className="w-2.5 h-2.5 rounded-full bg-yellow-400"></div>
+                              <div className="w-2.5 h-2.5 rounded-full bg-green-400"></div>
+                              <div className="ml-4 px-3 py-0.5 bg-white rounded-md text-[10px] text-slate-400 border border-slate-200 flex-1 text-center font-mono">gov.travel-guizhou.com</div>
+                           </div>
+                           <div className="w-full bg-slate-50 p-2">
+                              <img src={dapingImg} alt="政府智能体" className="w-full h-auto rounded-lg shadow-inner" />
+                           </div>
+                        </div>
+                     )}
+
+                     {currentDesign === 'agency' && (
+                        <div className="relative w-full h-[600px] scale-[0.85] origin-center">
+                           {/* PC端展示 - 提高虚拟分辨率至 1200px+ 以触发桌面端布局并避免变形 */}
+                           <div className="absolute top-0 left-0 w-full h-[520px] bg-white rounded-xl shadow-2xl border border-slate-200 overflow-hidden z-10">
+                              <div className="w-full h-7 bg-slate-100 border-b border-slate-200 flex items-center px-3 gap-1.5 shrink-0">
+                                 <div className="w-2.5 h-2.5 rounded-full bg-red-400"></div>
+                                 <div className="w-2.5 h-2.5 rounded-full bg-yellow-400"></div>
+                                 <div className="w-2.5 h-2.5 rounded-full bg-green-400"></div>
+                                 <div className="ml-4 px-3 py-0.5 bg-white rounded-md text-[10px] text-slate-400 border border-slate-200 flex-1 text-center font-mono">agency.travel-guizhou.com</div>
+                              </div>
+                              <div className="w-full h-full bg-slate-50 overflow-hidden">
+                                 <div className="w-[300%] h-[300%] origin-top-left transform scale-[0.3333] overflow-y-auto no-scrollbar">
+                                    <AgencyApp onBack={() => {}} orders={orders} onUpdateOrder={handleUpdateOrder} />
+                                 </div>
+                              </div>
+                           </div>
+                           {/* 移动端展示 - 调整位置和缩放，使其作为浮动元素，减少对PC端主视觉的遮挡 */}
+                           <div className="absolute -bottom-10 -right-6 w-[220px] h-[450px] bg-white rounded-[2.5rem] border-[6px] border-slate-800 shadow-2xl overflow-hidden z-20 transform scale-[0.85]">
+                              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-16 h-4 bg-slate-800 rounded-b-xl z-50"></div>
+                              <div className="w-[390px] h-[844px] origin-top-left transform scale-[0.56] bg-white">
+                                 <GuideApp orders={orders} onUpdateOrder={handleUpdateOrder} />
+                              </div>
+                           </div>
+                        </div>
+                     )}
+                  </div>
+               </div>
+            </div>
           </div>
         </div>
-
-        {/* D. 第三层环：功能智能体 */}
-        <div className="absolute top-96 left-1/2 w-[1000px] h-[240px] border-2 border-teal-200 bg-teal-50/40 rounded-[50%] [transform:translateX(-50%)_rotateX(60deg)] [transform-style:preserve-3d] z-20 shadow-lg">
-          <RingLabel label="功能智能体" color="teal" className="top-1/2 [transform:translate(-50%,-50%)_rotateX(-60deg)]" />
-          
-          {/* 环绕节点 - 分布在圆环轨迹上 */}
-          <div className="absolute top-0 left-0 w-full h-full animate-spin-slow [transform-style:preserve-3d]" style={{ animationDuration: '100s' }}>
-            {/* 均匀分布的节点 */}
-            <MatrixNode label="房态查询" angle={0} color="teal" />
-            <MatrixNode label="预约送餐" angle={30} color="teal" />
-            <MatrixNode label="天气动态调整" angle={60} color="teal" />
-            <MatrixNode label="智能行程规划" angle={90} color="teal" />
-            <MatrixNode label="智能订购" angle={120} color="teal" />
-            <MatrixNode label="政策问答" angle={150} color="teal" />
-            <MatrixNode label="智能导览" angle={180} color="teal" />
-            <MatrixNode label="客流预测" angle={210} color="teal" />
-            <MatrixNode label="活动智能推荐" angle={240} color="teal" />
-            <MatrixNode label="游记生成" angle={270} color="teal" />
-            <MatrixNode label="旅居智能体" angle={300} color="teal" onClick={() => onAgentClick?.('living')} />
-            <MatrixNode label="紧急救援" angle={330} color="teal" />
-          </div>
-        </div>
-
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 // --- Helper: Ring Label ---
-const RingLabel = ({ label, color, className }: { label: string, color: 'indigo' | 'violet' | 'teal', className?: string }) => {
+const RingLabel = ({ label, color, className, onClick }: { label: string, color: 'indigo' | 'violet' | 'teal', className?: string, onClick?: () => void }) => {
   const styles = {
     indigo: 'bg-indigo-600 text-white shadow-lg shadow-indigo-200 ring-4 ring-indigo-50',
     violet: 'bg-violet-600 text-white shadow-lg shadow-violet-200 ring-4 ring-violet-50',
@@ -170,7 +461,15 @@ const RingLabel = ({ label, color, className }: { label: string, color: 'indigo'
   };
 
   return (
-    <div className={`absolute left-1/2 px-4 py-1.5 rounded-full text-xs font-black tracking-wide ${styles[color]} z-50 ${className}`}>
+    <div 
+      onClick={(e) => {
+        if (onClick) {
+          e.stopPropagation();
+          onClick();
+        }
+      }}
+      className={`absolute left-1/2 px-4 py-1.5 rounded-full text-xs font-black tracking-wide ${styles[color]} z-50 cursor-pointer hover:scale-105 transition-transform active:scale-95 ${className}`}
+    >
       {label}
     </div>
   );
@@ -189,6 +488,7 @@ const MatrixNode = ({ label, angle, color = 'slate', isCore, onClick }: any) => 
     blue: 'bg-white text-blue-600 border-blue-200 hover:border-blue-300 hover:bg-blue-50 rounded-lg',
     teal: 'bg-teal-50 text-teal-700 border-teal-200 hover:border-teal-300 hover:bg-teal-100 rounded-md border-dashed',
     indigo: 'bg-white text-indigo-600 border-indigo-200 hover:border-indigo-300 hover:bg-indigo-50 rounded-lg',
+    gov: 'bg-gradient-to-r from-rose-500 to-fuchsia-600 text-white border-rose-200 hover:brightness-105 rounded-lg shadow-lg shadow-rose-200 ring-2 ring-white/70 font-black',
     violet: 'bg-violet-50 text-violet-700 border-violet-200 hover:border-violet-300 hover:bg-violet-100 rounded-full',
     gray: 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed grayscale opacity-80 rounded-lg'
   };
@@ -208,7 +508,12 @@ const MatrixNode = ({ label, angle, color = 'slate', isCore, onClick }: any) => 
         // rotateX(-60deg) 抵消父容器的旋转，使元素直立
         transform: 'translate(-50%, -100%) rotateX(-60deg)' 
       }}
-      onClick={onClick}
+      onClick={(e) => {
+        if (onClick) {
+          e.stopPropagation();
+          onClick();
+        }
+      }}
     >
       {label}
     </div>
@@ -224,6 +529,28 @@ const App: React.FC = () => {
   const [selectedAgent, setSelectedAgent] = useState<ServiceItem | null>(null);
   const [activeQrCode, setActiveQrCode] = useState<string | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [activeRingInfo, setActiveRingInfo] = useState<any>(null);
+
+  const ringData = {
+    org: {
+      title: "组织端智能体 (Organization Agents)",
+      summary: "产业垂直领域的数字化决策大脑",
+      desc: "针对旅行社、酒店、景区、政府等文旅核心主体，提供定制化的管理与决策支持。通过整合多维行业数据，实现从经营分析、资源调度到产业监管的全面智能化，是文旅产业实现数智化转期的核心底座。",
+      color: "indigo"
+    },
+    role: {
+      title: "角色智能体 (Role Agents)",
+      summary: "行业从业者的全能数字伙伴",
+      desc: "深度嵌入具体职业场景（如导游、线路设计师、前台、销售等），为其提供针对性的作业辅助。具备专业领域知识，能够自动化处理重复性劳动，如解说词生成、行程优化、客户话术辅助等，显著提升一线人员的人效与服务质量。",
+      color: "violet"
+    },
+    func: {
+      title: "功能智能体 (Function Agents)",
+      summary: "细粒度任务的自动化执行专家",
+      desc: "专注于文旅场景中的原子化功能模块（如房态查询、车辆调度、天气动态调整、客流预测等）。通过高精度的 API 调用与算法模型，为上层应用提供即插即用的 AI 技能插件，确保服务链条中的每一个细节都能实现智能响应。",
+      color: "teal"
+    }
+  };
 
   // Shared Order State for Cross-Role Demo
   const [orders, setOrders] = useState<Order[]>([]);
@@ -236,6 +563,7 @@ const App: React.FC = () => {
     setOrders(prev => prev.map(o => o.id === updatedOrder.id ? updatedOrder : o));
   };
 
+  const [activeModule, setActiveModule] = useState<'architecture' | 'data' | 'platform' | 'agent'>('agent');
   const [planningTab, setPlanningTab] = useState<'matrix' | 'scenario' | 'design'>('matrix');
   const [designTab, setDesignTab] = useState<'xiaoxi' | 'agency' | 'spot' | 'living' | 'gov' | 'hotel' | 'dining'>('agency');
 
@@ -249,44 +577,447 @@ const App: React.FC = () => {
   const openExternal = (url: string) => window.open(url, '_blank', 'noopener,noreferrer')
   const copyText = async (text: string) => {
     try {
-      await navigator.clipboard.writeText(text)
-      alert('已复制到剪贴板')
-    } catch {
-      const ta = document.createElement('textarea')
-      ta.value = text
-      document.body.appendChild(ta)
-      ta.select()
-      document.execCommand('copy')
-      document.body.removeChild(ta)
-      alert('已复制到剪贴板')
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(text);
+        alert('已复制到剪贴板');
+      } else {
+        // Fallback for non-secure contexts or unsupported browsers
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+        textArea.style.position = "fixed";
+        textArea.style.left = "-9999px";
+        textArea.style.top = "0";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        try {
+          document.execCommand('copy');
+          alert('已复制到剪贴板');
+        } catch (err) {
+          console.error('Fallback copy failed', err);
+        }
+        document.body.removeChild(textArea);
+      }
+    } catch (err) {
+      console.error('Failed to copy: ', err);
     }
   }
 
   if (currentView === 'portal') {
     return (
         <div className="min-h-screen bg-slate-50 text-slate-800 font-sans overflow-y-auto no-scrollbar pb-20 selection:bg-indigo-100 selection:text-indigo-700">
+            {/* Top Level Module Navigation */}
+            <div className="sticky top-0 z-[100] bg-white/80 backdrop-blur-md border-b border-slate-200">
+               <div className="max-w-[1400px] mx-auto px-8 flex justify-between items-center h-20">
+                  <div className="flex items-center gap-3">
+                     <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-200">
+                        <Bot size={24} className="text-white" />
+                     </div>
+                     <span className="text-xl font-black tracking-tight text-slate-900">多彩黄小西 <span className="text-indigo-600 text-sm ml-1 font-bold">2026 战略规划</span></span>
+                  </div>
+                  <div className="flex items-center gap-1 bg-slate-100/50 p-1.5 rounded-2xl border border-slate-200">
+                     {[
+                        { id: 'architecture', label: '总体架构', icon: Layers },
+                        { id: 'data', label: '汇数据', icon: Database },
+                        { id: 'platform', label: '建平台', icon: Network },
+                        { id: 'agent', label: '智能体', icon: Cpu },
+                     ].map((m) => (
+                        <button
+                           key={m.id}
+                           onClick={() => setActiveModule(m.id as any)}
+                           className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-bold transition-all ${
+                              activeModule === m.id 
+                              ? 'bg-white text-indigo-600 shadow-sm border border-slate-200/50' 
+                              : 'text-slate-500 hover:text-slate-700 hover:bg-white/50'
+                           }`}
+                        >
+                           <m.icon size={16} />
+                           {m.label}
+                        </button>
+                     ))}
+                  </div>
+                  <div className="flex items-center gap-4">
+                     <button className="text-xs font-bold text-slate-400 hover:text-slate-600 transition-colors">内部汇报专版</button>
+                     <button className="bg-slate-900 text-white px-5 py-2 rounded-xl text-xs font-bold hover:bg-slate-800 transition-all shadow-lg shadow-slate-200 active:scale-95">
+                        开始演示
+                     </button>
+                  </div>
+               </div>
+            </div>
+
             <div className="max-w-[1400px] mx-auto px-8 py-12">
-                {/* Header Section */}
-                <header className="flex flex-col lg:flex-row justify-between items-center mb-16 gap-10">
-                   <div className="flex items-center gap-8">
-                      <div className="w-20 h-20 bg-indigo-600 rounded-[2.5rem] flex items-center justify-center shadow-2xl shadow-indigo-200 border-4 border-white">
-                         <Bot size={44} className="text-white" />
+                {activeModule === 'architecture' && (
+                   <div className="animate-in fade-in duration-700">
+                      <div className="flex items-center gap-6 mb-12">
+                         <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-200">
+                            <Layers size={32} className="text-white" />
+                         </div>
+                         <div>
+                            <h2 className="text-4xl font-black text-slate-900">总体架构</h2>
+                            <p className="text-slate-500 mt-1 uppercase tracking-widest text-xs font-bold">Overall System Architecture</p>
+                         </div>
                       </div>
-                      <div>
-                         <h1 className="text-5xl font-black tracking-tighter text-slate-900">
-                            多彩黄小西 <span className="text-indigo-600 italic text-3xl font-black">Strategic 2026</span>
-                         </h1>
-                         <p className="text-slate-400 font-mono text-xs mt-3 uppercase tracking-[0.4em] flex items-center gap-2">
-                            <Sparkles size={14} className="text-indigo-500" /> 贵州文旅多智能体协作网络规划
-                         </p>
+
+                      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-12">
+                        {[
+                          { title: '数据汇聚层', desc: '可信数据空间，实现全域涉旅要素的互联互通。', icon: Database, color: 'emerald', features: ['可信数据空间', '数据管理平台'] },
+                          { title: '平台支撑层', desc: '能力中台与服务汇聚，提供标准化的底座支撑。', icon: Network, color: 'amber', features: ['统一服务汇聚', '智能能力中台'] },
+                          { title: '智能体网络', desc: '多智能体协作网络，驱动业务流程自动化。', icon: Bot, color: 'indigo', features: ['MASN 协作网络', '多角色 Agent'] },
+                          { title: '多端应用层', desc: '面向 C/B/G 三端的全触点服务交付。', icon: Smartphone, color: 'blue', features: ['全触点覆盖', '多终端适配'] }
+                        ].map((item, i) => (
+                          <div key={i} className="group bg-white rounded-2xl p-6 border border-slate-200 shadow-sm transition-all hover:-translate-y-1 hover:shadow-md">
+                            <div className="relative z-10">
+                              <div className={`w-10 h-10 rounded-xl bg-${item.color}-100 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
+                                <item.icon className={`text-${item.color}-600`} size={20} />
+                              </div>
+                              <h4 className="text-base font-bold text-slate-900 mb-2">{item.title}</h4>
+                              <p className="text-slate-500 text-[11px] leading-relaxed mb-4">{item.desc}</p>
+                              <div className="flex flex-wrap gap-1.5 pt-4 border-t border-slate-50">
+                                {item.features.map((f, idx) => (
+                                  <span key={idx} className={`px-2 py-0.5 bg-${item.color}-50 text-${item.color}-600 rounded-full text-[9px] font-bold`}>
+                                    {f}
+                                  </span>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      <div className="bg-white rounded-[2.5rem] p-10 border border-slate-200 shadow-lg relative overflow-hidden">
+                        <div className="max-w-4xl mx-auto">
+                          <div className="text-center mb-12">
+                            <h3 className="text-2xl font-black text-slate-900 mb-3">“124” 数字化战略蓝图</h3>
+                            <p className="text-slate-500 text-xs">构建以数据为驱动、以智能体为核心的贵州文旅新生态</p>
+                          </div>
+
+                          <div className="space-y-3">
+                            <div className="flex items-stretch gap-3 h-28">
+                              <div className="flex-1 bg-blue-50/50 rounded-2xl border border-blue-100/50 p-4 flex flex-col justify-center items-center text-center">
+                                <div className="text-blue-600 font-black text-xl mb-1">C 端</div>
+                                <div className="text-slate-500 text-[9px] font-bold">游客全流程陪伴</div>
+                              </div>
+                              <div className="flex-1 bg-indigo-50/50 rounded-2xl border border-indigo-100/50 p-4 flex flex-col justify-center items-center text-center">
+                                <div className="text-indigo-600 font-black text-xl mb-1">B 端</div>
+                                <div className="text-slate-500 text-[9px] font-bold">企业数字化赋能</div>
+                              </div>
+                              <div className="flex-1 bg-violet-50/50 rounded-2xl border border-violet-100/50 p-4 flex flex-col justify-center items-center text-center">
+                                <div className="text-violet-600 font-black text-xl mb-1">G 端</div>
+                                <div className="text-slate-500 text-[9px] font-bold">政府治理与决策</div>
+                              </div>
+                            </div>
+
+                            <div className="bg-slate-50 rounded-2xl p-6 flex flex-col items-center justify-center text-center border border-slate-200">
+                              <div className="text-indigo-600 font-black text-xl mb-1 tracking-tight">多智能体协作网络 (MASN)</div>
+                              <div className="text-slate-500 text-[11px] font-medium max-w-lg">
+                                基于意图识别与任务调度，实现不同角色智能体之间的无缝协同，将复杂旅游需求拆解并执行。
+                              </div>
+                            </div>
+
+                            <div className="flex items-stretch gap-3 h-20">
+                              <div className="flex-1 bg-slate-50 rounded-2xl border border-slate-200 p-4 flex flex-col justify-center items-center text-center">
+                                <div className="text-slate-800 font-black text-lg mb-0.5">贵州旅游数字互联平台</div>
+                                <div className="text-slate-400 text-[8px] font-bold uppercase tracking-widest">Platform Base</div>
+                              </div>
+                              <div className="flex-1 bg-emerald-50/50 rounded-2xl border border-emerald-100/50 p-4 flex flex-col justify-center items-center text-center">
+                                <div className="text-emerald-600 font-black text-lg mb-0.5">可信数据空间</div>
+                                <div className="text-slate-400 text-[8px] font-bold uppercase tracking-widest">Data Foundation</div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="mt-10 flex justify-center gap-10">
+                            {['服务流', '数据流', '指令流'].map((label, idx) => (
+                              <div key={label} className="flex items-center gap-2">
+                                <div className={`w-1.5 h-1.5 rounded-full bg-${idx === 0 ? 'blue' : idx === 1 ? 'emerald' : 'indigo'}-500`} />
+                                <span className="text-[10px] font-bold text-slate-400">{label}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
                       </div>
                    </div>
-                   <div className="flex bg-white border border-slate-200 p-2 rounded-[2rem] shadow-lg">
-                      <NavBtn active={planningTab === 'matrix'} onClick={() => setPlanningTab('matrix')} icon={Layers} label="产品矩阵" />
-                      <NavBtn active={planningTab === 'scenario'} onClick={() => setPlanningTab('scenario')} icon={Map} label="场景规划" />
-                      <NavBtn active={planningTab === 'design'} onClick={() => setPlanningTab('design')} icon={Smartphone} label="产品端设计" />
+                )}
+
+                {activeModule === 'data' && (
+                   <div className="animate-in fade-in duration-700 space-y-10">
+                      <div className="flex items-center gap-6 mb-10">
+                         <div className="w-16 h-16 bg-emerald-600 rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-200">
+                            <Database size={32} className="text-white" />
+                         </div>
+                         <div>
+                            <h2 className="text-4xl font-black text-slate-900">汇数据</h2>
+                            <p className="text-slate-500 mt-1 uppercase tracking-widest text-xs font-bold">Data Aggregation & Integration</p>
+                         </div>
+                      </div>
+
+                      <div className="max-w-4xl mb-12">
+                        <p className="text-slate-600 text-lg font-medium leading-relaxed">
+                          汇数据是贵州文旅数字化的根基。通过建设“可信数据空间”实现全域涉旅要素的互联互通，建设“数据管理平台”实现数据资产的高效治理与安全保障，共同构建起支撑上层智能应用的文旅数据全生命周期管理体系。
+                        </p>
+                      </div>
+
+                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                        {/* 左侧：可信数据空间 */}
+                        <div className="space-y-8">
+                          <div className="space-y-4">
+                            <div className="flex items-center gap-3 px-2">
+                              <div className="w-2 h-8 bg-blue-600 rounded-full" />
+                              <h3 className="text-2xl font-black text-slate-800">旅游可信数据空间</h3>
+                            </div>
+                            <div className="bg-blue-600 rounded-3xl p-8 text-white shadow-xl shadow-blue-100 relative overflow-hidden group">
+                              <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-bl-[4rem] -mr-12 -mt-12 transition-transform group-hover:scale-110" />
+                              <p className="text-sm leading-relaxed relative z-10 font-medium opacity-95">
+                                旅游可信数据空间是贵州省旅游数据流通的基础设施，是基于标准化互信协议构建的分布式可信数据协作环境。参与者通过主权身份认证，在共识规则下实现数据使用权与控制的分离交换。所有操作记录均通过分布式账本存证，确保数据来源可溯、数据权限可控、流通过程可信。一是帮助省旅游数字互联平台更好地实现数据汇集，二是帮助更好地实现贵州旅游数据要素的价值实现。
+                              </p>
+                            </div>
+                          </div>
+                          
+                          <div className="space-y-4">
+                            <div className="text-xs font-bold text-slate-400 uppercase tracking-widest px-2">核心组成节点</div>
+                            {[
+                              {
+                                title: '连接器',
+                                desc: '用数方和供数方的应用端，用于数据高效流转。',
+                                url: 'https://trust-connector1.aihuangxiaoxi.com',
+                                credentials: '账号: test001 / 密码: Energy@123',
+                                icon: Network,
+                                color: 'blue',
+                                features: ['跨云互联', '数据沙箱']
+                              },
+                              {
+                                title: '业务节点',
+                                desc: '管理连接器；数据空间市场门户及后台管理。',
+                                url: 'https://trust-business-node.aihuangxiaoxi.com',
+                                credentials: '账号: test001 / 密码: Energy@123',
+                                icon: LayoutDashboard,
+                                color: 'indigo',
+                                features: ['节点管理', '门户配置']
+                              },
+                              {
+                                title: '功能节点',
+                                desc: '全域路由能力，审核连接器身份与业务节点。',
+                                url: 'https://trust-functional-node.aihuangxiaoxi.com',
+                                credentials: '账号: test002 / 密码: Energy@123',
+                                icon: ShieldCheck,
+                                color: 'emerald',
+                                features: ['身份核验', '共识协作']
+                              }
+                            ].map((node, i) => (
+                              <div key={i} className="group bg-white rounded-2xl p-6 border border-slate-200 shadow-sm transition-all hover:-translate-y-1 hover:shadow-md">
+                                <div className="flex items-start gap-5">
+                                  <div className={`w-12 h-12 rounded-xl bg-${node.color}-100 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform`}>
+                                    <node.icon className={`text-${node.color}-600`} size={24} />
+                                  </div>
+                                  <div className="flex-grow min-w-0">
+                                    <div className="flex items-center justify-between gap-2 mb-2">
+                                      <h4 className="text-lg font-bold text-slate-900 truncate">{node.title}</h4>
+                                      <div className="flex gap-1.5">
+                                        {node.features.map((f, idx) => (
+                                          <span key={idx} className={`px-2.5 py-0.5 bg-${node.color}-50 text-${node.color}-600 rounded-full text-[10px] font-bold`}>
+                                            {f}
+                                          </span>
+                                        ))}
+                                      </div>
+                                    </div>
+                                    <p className="text-slate-500 text-xs leading-relaxed mb-6">{node.desc}</p>
+                                    
+                                    <div className="flex items-center justify-between gap-4 pt-5 border-t border-slate-50">
+                                      <div className="px-3 py-1.5 bg-slate-50 rounded-lg text-[10px] font-mono text-slate-500 truncate">{node.credentials}</div>
+                                      <div className="flex items-center gap-2">
+                                        <button 
+                                          onClick={() => copyText(node.credentials.replace('账号: ', '').replace(' / 密码: ', ' ')) }
+                                          className="w-9 h-9 flex items-center justify-center text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-xl transition-all"
+                                          title="复制账号密码"
+                                        >
+                                          <ClipboardList size={16} />
+                                        </button>
+                                        <button 
+                                          onClick={() => openExternal(node.url)}
+                                          className="bg-indigo-600 text-white px-5 py-2 rounded-xl text-xs font-bold hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-100"
+                                        >
+                                          进入
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* 右侧：数据管理平台 */}
+                        <div className="space-y-8">
+                          <div className="space-y-4">
+                            <div className="flex items-center gap-3 px-2">
+                              <div className="w-2 h-8 bg-amber-600 rounded-full" />
+                              <h3 className="text-2xl font-black text-slate-800">数据管理平台</h3>
+                            </div>
+                            <div className="bg-slate-900 rounded-3xl p-8 text-slate-300 shadow-xl shadow-slate-200 relative overflow-hidden group">
+                              <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-bl-[4rem] -mr-12 -mt-12 transition-transform group-hover:scale-110" />
+                              <p className="text-sm leading-relaxed relative z-10 font-medium opacity-90">
+                                数据管理平台是实现旅游数据全生命周期管理的核心枢纽。通过建立统一的数据资产目录、标准化的数据治理流程以及全方位的安全审计机制，将原始数据转化为高质量的文旅数字要素，为上层应用提供坚实的数据底座支撑。
+                              </p>
+                            </div>
+                          </div>
+
+                          <div className="space-y-4">
+                            <div className="text-xs font-bold text-slate-400 uppercase tracking-widest px-2">功能治理模块</div>
+                            <div className="grid grid-cols-1 gap-4">
+                              {[
+                                {
+                                  title: '数据资产管理',
+                                  desc: '建立全省涉旅数据资产地图，实现资产挂接与编目。',
+                                  icon: Layers,
+                                  color: 'amber',
+                                  features: ['资产地图', '资源挂载']
+                                },
+                                {
+                                  title: '数据治理中台',
+                                  desc: '标准化清洗加工，原始数据转化为文旅数字要素。',
+                                  icon: Zap,
+                                  color: 'orange',
+                                  features: ['质量监控', '自动化清洗']
+                                },
+                                {
+                                  title: '安全审计中心',
+                                  desc: '全生命周期安全防护，确保流通权责清晰、操作留痕。',
+                                  icon: ShieldAlert,
+                                  color: 'red',
+                                  features: ['全链路存证', '权限管控']
+                                }
+                              ].map((item, i) => (
+                                <div key={i} className="group bg-white rounded-2xl p-6 border border-slate-200 shadow-sm transition-all hover:translate-x-2 hover:shadow-md">
+                                  <div className="flex items-center gap-5">
+                                    <div className={`w-12 h-12 rounded-xl bg-${item.color}-100 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform`}>
+                                      <item.icon className={`text-${item.color}-600`} size={24} />
+                                    </div>
+                                    <div className="flex-grow min-w-0">
+                                      <div className="flex items-center justify-between gap-2 mb-2">
+                                        <h4 className="text-lg font-bold text-slate-900 truncate">{item.title}</h4>
+                                        <div className="flex gap-1.5">
+                                          {item.features.map((f, idx) => (
+                                            <span key={idx} className={`px-2.5 py-0.5 bg-${item.color}-50 text-${item.color}-600 rounded-full text-[10px] font-bold`}>
+                                              {f}
+                                            </span>
+                                          ))}
+                                        </div>
+                                      </div>
+                                      <p className="text-slate-500 text-xs leading-relaxed">{item.desc}</p>
+                                    </div>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                    </div>
-                </header>
+                )}
+
+                {activeModule === 'platform' && (
+                   <div className="animate-in fade-in duration-700">
+                      <div className="flex items-center gap-6 mb-12">
+                         <div className="w-16 h-16 bg-amber-600 rounded-2xl flex items-center justify-center shadow-lg shadow-amber-200">
+                            <Network size={32} className="text-white" />
+                         </div>
+                         <div>
+                            <h2 className="text-4xl font-black text-slate-900">建平台</h2>
+                            <p className="text-slate-500 mt-1 uppercase tracking-widest text-xs font-bold">Platform Construction & Services</p>
+                         </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+                        {[
+                          {
+                            title: '统一服务汇聚',
+                            desc: '聚合全省涉旅公共服务、商业服务与政务服务，实现服务的一站式接入与标准化输出。',
+                            icon: Layers,
+                            color: 'amber',
+                            features: ['API 统一管理', '服务目录标准化', '动态资源调度']
+                          },
+                          {
+                            title: '智能能力中台',
+                            desc: '沉淀 AI 语音、图像识别、意图理解等核心算法，为各级智能体提供底层能力支撑。',
+                            icon: Zap,
+                            color: 'orange',
+                            features: ['AI 算法共享', '大数据分析引擎', '多语种翻译能力']
+                          },
+                          {
+                            title: '全域运行监测',
+                            desc: '实时感知旅游市场脉搏，通过数据可视化实现精准调度与应急指挥。',
+                            icon: LineChart,
+                            color: 'yellow',
+                            features: ['实时流量看板', '舆情预警系统', '应急指挥调度']
+                          }
+                        ].map((item, i) => (
+                          <div key={i} className="group bg-white rounded-2xl p-6 border border-slate-200 shadow-sm transition-all hover:-translate-y-1 hover:shadow-md">
+                            <div className="relative z-10">
+                              <div className={`w-12 h-12 rounded-xl bg-${item.color}-100 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform`}>
+                                <item.icon className={`text-${item.color}-600`} size={24} />
+                              </div>
+                              <h3 className="text-lg font-bold text-slate-900 mb-3">{item.title}</h3>
+                              <p className="text-slate-500 text-[11px] leading-relaxed mb-6">{item.desc}</p>
+                              
+                              <div className="flex flex-wrap gap-2 pt-5 border-t border-slate-100">
+                                {item.features.map((f, idx) => (
+                                  <span key={idx} className={`px-2 py-0.5 bg-${item.color}-50 text-${item.color}-600 rounded-full text-[9px] font-bold flex items-center gap-1`}>
+                                    <CheckCircle2 size={10} />
+                                    {f}
+                                  </span>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      <div className="bg-white border border-slate-200 rounded-[2rem] p-10 overflow-hidden relative shadow-sm">
+                        <div className="absolute top-0 right-0 w-1/2 h-full opacity-[0.03] pointer-events-none">
+                          <img src={dapingImg} alt="大屏" className="w-full h-full object-cover" />
+                        </div>
+                        <div className="relative z-10 max-w-2xl">
+                          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-indigo-50 rounded-full border border-indigo-100 mb-6">
+                            <Sparkles size={14} className="text-indigo-600" />
+                            <span className="text-[10px] font-bold text-indigo-600 uppercase tracking-widest">核心价值</span>
+                          </div>
+                          <h3 className="text-2xl font-black text-slate-900 mb-5 leading-tight">贵州旅游数字互联平台：打造“一云一网一平台”升级版</h3>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-slate-500 text-xs leading-relaxed">
+                            <p>通过构建统一的数字底座，打破数据孤岛，实现文旅资源要素的数字化建模与全生命周期管理。</p>
+                            <p>赋能各级政府部门实现精准监管，助力涉旅企业数字化转型，为游客提供更加智能化、个性化的旅行服务体验。</p>
+                          </div>
+                          <div className="flex gap-4 mt-8">
+                            <button className="bg-indigo-600 text-white px-6 py-3 rounded-xl font-bold text-xs hover:bg-indigo-700 transition-all active:scale-95 shadow-lg shadow-indigo-100">
+                              了解平台架构
+                            </button>
+                            <button className="bg-white text-slate-600 px-6 py-3 rounded-xl font-bold text-xs hover:bg-slate-50 border border-slate-200 transition-all active:scale-95">
+                              查看典型案例
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                   </div>
+                )}
+
+                {activeModule === 'agent' && (
+                   <div className="animate-in fade-in duration-700">
+                      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-12 gap-8">
+                         <div className="flex items-center gap-6">
+                            <div className="w-16 h-16 bg-indigo-600 rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-200">
+                               <Bot size={32} className="text-white" />
+                            </div>
+                            <div>
+                               <h2 className="text-4xl font-black text-slate-900">智能体</h2>
+                               <p className="text-slate-500 mt-1 uppercase tracking-widest text-xs font-bold">Multi-Agent Collaborative Network</p>
+                            </div>
+                         </div>
+                         <div className="flex bg-white border border-slate-200 p-1.5 rounded-2xl shadow-sm">
+                            <NavBtn active={planningTab === 'matrix'} onClick={() => setPlanningTab('matrix')} icon={Layers} label="产品矩阵" />
+                            <NavBtn active={planningTab === 'scenario'} onClick={() => setPlanningTab('scenario')} icon={Map} label="场景规划" />
+                            <NavBtn active={planningTab === 'design'} onClick={() => setPlanningTab('design')} icon={Smartphone} label="产品端设计" />
+                         </div>
+                      </div>
 
                 {/* 1. 产品矩阵 */}
                 {planningTab === 'matrix' && (
@@ -300,12 +1031,16 @@ const App: React.FC = () => {
                           setPlanningTab('design');
                           setDesignTab(agent === 'living' ? 'xiaoxi' : agent);
                         }}
+                        setActiveQrCode={setActiveQrCode}
+                        handleEnterApp={handleEnterApp}
+                        orders={orders}
+                        handleUpdateOrder={handleUpdateOrder}
+                        isMenuOpen={isMenuOpen}
+                        setIsMenuOpen={setIsMenuOpen}
+                        onRingClick={(ring) => {
+                          setActiveRingInfo(ringData[ring as keyof typeof ringData]);
+                        }}
                       />
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
-                         <SummaryCard title="第一层：企业端智能体" icon={Briefcase} color="indigo" desc="聚合餐饮、酒店、出行、政府、景区等核心实体，构建文旅产业全要素的数字化供给网络。" />
-                         <SummaryCard title="第二层：角色智能体" icon={Users} color="violet" desc="模拟销售、导游、线路设计师、行业专家等职业角色，通过人机协作处理复杂的非标准化业务。" />
-                         <SummaryCard title="第三层：功能智能体" icon={Zap} color="teal" desc="提供房态查询、车辆调度、客流预测、投诉预警等原子化工具能力，为上层应用提供高效支撑。" />
-                      </div>
                    </div>
                 )}
 
@@ -570,19 +1305,6 @@ const App: React.FC = () => {
                                </div>
                             )}
 
-                            {/* QR Code Modal */}
-                            {activeQrCode && (
-                               <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm animate-in fade-in duration-200" onClick={() => setActiveQrCode(null)}>
-                                  <div className="bg-white p-4 rounded-3xl shadow-2xl scale-100 animate-in zoom-in-95 duration-200" onClick={e => e.stopPropagation()}>
-                                     <img src={activeQrCode} alt="扫码体验" className="w-80 h-80 rounded-2xl object-contain" />
-                                     <div className="text-center mt-4 text-slate-500 font-medium">
-                                        <div className="text-lg font-bold text-slate-800">扫码立即体验</div>
-                                        <div className="text-sm mt-1">支持 iOS 与 Android 设备</div>
-                                     </div>
-                                  </div>
-                               </div>
-                            )}
-
                             {(designTab === 'spot' || designTab === 'gov') && (
                                designTab === 'spot' ? (
                                  <div className="animate-in slide-in-from-left-4">
@@ -719,13 +1441,13 @@ const App: React.FC = () => {
                                   </div>
                                </div>
                             ) : (
-                               <div className={`bg-white border-[12px] border-slate-100 rounded-[4rem] ${designTab === 'xiaoxi' ? 'p-0' : 'p-6'} aspect-[9/18] shadow-2xl max-w-sm mx-auto overflow-hidden relative transition-all duration-500`}>
+                               <div className={`bg-white border-[12px] border-slate-100 rounded-[4rem] ${designTab === 'xiaoxi' ? 'p-0' : 'p-6'} aspect-[9/18] shadow-2xl max-w-sm mx-auto overflow-hidden relative isolate transition-all duration-500`}>
                                   {designTab === 'xiaoxi' ? (
-                                     <div className="flex flex-col h-full bg-slate-50 relative">
+                                     <div className="flex flex-col h-full bg-slate-50 relative overflow-hidden rounded-[3.1rem] transform-gpu">
                                         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-6 bg-slate-800 rounded-b-xl z-50 pointer-events-none"></div>
-                                        <Header userRole="tourist" onToggleRole={() => {}} />
+                                        <Header userRole="tourist" onToggleRole={() => {}} className="rounded-t-[3.1rem]" />
                                         <main className="flex-1 overflow-y-auto no-scrollbar px-2 relative">
-                                            <div className="scale-90 origin-top w-[111%] -ml-[5.5%]">
+                                            <div className="scale-95 origin-top w-full">
                                                <HomeView onOpenExperts={() => {}} />
                                             </div>
                                         </main>
@@ -786,7 +1508,83 @@ const App: React.FC = () => {
                       </div>
                    </div>
                 )}
-            </div>
+             </div>
+          )}
+      </div>
+
+      {/* QR Code Modal - Moved to global scope of portal view */}
+            {activeQrCode && (
+               <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm animate-in fade-in duration-200" onClick={() => setActiveQrCode(null)}>
+                  <div className="bg-white p-4 rounded-3xl shadow-2xl scale-100 animate-in zoom-in-95 duration-200" onClick={e => e.stopPropagation()}>
+                     <img src={activeQrCode} alt="扫码体验" className="w-80 h-80 rounded-2xl object-contain" />
+                     <div className="text-center mt-4 text-slate-500 font-medium">
+                        <div className="text-lg font-bold text-slate-800">扫码立即体验</div>
+                        <div className="text-sm mt-1">支持 iOS 与 Android 设备</div>
+                     </div>
+                  </div>
+               </div>
+            )}
+
+            {/* 3D Ring Detail Modal */}
+            {activeRingInfo && (
+              <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm animate-in fade-in duration-300" onClick={() => setActiveRingInfo(null)}>
+                <div 
+                  className="bg-white w-[500px] rounded-[2.5rem] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-300 border border-slate-100"
+                  onClick={e => e.stopPropagation()}
+                >
+                  <div className={`h-3 bg-gradient-to-r ${
+                    activeRingInfo.color === 'indigo' ? 'from-blue-500 to-indigo-600' :
+                    activeRingInfo.color === 'teal' ? 'from-teal-400 to-emerald-500' :
+                    'from-violet-400 to-purple-600'
+                  }`}></div>
+                  
+                  <div className="p-10">
+                    <div className="flex justify-between items-start mb-6">
+                      <div>
+                        <h4 className="text-2xl font-black text-slate-800 mb-2">{activeRingInfo.title}</h4>
+                        <div className={`inline-block px-3 py-1 rounded-full text-xs font-bold ${
+                          activeRingInfo.color === 'indigo' ? 'bg-indigo-50 text-indigo-600' :
+                          activeRingInfo.color === 'teal' ? 'bg-teal-50 text-teal-600' :
+                          'bg-violet-50 text-violet-600'
+                        }`}>
+                          {activeRingInfo.summary}
+                        </div>
+                      </div>
+                      <button onClick={() => setActiveRingInfo(null)} className="p-2 hover:bg-slate-100 rounded-full transition-colors">
+                        <X size={20} className="text-slate-400" />
+                      </button>
+                    </div>
+                    
+                    <div className="space-y-6">
+                      <p className="text-slate-600 leading-relaxed text-sm bg-slate-50 p-6 rounded-2xl border border-slate-100/50">
+                        {activeRingInfo.desc}
+                      </p>
+                      
+                      <div className="flex items-center gap-4 p-4 rounded-2xl bg-indigo-50/30 border border-indigo-50">
+                        <div className="w-10 h-10 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-600">
+                          <Bot size={20} />
+                        </div>
+                        <div className="flex-1">
+                          <div className="text-xs font-black text-slate-800">2026 数智化演进</div>
+                          <div className="text-[10px] text-slate-500">基于多源垂直大模型，实现从单一任务到全链路智能化的跨越</div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <button 
+                      onClick={() => setActiveRingInfo(null)}
+                      className={`w-full mt-8 py-4 rounded-2xl font-black text-sm shadow-lg transition-all active:scale-95 ${
+                        activeRingInfo.color === 'indigo' ? 'bg-indigo-600 text-white shadow-indigo-100 hover:bg-indigo-700' :
+                        activeRingInfo.color === 'teal' ? 'bg-teal-600 text-white shadow-teal-100 hover:bg-teal-700' :
+                        'bg-violet-800 text-white shadow-violet-100 hover:bg-violet-900'
+                      }`}
+                    >
+                      了解更多规划细节
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
         </div>
     );
   }
@@ -857,14 +1655,16 @@ const NavBtn = ({ active, onClick, icon: Icon, label }: any) => (
    </button>
 );
 
-const SummaryCard = ({ title, icon: Icon, color, desc }: any) => {
+const SummaryCard = ({ title, icon: Icon, color, desc, className = '', style }: any) => {
    const colors: any = { 
       indigo: 'text-indigo-600 bg-indigo-50 border-indigo-100', 
       blue: 'text-blue-600 bg-blue-50 border-blue-100', 
-      rose: 'text-rose-600 bg-rose-50 border-rose-100' 
+      rose: 'text-rose-600 bg-rose-50 border-rose-100',
+      violet: 'text-violet-700 bg-violet-50 border-violet-100',
+      teal: 'text-teal-700 bg-teal-50 border-teal-100'
    };
    return (
-      <div className={`p-8 rounded-[2.5rem] border ${colors[color]} hover:shadow-lg transition-all group bg-white`}>
+      <div style={style} className={`p-8 rounded-[2.5rem] border ${colors[color] || 'text-slate-600 bg-white border-slate-200'} hover:shadow-lg transition-all group ${className}`}>
          <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform bg-white shadow-sm">
             <Icon size={24} />
          </div>

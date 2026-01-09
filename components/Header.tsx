@@ -6,9 +6,10 @@ import { UserRole } from '../types';
 interface Props {
   userRole?: UserRole;
   onToggleRole?: () => void;
+  className?: string;
 }
 
-const Header: React.FC<Props> = ({ userRole = 'tourist', onToggleRole }) => {
+const Header: React.FC<Props> = ({ userRole = 'tourist', onToggleRole, className = '' }) => {
   const isAgency = userRole === 'agency';
   const isGuide = userRole === 'guide';
 
@@ -34,40 +35,42 @@ const Header: React.FC<Props> = ({ userRole = 'tourist', onToggleRole }) => {
   // We'll keep it simple for now.
 
   return (
-    <header className={`sticky top-0 z-50 backdrop-blur-md px-4 py-3 flex items-center justify-between shadow-sm transition-colors duration-500 
+    <header className={`sticky top-0 z-50 backdrop-blur-md px-3 sm:px-4 py-3 flex items-center justify-between shadow-sm transition-colors duration-500 w-full flex-shrink-0
       ${isAgency ? 'bg-indigo-900 text-white' : ''}
       ${isGuide ? 'bg-teal-600 text-white' : ''}
       ${!isAgency && !isGuide ? 'bg-white/80 text-black' : ''}
+      ${className}
     `}>
-      <div className="flex items-center gap-2">
-        <h1 className="text-xl font-black italic tracking-tighter flex items-center gap-2">
-          <span className={`px-1 mr-1 rounded-sm transition-colors ${!isAgency && !isGuide ? 'bg-black text-white' : 'bg-white text-black'}`}>
+      <div className="flex items-center gap-2 min-w-0">
+        <h1 className="text-lg sm:text-xl font-black italic tracking-tighter flex items-center gap-1.5 min-w-0">
+          <span className={`px-1 rounded-sm transition-colors flex-shrink-0 ${!isAgency && !isGuide ? 'bg-black text-white' : 'bg-white text-black'}`}>
             {isAgency ? '天逸' : '黄小西'}
           </span>
-          <span className={`font-normal not-italic text-sm opacity-80`}>
+          <span className={`font-normal not-italic text-xs sm:text-sm opacity-80 truncate`}>
             {getRoleLabel()}
           </span>
         </h1>
       </div>
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-2 sm:gap-4 flex-shrink-0">
         {onToggleRole && (
           <button 
             onClick={onToggleRole}
-            className={`flex items-center gap-1 text-[10px] px-2 py-1 rounded-full border transition-all hover:bg-white/10 ${!isAgency && !isGuide ? 'border-gray-200 text-gray-500 hover:bg-gray-100' : 'border-white/30 text-white'}`}
+            className={`flex items-center gap-1 text-[9px] sm:text-[10px] px-2 py-1 rounded-full border transition-all hover:bg-white/10 ${!isAgency && !isGuide ? 'border-gray-200 text-gray-500 hover:bg-gray-100' : 'border-white/30 text-white'}`}
           >
             {getRoleIcon()}
-            <span>{getNextRoleName()}</span>
+            <span className="hidden xs:inline">{getNextRoleName()}</span>
+            <span className="xs:hidden">切换</span>
           </button>
         )}
         
-        <div className={`flex flex-col items-end text-xs opacity-70`}>
+        <div className={`hidden xs:flex flex-col items-end text-[10px] sm:text-xs opacity-70`}>
           <div className="flex items-center gap-1">
              <Globe size={12} />
              <span>CN/EN</span>
           </div>
         </div>
-        <Menu className={`w-6 h-6 opacity-90`} />
+        <Menu className={`w-5 h-5 sm:w-6 sm:h-6 opacity-90`} />
       </div>
     </header>
   );

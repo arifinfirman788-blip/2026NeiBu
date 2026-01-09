@@ -23,6 +23,28 @@ const PRDOverlay: React.FC<Props> = ({ onClose }) => {
   const [activeTab, setActiveTab] = useState<TabId>('matrix');
   const [activeClient, setActiveClient] = useState<ClientId>('agency');
   const [showLegacyPRD, setShowLegacyPRD] = useState(false);
+  const [activeRingInfo, setActiveRingInfo] = useState<{title: string, desc: string, summary: string, color: string} | null>(null);
+
+  const ringData = {
+    org: {
+      title: "组织端智能体 (Organization Agents)",
+      summary: "产业垂直领域的数字化决策大脑",
+      desc: "针对旅行社、酒店、景区、政府等文旅核心主体，提供定制化的管理与决策支持。通过整合多维行业数据，实现从经营分析、资源调度到产业监管的全面智能化，是文旅产业实现数智化转型的核心底座。",
+      color: "indigo"
+    },
+    role: {
+      title: "角色智能体 (Role Agents)",
+      summary: "行业从业者的全能数字伙伴",
+      desc: "深度嵌入具体职业场景（如导游、线路设计师、前台、销售等），为其提供针对性的作业辅助。具备专业领域知识，能够自动化处理重复性劳动，如解说词生成、行程优化、客户话术辅助等，显著提升一线人员的人效与服务质量。",
+      color: "slate"
+    },
+    func: {
+      title: "功能智能体 (Function Agents)",
+      summary: "细粒度任务的自动化执行专家",
+      desc: "专注于文旅场景中的原子化功能模块（如房态查询、车辆调度、天气动态调整、客流预测等）。通过高精度的 API 调用与算法模型，为上层应用提供即插即用的 AI 技能插件，确保服务链条中的每一个细节都能实现智能响应。",
+      color: "teal"
+    }
+  };
 
   const downloadReport = () => {
     alert("正在生成 2026 战略规划白皮书 (PDF)...");
@@ -63,8 +85,19 @@ const PRDOverlay: React.FC<Props> = ({ onClose }) => {
           </div>
 
           {/* B. 第一层环：企业端智能体 */}
-          <div className="absolute top-24 left-1/2 -translate-x-1/2 w-[800px] h-[160px] border-2 border-indigo-100 bg-indigo-50/30 rounded-[100%] transform rotate-x-60 z-40 flex items-center justify-center">
-             <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-white px-4 py-1 rounded-full border border-indigo-100 text-xs font-bold text-indigo-600 shadow-sm">企业端智能体</div>
+          <div 
+            onClick={() => setActiveRingInfo(ringData.org)}
+            className="absolute top-24 left-1/2 -translate-x-1/2 w-[800px] h-[160px] border-[12px] border-transparent rounded-[100%] transform rotate-x-60 z-40 flex items-center justify-center cursor-pointer group"
+          >
+             <div className="absolute inset-0 border-2 border-indigo-100 bg-indigo-50/30 rounded-[100%] group-hover:bg-indigo-100/40 group-hover:border-indigo-300 transition-all"></div>
+             <div 
+                className="absolute -top-10 left-1/2 -translate-x-1/2 bg-indigo-600 text-white px-5 py-1.5 rounded-full text-xs font-black shadow-lg shadow-indigo-200 transition-all animate-pulse flex items-center gap-2 z-50"
+                onClick={(e) => { e.stopPropagation(); setActiveRingInfo(ringData.org); }}
+             >
+                <Cpu size={14} />
+                企业端智能体
+                <ChevronRight size={12} className="opacity-70" />
+             </div>
              
              {/* 环绕节点 */}
              <div className="absolute top-0 left-1/2 w-full h-full animate-spin-slow" style={{ animationDuration: '60s' }}>
@@ -79,8 +112,19 @@ const PRDOverlay: React.FC<Props> = ({ onClose }) => {
           </div>
 
           {/* C. 第二层环：角色智能体 */}
-          <div className="absolute top-56 left-1/2 -translate-x-1/2 w-[900px] h-[200px] border-2 border-slate-100 bg-slate-50/30 rounded-[100%] transform rotate-x-60 z-30">
-             <div className="absolute -top-12 left-1/2 -translate-x-1/2 bg-white px-4 py-1 rounded-full border border-slate-200 text-xs font-bold text-slate-600 shadow-sm">角色智能体</div>
+          <div 
+            onClick={() => setActiveRingInfo(ringData.role)}
+            className="absolute top-56 left-1/2 -translate-x-1/2 w-[900px] h-[200px] border-[12px] border-transparent rounded-[100%] transform rotate-x-60 z-30 flex items-center justify-center cursor-pointer group"
+          >
+             <div className="absolute inset-0 border-2 border-slate-100 bg-slate-50/30 rounded-[100%] group-hover:bg-slate-100/40 group-hover:border-slate-300 transition-all"></div>
+             <div 
+                className="absolute -top-12 left-1/2 -translate-x-1/2 bg-slate-700 text-white px-5 py-1.5 rounded-full text-xs font-black shadow-lg shadow-slate-200 transition-all animate-pulse flex items-center gap-2 z-50"
+                onClick={(e) => { e.stopPropagation(); setActiveRingInfo(ringData.role); }}
+             >
+                <Users size={14} />
+                角色智能体
+                <ChevronRight size={12} className="opacity-70" />
+             </div>
              
              {/* 左侧组 */}
              <div className="absolute left-20 top-1/2 -translate-y-1/2 flex flex-col gap-2">
@@ -106,8 +150,19 @@ const PRDOverlay: React.FC<Props> = ({ onClose }) => {
           </div>
 
           {/* D. 第三层环：功能智能体 */}
-          <div className="absolute top-96 left-1/2 -translate-x-1/2 w-[1000px] h-[240px] border-2 border-teal-100 bg-teal-50/20 rounded-[100%] transform rotate-x-60 z-20">
-             <div className="absolute -top-14 left-1/2 -translate-x-1/2 bg-white px-4 py-1 rounded-full border border-teal-100 text-xs font-bold text-teal-600 shadow-sm">功能智能体</div>
+          <div 
+            onClick={() => setActiveRingInfo(ringData.func)}
+            className="absolute top-96 left-1/2 -translate-x-1/2 w-[1000px] h-[240px] border-[12px] border-transparent rounded-[100%] transform rotate-x-60 z-20 flex items-center justify-center cursor-pointer group"
+          >
+             <div className="absolute inset-0 border-2 border-teal-100 bg-teal-50/20 rounded-[100%] group-hover:bg-teal-100/30 group-hover:border-teal-300 transition-all"></div>
+             <div 
+                className="absolute -top-14 left-1/2 -translate-x-1/2 bg-teal-600 text-white px-5 py-1.5 rounded-full text-xs font-black shadow-lg shadow-teal-200 transition-all animate-pulse flex items-center gap-2 z-50"
+                onClick={(e) => { e.stopPropagation(); setActiveRingInfo(ringData.func); }}
+             >
+                <Zap size={14} />
+                功能智能体
+                <ChevronRight size={12} className="opacity-70" />
+             </div>
              
              <div className="absolute bottom-10 w-full flex justify-around px-20">
                 <div className="flex flex-col gap-2">
@@ -135,6 +190,67 @@ const PRDOverlay: React.FC<Props> = ({ onClose }) => {
 
         </div>
       </div>
+
+      {/* Ring Info Modal */}
+      {activeRingInfo && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm animate-in fade-in duration-300" onClick={() => setActiveRingInfo(null)}>
+           <div 
+            className="bg-white w-[500px] rounded-[2.5rem] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-300 border border-slate-100"
+            onClick={e => e.stopPropagation()}
+           >
+              <div className={`h-3 bg-gradient-to-r ${
+                activeRingInfo.color === 'indigo' ? 'from-blue-500 to-indigo-600' :
+                activeRingInfo.color === 'teal' ? 'from-teal-400 to-emerald-500' :
+                'from-slate-400 to-slate-600'
+              }`}></div>
+              
+              <div className="p-10">
+                 <div className="flex justify-between items-start mb-6">
+                    <div>
+                       <h4 className="text-2xl font-black text-slate-800 mb-2">{activeRingInfo.title}</h4>
+                       <div className={`inline-block px-3 py-1 rounded-full text-xs font-bold ${
+                         activeRingInfo.color === 'indigo' ? 'bg-indigo-50 text-indigo-600' :
+                         activeRingInfo.color === 'teal' ? 'bg-teal-50 text-teal-600' :
+                         'bg-slate-50 text-slate-600'
+                       }`}>
+                          {activeRingInfo.summary}
+                       </div>
+                    </div>
+                    <button onClick={() => setActiveRingInfo(null)} className="p-2 hover:bg-slate-100 rounded-full transition-colors">
+                       <X size={20} className="text-slate-400" />
+                    </button>
+                 </div>
+                 
+                 <div className="space-y-6">
+                    <p className="text-slate-600 leading-relaxed text-sm bg-slate-50 p-6 rounded-2xl border border-slate-100/50">
+                       {activeRingInfo.desc}
+                    </p>
+                    
+                    <div className="flex items-center gap-4 p-4 rounded-2xl bg-indigo-50/30 border border-indigo-50">
+                       <div className="w-10 h-10 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-600">
+                          <Bot size={20} />
+                       </div>
+                       <div className="flex-1">
+                          <div className="text-xs font-black text-slate-800">2026 数智化演进</div>
+                          <div className="text-[10px] text-slate-500">基于多源垂直大模型，实现从单一任务到全链路智能化的跨越</div>
+                       </div>
+                    </div>
+                 </div>
+                 
+                 <button 
+                  onClick={() => setActiveRingInfo(null)}
+                  className={`w-full mt-8 py-4 rounded-2xl font-black text-sm shadow-lg transition-all active:scale-95 ${
+                    activeRingInfo.color === 'indigo' ? 'bg-indigo-600 text-white shadow-indigo-100 hover:bg-indigo-700' :
+                    activeRingInfo.color === 'teal' ? 'bg-teal-600 text-white shadow-teal-100 hover:bg-teal-700' :
+                    'bg-slate-800 text-white shadow-slate-100 hover:bg-slate-900'
+                  }`}
+                 >
+                    了解更多规划细节
+                 </button>
+              </div>
+           </div>
+        </div>
+      )}
     </div>
   );
 

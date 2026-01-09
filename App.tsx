@@ -779,17 +779,21 @@ const App: React.FC = () => {
                             </div>
                           </div>
 
-                          {/* 3. 可信数据空间 */}
+                          {/* 3. 可信数据空间与数据管理平台 (Merged Layer 1) */}
                           <div className="relative group">
-                            <div className="absolute -left-12 top-1/2 -translate-y-1/2 w-8 h-8 bg-slate-800 text-white rounded-full flex items-center justify-center font-black text-sm shadow-lg">1</div>
-                            <div className="bg-slate-900 p-5 rounded-2xl shadow-xl flex items-center justify-between group-hover:bg-slate-800 transition-all">
-                              <div className="flex items-center gap-4">
-                                <div className="p-3 bg-white/5 rounded-xl border border-white/10">
-                                  <Database className="text-blue-400" size={24} />
-                                </div>
-                                <div>
-                                  <h4 className="text-white font-black text-lg">旅游可信数据空间</h4>
-                                  <div className="flex gap-4 mt-1">
+                            <div className="absolute -left-12 top-1/2 -translate-y-1/2 w-8 h-8 bg-slate-800 text-white rounded-full flex items-center justify-center font-black text-sm shadow-lg z-10">1</div>
+                            <div className="bg-slate-900 rounded-[2rem] p-6 shadow-xl relative overflow-hidden group-hover:bg-slate-800/95 transition-all">
+                              <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 rounded-bl-[4rem] -mr-8 -mt-8" />
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10">
+                                {/* 旅游可信数据空间 */}
+                                <div className="space-y-3">
+                                  <div className="flex items-center gap-3">
+                                    <div className="p-2 bg-blue-500/20 rounded-lg border border-blue-500/30">
+                                      <Database className="text-blue-400" size={18} />
+                                    </div>
+                                    <h4 className="text-white font-black text-base">旅游可信数据空间</h4>
+                                  </div>
+                                  <div className="flex flex-wrap gap-3">
                                     {['区块链', '隐私计算', '可信认证', '数据沙箱'].map(t => (
                                       <span key={t} className="text-[10px] text-slate-400 font-bold flex items-center gap-1">
                                         <div className="w-1 h-1 rounded-full bg-blue-500"></div>{t}
@@ -797,8 +801,23 @@ const App: React.FC = () => {
                                     ))}
                                   </div>
                                 </div>
+                                {/* 数据管理平台 */}
+                                <div className="space-y-3 md:border-l md:border-white/10 md:pl-6">
+                                  <div className="flex items-center gap-3">
+                                    <div className="p-2 bg-amber-500/20 rounded-lg border border-amber-500/30">
+                                      <ClipboardList className="text-amber-400" size={18} />
+                                    </div>
+                                    <h4 className="text-white font-black text-base">数据管理平台</h4>
+                                  </div>
+                                  <div className="flex flex-wrap gap-3">
+                                    {['数据采集', '数据治理', '问题管理', '报表统计'].map(t => (
+                                      <span key={t} className="text-[10px] text-slate-400 font-bold flex items-center gap-1">
+                                        <div className="w-1 h-1 rounded-full bg-amber-500"></div>{t}
+                                      </span>
+                                    ))}
+                                  </div>
+                                </div>
                               </div>
-                              <ShieldCheck className="text-white/20" size={24} />
                             </div>
                           </div>
                         </div>
@@ -843,7 +862,7 @@ const App: React.FC = () => {
 
                       <div className="max-w-4xl mb-12">
                         <p className="text-slate-600 text-lg font-medium leading-relaxed">
-                          汇数据是贵州文旅数字化的根基。通过建设“可信数据空间”实现全域涉旅要素的互联互通，建设“数据管理平台”实现数据资产的高效治理与安全保障，共同构建起支撑上层智能应用的文旅数据全生命周期管理体系。
+                          汇数据即“汇聚数据”，是贵州文旅数字化的坚实根基。通过建设“可信数据空间”实现全域涉旅要素的互联互通，建设“数据管理平台”实现数据资产的高效治理与安全保障，共同构建起支撑上层智能应用的文旅数据全生命周期管理体系。
                         </p>
                       </div>
 

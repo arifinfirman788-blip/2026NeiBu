@@ -67,31 +67,6 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
       <div className="text-center max-w-3xl mx-auto mb-12">
         <h3 className="text-2xl font-black text-slate-800 mb-4">贵州旅游行程服务总入口架构</h3>
         <p className="text-slate-500 text-sm mb-8">意图识别 · 任务调度 · 决策支持</p>
-        
-        {/* Ring Info Buttons */}
-        <div className="flex flex-wrap justify-center gap-4">
-          <button 
-            onClick={() => onRingClick?.('org')}
-            className="px-6 py-2.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 rounded-full border border-indigo-200 font-bold text-sm transition-all active:scale-95 flex items-center gap-2 shadow-sm"
-          >
-            <div className="w-2 h-2 rounded-full bg-indigo-500"></div>
-            组织端智能体
-          </button>
-          <button 
-            onClick={() => onRingClick?.('role')}
-            className="px-6 py-2.5 bg-violet-50 hover:bg-violet-100 text-violet-700 rounded-full border border-violet-200 font-bold text-sm transition-all active:scale-95 flex items-center gap-2 shadow-sm"
-          >
-            <div className="w-2 h-2 rounded-full bg-violet-500"></div>
-            角色智能体
-          </button>
-          <button 
-            onClick={() => onRingClick?.('func')}
-            className="px-6 py-2.5 bg-teal-50 hover:bg-teal-100 text-teal-700 rounded-full border border-teal-200 font-bold text-sm transition-all active:scale-95 flex items-center gap-2 shadow-sm"
-          >
-            <div className="w-2 h-2 rounded-full bg-teal-500"></div>
-            功能智能体
-          </button>
-        </div>
       </div>
 
       <div className="relative flex flex-col items-center overflow-hidden">
@@ -125,11 +100,11 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
               <div className="absolute top-full left-1/2 -translate-x-1/2 w-0.5 h-10 bg-gradient-to-b from-indigo-500 to-transparent"></div>
             </div>
 
-            {/* B. 第一层环：企业端智能体 */}
+            {/* B. 第一层环：组织端智能体 */}
             <div 
-              className="absolute top-24 left-1/2 w-[800px] h-[160px] border-2 border-indigo-100 bg-indigo-50/10 rounded-[50%] [transform:translateX(-50%)_rotateX(60deg)] [transform-style:preserve-3d] z-40 flex items-center justify-center transition-all group/ring"
+              className="absolute top-20 left-1/2 w-[800px] h-[160px] border-2 border-indigo-100 bg-indigo-50/10 rounded-[50%] [transform:translateX(-50%)_rotateX(60deg)] [transform-style:preserve-3d] z-40 flex items-center justify-center transition-all group/ring"
             >
-              <RingLabel label="企业端智能体" color="indigo" className="-top-20 [transform:translateX(-50%)_rotateX(-60deg)]" />
+              <RingLabel label="组织端智能体" color="indigo" className="top-1/2 [transform:translate(-50%,-50%)_rotateX(-60deg)]" />
               
               <div className="absolute top-0 left-0 w-full h-full animate-spin-slow [transform-style:preserve-3d]" style={{ animationDuration: '60s' }}>
                 <MatrixNode label="旅行社智能体" angle={0} color="blue" onClick={(e: any) => { e.stopPropagation(); setCurrentDesign('agency'); setIsExpanded(true); }} />
@@ -143,7 +118,7 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
 
             {/* C. 第二层环：角色智能体 */}
             <div 
-              className="absolute top-56 left-1/2 w-[900px] h-[200px] border-2 border-slate-200 bg-slate-50/20 rounded-[50%] [transform:translateX(-50%)_rotateX(60deg)] [transform-style:preserve-3d] z-30 shadow-sm transition-all group/ring"
+              className="absolute top-44 left-1/2 w-[900px] h-[200px] border-2 border-slate-200 bg-slate-50/20 rounded-[50%] [transform:translateX(-50%)_rotateX(60deg)] [transform-style:preserve-3d] z-30 shadow-sm transition-all group/ring"
             >
               <RingLabel label="角色智能体" color="violet" className="top-1/2 [transform:translate(-50%,-50%)_rotateX(-60deg)]" />
               
@@ -163,7 +138,7 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
 
             {/* D. 第三层环：功能智能体 */}
             <div 
-              className="absolute top-96 left-1/2 w-[1000px] h-[240px] border-2 border-teal-100 bg-teal-50/10 rounded-[50%] [transform:translateX(-50%)_rotateX(60deg)] [transform-style:preserve-3d] z-20 shadow-sm transition-all group/ring"
+              className="absolute top-76 left-1/2 w-[1050px] h-[260px] border-2 border-slate-100 bg-slate-50/10 rounded-[50%] [transform:translateX(-50%)_rotateX(60deg)] [transform-style:preserve-3d] z-20 transition-all group/ring"
             >
               <RingLabel label="功能智能体" color="teal" className="top-1/2 [transform:translate(-50%,-50%)_rotateX(-60deg)]" />
               

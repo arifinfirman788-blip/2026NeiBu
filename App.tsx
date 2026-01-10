@@ -28,6 +28,7 @@ import jiudianImg from './image/jiudian.png';
 import canyinImg from './image/canyin.jpg';
 import dapingImg from './image/daping.png';
 import huangxiaoxiImg1 from './image/ffcfd83472ae04ebb93f2e59eb423119.png';
+import huangxiaoxiImg2 from './image/huangxiaoxi1.png';
 
 // --- MOBILE APP WRAPPER ---
 const MobileWrapper: React.FC<{ children: React.ReactNode; onBack: () => void }> = ({ children, onBack }) => (
@@ -116,7 +117,7 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                 setIsExpanded(!isExpanded);
             }}>
               <div className="bg-gradient-to-b from-blue-500 to-indigo-600 p-6 rounded-2xl shadow-xl shadow-indigo-200 border-b-4 border-indigo-800 transform hover:scale-105 transition-transform duration-500">
-                <img src={huangxiaoxiImg1} alt="黄小西" className="w-16 h-16 mx-auto mb-2 rounded-full border-2 border-white/50" />
+                <img src={huangxiaoxiImg2} alt="黄小西" className="w-16 h-16 mx-auto mb-2 rounded-full border-2 border-white/50" />
                 <h4 className="text-white font-black text-lg">黄小西</h4>
                 <p className="text-indigo-100 text-[10px] mt-1">全省旅游行程服务总入口</p>
               </div>
@@ -1317,7 +1318,7 @@ const App: React.FC = () => {
                    <div className="animate-in fade-in duration-700">
                       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-12 gap-8">
                          <div className="flex items-center gap-8">
-                            <img src={huangxiaoxiImg1} alt="Logo" className="w-24 h-24 object-contain" />
+                            <img src={huangxiaoxiImg2} alt="Logo" className="w-24 h-24 object-contain" />
                             <div>
                                <h2 className="text-4xl font-black text-slate-900">智能体</h2>
                                <p className="text-slate-500 mt-1 uppercase tracking-widest text-xs font-bold">Multi-Agent Collaborative Network</p>

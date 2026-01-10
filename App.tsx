@@ -16,7 +16,8 @@ import {
   CheckCircle2, ShieldAlert, Utensils, BedDouble, 
   FileSearch, MessageSquare, Sparkles, Heart,
   LifeBuoy, Store, Megaphone, X, ChevronRight, Cpu, Users, Database, ShieldCheck, Box, Network, ClipboardList,
-  ShoppingBag, ExternalLink, Wallet, CreditCard, BarChart3, Workflow, Building2, Truck
+  ShoppingBag, ExternalLink, Wallet, CreditCard, BarChart3, Workflow, Building2, Truck,
+  Search, Menu, User, Send, Settings, Globe, Lock
 } from 'lucide-react';
 
 import hxxQrCode from './image/huangxiaoxi.png';
@@ -29,6 +30,8 @@ import canyinImg from './image/canyin.jpg';
 import dapingImg from './image/daping.png';
 import huangxiaoxiImg1 from './image/ffcfd83472ae04ebb93f2e59eb423119.png';
 import huangxiaoxiImg2 from './image/huangxiaoxi1.png';
+import huangxiaoxiFenshen from './image/huangxiaoxifenshen.png';
+import jiudianFenshen from './image/jiudianfenshen.png';
 
 // --- MOBILE APP WRAPPER ---
 const MobileWrapper: React.FC<{ children: React.ReactNode; onBack: () => void }> = ({ children, onBack }) => (
@@ -58,7 +61,8 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
   onRingClick?: (ring: 'org' | 'role' | 'func') => void
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [currentDesign, setCurrentDesign] = useState<'xiaoxi' | 'agency' | 'spot' | 'living' | 'gov' | 'hotel' | 'dining'>('xiaoxi');
+  const [currentDesign, setCurrentDesign] = useState<'xiaoxi' | 'agency' | 'spot' | 'living' | 'gov' | 'hotel' | 'dining' | 'org'>('xiaoxi');
+  const [activeOrgTab, setActiveOrgTab] = useState<'saas' | 'portal' | 'marketplace'>('saas');
 
   const openExternal = (url: string) => window.open(url, '_blank', 'noopener,noreferrer');
 
@@ -81,9 +85,9 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
           </div>
         </div>
 
-        <div className="w-full flex justify-center relative min-h-[800px]" onClick={() => isExpanded && setIsExpanded(false)}>
+        <div className="w-full flex justify-center relative min-h-[900px]" onClick={() => isExpanded && setIsExpanded(false)}>
           {/* Architecture Diagram Container */}
-          <div className={`relative w-full max-w-5xl h-[600px] perspective-[2000px] transition-all duration-700 ease-in-out ${isExpanded ? 'scale-[0.6] -translate-x-[50%] -translate-y-10' : ''}`} onClick={(e) => e.stopPropagation()}>
+          <div className={`relative w-full max-w-5xl h-[700px] perspective-[2000px] transition-all duration-700 ease-in-out ${isExpanded ? 'scale-[0.6] -translate-x-[50%] -translate-y-10' : ''}`} onClick={(e) => e.stopPropagation()}>
             
             {/* A. 顶层：总入口核心 */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 z-50 w-64 text-center cursor-pointer" onClick={(e) => {
@@ -97,12 +101,17 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                 <p className="text-indigo-100 text-[10px] mt-1">全省旅游行程服务总入口</p>
               </div>
               {/* 连接线 */}
-              <div className="absolute top-full left-1/2 -translate-x-1/2 w-0.5 h-10 bg-gradient-to-b from-indigo-500 to-transparent"></div>
+              <div className="absolute top-full left-1/2 -translate-x-1/2 w-0.5 h-16 bg-gradient-to-b from-indigo-500 to-transparent"></div>
             </div>
 
             {/* B. 第一层环：组织端智能体 */}
             <div 
-              className="absolute top-20 left-1/2 w-[800px] h-[160px] border-2 border-indigo-100 bg-indigo-50/10 rounded-[50%] [transform:translateX(-50%)_rotateX(60deg)] [transform-style:preserve-3d] z-40 flex items-center justify-center transition-all group/ring"
+              className="absolute top-32 left-1/2 w-[800px] h-[160px] border-2 border-indigo-100 bg-indigo-50/10 rounded-[50%] [transform:translateX(-50%)_rotateX(60deg)] [transform-style:preserve-3d] z-40 flex items-center justify-center transition-all group/ring cursor-pointer hover:bg-indigo-50/20"
+              onClick={(e) => {
+                e.stopPropagation();
+                setCurrentDesign('org');
+                setIsExpanded(true);
+              }}
             >
               <RingLabel label="组织端智能体" color="indigo" className="top-1/2 [transform:translate(-50%,-50%)_rotateX(-60deg)]" />
               
@@ -118,7 +127,7 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
 
             {/* C. 第二层环：角色智能体 */}
             <div 
-              className="absolute top-44 left-1/2 w-[900px] h-[200px] border-2 border-slate-200 bg-slate-50/20 rounded-[50%] [transform:translateX(-50%)_rotateX(60deg)] [transform-style:preserve-3d] z-30 shadow-sm transition-all group/ring"
+              className="absolute top-56 left-1/2 w-[900px] h-[200px] border-2 border-slate-200 bg-slate-50/20 rounded-[50%] [transform:translateX(-50%)_rotateX(60deg)] [transform-style:preserve-3d] z-30 shadow-sm transition-all group/ring"
             >
               <RingLabel label="角色智能体" color="violet" className="top-1/2 [transform:translate(-50%,-50%)_rotateX(-60deg)]" />
               
@@ -138,7 +147,7 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
 
             {/* D. 第三层环：功能智能体 */}
             <div 
-              className="absolute top-76 left-1/2 w-[1050px] h-[260px] border-2 border-slate-100 bg-slate-50/10 rounded-[50%] [transform:translateX(-50%)_rotateX(60deg)] [transform-style:preserve-3d] z-20 transition-all group/ring"
+              className="absolute top-88 left-1/2 w-[1050px] h-[260px] border-2 border-slate-100 bg-slate-50/10 rounded-[50%] [transform:translateX(-50%)_rotateX(60deg)] [transform-style:preserve-3d] z-20 transition-all group/ring"
             >
               <RingLabel label="功能智能体" color="teal" className="top-1/2 [transform:translate(-50%,-50%)_rotateX(-60deg)]" />
               
@@ -161,10 +170,10 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
 
           {/* Right Side Content Panel */}
           <div 
-            className={`absolute right-0 top-0 w-[800px] h-full transition-all duration-700 ease-in-out ${isExpanded ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-12 pointer-events-none'}`}
+            className={`absolute right-0 top-0 w-[1100px] h-full transition-all duration-700 ease-in-out ${isExpanded ? 'opacity-100 translate-x-0 -translate-y-10' : 'opacity-0 translate-x-12 translate-y-0 pointer-events-none'}`}
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="bg-white/90 backdrop-blur-xl rounded-[3rem] p-10 border border-white shadow-2xl h-[750px] overflow-y-auto no-scrollbar relative">
+            <div className="bg-white/90 backdrop-blur-xl rounded-[3rem] p-10 border border-white shadow-2xl h-[780px] overflow-y-auto no-scrollbar relative">
                <button 
                   onClick={() => setIsExpanded(false)}
                   className="absolute top-8 right-8 w-10 h-10 bg-slate-100 hover:bg-slate-200 text-slate-500 rounded-full flex items-center justify-center transition-colors z-50"
@@ -172,9 +181,44 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                   <ArrowRight size={20} />
                </button>
 
-               <div className="grid grid-cols-1 xl:grid-cols-2 gap-10 animate-in slide-in-from-right-12 duration-700">
+               <div className="grid grid-cols-1 xl:grid-cols-[380px_1fr] gap-10 animate-in slide-in-from-right-12 duration-700">
                   {/* Text Content */}
                   <div className="space-y-8">
+                     {currentDesign === 'org' && (
+                         <>
+                            <h3 className="text-4xl font-black text-indigo-600 flex items-center gap-3"><Layers size={40}/> 组织端智能体 · 数字化中枢</h3>
+                            <p className="text-slate-500 text-lg leading-relaxed">为各类旅游组织提供全流程、低门槛的数字化转型方案，实现跨层级、多角色的智能协同。</p>
+                            <div className="bg-slate-50 rounded-3xl p-4 border border-slate-100">
+                               <h4 className="font-bold text-slate-800 mb-4 px-3 flex items-center gap-2 text-sm uppercase tracking-widest text-slate-400">
+                                 组织端共性能力 (点击切换预览)
+                               </h4>
+                               <ul className="space-y-2">
+                                  <DesignFeature 
+                                    icon={Zap} 
+                                    t="免 SaaS · 零代码上线" 
+                                    d="问答式引导注册，分钟级完成配置，无需漫长的开发与部署周期。" 
+                                    active={activeOrgTab === 'saas'}
+                                    onClick={() => setActiveOrgTab('saas')}
+                                  />
+                                  <DesignFeature 
+                                    icon={LayoutDashboard} 
+                                    t="门户式首页设计" 
+                                    d="支持省、市、县、景区、旅行社等多级组织，根据角色与场景动态生成专属首页。" 
+                                    active={activeOrgTab === 'portal'}
+                                    onClick={() => setActiveOrgTab('portal')}
+                                  />
+                                  <DesignFeature 
+                                    icon={Box} 
+                                    t="功能插件集市" 
+                                    d="将传统功能转化为原子化插件，支持场景化能力自由组合与按需订阅。" 
+                                    active={activeOrgTab === 'marketplace'}
+                                    onClick={() => setActiveOrgTab('marketplace')}
+                                  />
+                               </ul>
+                            </div>
+                         </>
+                      )}
+
                      {currentDesign === 'xiaoxi' && (
                         <>
                            <h3 className="text-4xl font-black text-teal-600 flex items-center gap-3"><Bot size={40}/> 多彩黄小西 · C端伴游</h3>
@@ -329,6 +373,179 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                   <div className="relative flex items-center justify-center min-h-[500px]">
                      <div className="absolute inset-0 bg-indigo-500/5 rounded-[4rem] blur-3xl"></div>
                      
+                     {currentDesign === 'org' && (
+                        <div className="flex flex-col items-center justify-center scale-90 w-full animate-in zoom-in-95 duration-500">
+                           {activeOrgTab === 'saas' && (
+                              <div className="w-full flex flex-col items-center animate-in fade-in slide-in-from-right-10 duration-500">
+                                 <div className="bg-[#0f172a] rounded-[2.5rem] p-10 w-full max-w-[700px] shadow-2xl border border-slate-800 relative isolate scale-100">
+                                    <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500/20 to-blue-500/20 blur-2xl -z-10"></div>
+                                    <div className="flex items-center gap-4 mb-10 pb-6 border-b border-slate-800">
+                                       <div className="w-12 h-12 bg-indigo-500 rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-500/20">
+                                          <Bot className="text-white" size={28} />
+                                       </div>
+                                       <div>
+                                          <div className="text-white font-bold text-xl tracking-tight">智能部署助手</div>
+                                          <div className="text-slate-500 text-xs uppercase tracking-widest mt-0.5">Deployment AI Assistant</div>
+                                       </div>
+                                    </div>
+                                    <div className="space-y-8">
+                                       <div className="flex justify-start">
+                                          <div className="bg-slate-800/50 text-slate-300 p-5 rounded-3xl rounded-tl-none max-w-[85%] text-base leading-relaxed border border-slate-700 shadow-inner">
+                                             您好！我是部署助手。请告诉我您旅游组织的核心业务特色是什么？
+                                          </div>
+                                       </div>
+                                       <div className="flex justify-end">
+                                          <div className="bg-indigo-600 text-white p-5 rounded-3xl rounded-tr-none max-w-[85%] text-base leading-relaxed shadow-xl shadow-indigo-600/20">
+                                             我们是一家位于黔东南的民族文化景区，主打非遗体验与高端民宿。
+                                          </div>
+                                       </div>
+                                       <div className="bg-slate-800/30 border border-indigo-500/30 rounded-[2rem] p-8 space-y-6">
+                                          <div className="flex items-center gap-3 text-indigo-400 text-sm font-bold uppercase tracking-[0.2em]">
+                                             <CheckCircle2 size={18} /> 配置方案已就绪
+                                          </div>
+                                          <div className="grid grid-cols-2 gap-8">
+                                             <div className="space-y-4">
+                                                <div className="flex flex-col gap-1">
+                                                   <span className="text-slate-500 text-xs uppercase tracking-wider">业务类型</span>
+                                                   <span className="text-slate-200 font-bold text-lg">文化景区 / 精品民宿</span>
+                                                </div>
+                                                <div className="flex flex-col gap-1">
+                                                   <span className="text-slate-500 text-xs uppercase tracking-wider">推荐数字分身</span>
+                                                   <span className="text-slate-200 font-bold text-lg">民族文化专家 (AI Expert)</span>
+                                                </div>
+                                             </div>
+                                             <div className="space-y-4">
+                                                <div className="flex flex-col gap-1">
+                                                   <span className="text-slate-500 text-xs uppercase tracking-wider">挂载插件</span>
+                                                   <span className="text-slate-200 font-bold text-lg">非遗预约, 智慧导览</span>
+                                                </div>
+                                                <div className="flex flex-col gap-1">
+                                                   <span className="text-slate-500 text-xs uppercase tracking-wider">上线周期</span>
+                                                   <span className="text-slate-200 font-bold text-lg text-emerald-400">预计 5 分钟</span>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div className="mt-8 text-center space-y-2">
+                                    <div className="text-2xl font-black text-slate-800">免实施、免安装、免部署</div>
+                                    <div className="text-indigo-600 font-bold tracking-widest uppercase text-sm">问答式引导注册上线</div>
+                                 </div>
+                              </div>
+                           )}
+
+                           {activeOrgTab === 'portal' && (
+                              <div className="w-full flex flex-col items-center animate-in fade-in slide-in-from-right-10 duration-500">
+                                 <div className="flex gap-8 items-center justify-center p-6 bg-white/50 backdrop-blur-sm rounded-[2.5rem] border border-white/40 shadow-2xl">
+                                    <div className="flex flex-col items-center gap-3 group">
+                                       <div className="w-[260px] h-[460px] rounded-xl overflow-hidden shadow-lg border-2 border-white bg-slate-50 transition-transform group-hover:scale-[1.02] duration-500">
+                                          <img src={huangxiaoxiFenshen} alt="黄小西分身" className="w-full h-full object-contain" />
+                                       </div>
+                                       <div className="text-slate-800 font-bold text-sm tracking-tight">黄小西分身</div>
+                                    </div>
+                                    <div className="flex flex-col items-center gap-3 group">
+                                       <div className="w-[260px] h-[460px] rounded-xl overflow-hidden shadow-lg border-2 border-white bg-slate-50 transition-transform group-hover:scale-[1.02] duration-500">
+                                          <img src={jiudianFenshen} alt="酒店分身" className="w-full h-full object-contain" />
+                                       </div>
+                                       <div className="text-slate-800 font-bold text-sm tracking-tight">酒店分身</div>
+                                    </div>
+                                 </div>
+                                 <div className="mt-8 text-center space-y-2">
+                                    <div className="text-3xl font-black text-slate-800 tracking-tight">门户式首页设计</div>
+                                    <div className="text-indigo-600 font-bold tracking-[0.2em] uppercase text-sm">整图完整展示 · 无缝适配</div>
+                                 </div>
+                              </div>
+                           )}
+
+                           {activeOrgTab === 'marketplace' && (
+                              <div className="w-full flex flex-col items-center animate-in fade-in slide-in-from-right-10 duration-500">
+                                 <div className="bg-white rounded-[3rem] p-10 w-full max-w-[900px] shadow-2xl border border-slate-100">
+                                    <div className="flex justify-between items-center mb-10 pb-6 border-b border-slate-50">
+                                       <div className="flex items-center gap-4">
+                                          <div className="w-12 h-12 bg-indigo-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-indigo-100">
+                                             <Store size={28} />
+                                          </div>
+                                          <div>
+                                             <div className="font-black text-2xl text-slate-800">能力插件集市</div>
+                                             <div className="text-slate-400 text-xs font-bold uppercase tracking-widest mt-0.5">AI Agent Skill Marketplace</div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    
+                                    <div className="grid grid-cols-2 gap-x-12 gap-y-10">
+                                       {[
+                                          { 
+                                             title: '智能体底层插件', 
+                                             color: 'text-blue-600',
+                                             bg: 'bg-blue-50',
+                                             items: [
+                                                { n: '知识库管理系统', i: Database, d: '官方数据+用户UGC三位一体' },
+                                                { n: '智能体配置功能', i: Settings, d: 'Multi-Agent 标准化协议' },
+                                                { n: '用户偏好与画像', i: Users, d: '多维度采集与权重优化' }
+                                             ]
+                                          },
+                                          { 
+                                             title: '智能体功能插件', 
+                                             color: 'text-purple-600',
+                                             bg: 'bg-purple-50',
+                                             items: [
+                                                { n: '多语言助手', i: Globe, d: '中英日韩多语言版本支持' },
+                                                { n: '文件解析助手', i: FileSearch, d: 'PDF/Word内容研判解析' },
+                                                { n: '智能推荐', i: Sparkles, d: '个性化行程与内容生成' }
+                                             ]
+                                          },
+                                          { 
+                                             title: '安全与合规管理', 
+                                             color: 'text-rose-600',
+                                             bg: 'bg-rose-50',
+                                             items: [
+                                                { n: '敏感数据加密', i: Lock, d: '传输加密与敏感词过滤' },
+                                                { n: '用户权限体系', i: ShieldCheck, d: '多级架构数据权限管控' }
+                                             ]
+                                          },
+                                          { 
+                                             title: '传统能力插件', 
+                                             color: 'text-emerald-600',
+                                             bg: 'bg-emerald-50',
+                                             items: [
+                                                { n: '订购管理', i: ShoppingBag, d: '产品上架与全流程订单' },
+                                                { n: '营销活动管理', i: Megaphone, d: '优惠券、积分与会员体系' },
+                                                { n: '合作伙伴管理', i: Workflow, d: '分账结算与供应商审核' }
+                                             ]
+                                          }
+                                       ].map((section, idx) => (
+                                          <div key={idx} className="space-y-4">
+                                             <div className={`text-xs font-black uppercase tracking-[0.2em] ${section.color} flex items-center gap-2 mb-2`}>
+                                                <div className={`w-1.5 h-1.5 rounded-full ${section.bg.replace('bg-', 'bg-')}`}></div>
+                                                {section.title}
+                                             </div>
+                                             <div className="space-y-3">
+                                                {section.items.map((item, i) => (
+                                                   <div key={i} className="flex items-center gap-4 p-4 rounded-2xl hover:bg-slate-50 transition-all border border-transparent hover:border-slate-100 cursor-pointer group">
+                                                      <div className={`w-12 h-12 rounded-xl ${section.bg} flex items-center justify-center ${section.color} group-hover:scale-110 transition-transform shadow-sm`}>
+                                                         <item.i size={22} />
+                                                      </div>
+                                                      <div>
+                                                         <div className="text-sm font-bold text-slate-800">{item.n}</div>
+                                                         <div className="text-[10px] text-slate-400 mt-0.5">{item.d}</div>
+                                                      </div>
+                                                   </div>
+                                                ))}
+                                             </div>
+                                          </div>
+                                       ))}
+                                    </div>
+                                 </div>
+                                 <div className="mt-8 text-center space-y-2">
+                                    <div className="text-2xl font-black text-slate-800">场景化能力自由组合</div>
+                                    <div className="text-indigo-600 font-bold tracking-widest uppercase text-sm">原子化插件 · 按需订阅</div>
+                                 </div>
+                              </div>
+                           )}
+                        </div>
+                     )}
+                     
                      {currentDesign === 'xiaoxi' && (
                         <div className="relative w-full h-full flex flex-col items-center justify-center scale-90">
                            <div className="bg-white border-[12px] border-slate-900 rounded-[3.5rem] w-[320px] h-[650px] shadow-2xl overflow-hidden relative isolate">
@@ -466,7 +683,7 @@ const RingLabel = ({ label, color, className, onClick }: { label: string, color:
 };
 
 // --- Helper: Matrix Node (Orbiting) ---
-const MatrixNode = ({ label, angle, color = 'slate', isCore, onClick }: any) => {
+const MatrixNode = ({ label, angle, color = 'slate', isCore, onClick, image }: any) => {
   // Calculate position on ellipse
   const rad = (angle * Math.PI) / 180;
   
@@ -487,15 +704,12 @@ const MatrixNode = ({ label, angle, color = 'slate', isCore, onClick }: any) => 
 
   return (
     <div 
-      className={`absolute px-3 py-1.5 text-xs font-bold shadow-sm whitespace-nowrap transition-all hover:scale-110 cursor-pointer origin-bottom border z-[60]
+      className={`absolute px-3 py-1.5 text-xs font-bold shadow-sm whitespace-nowrap transition-all hover:scale-110 cursor-pointer origin-bottom border z-[60] flex items-center gap-2
         ${isCore ? 'bg-indigo-600 text-white scale-110 shadow-indigo-200 rounded-lg' : specificStyle}
       `}
       style={{ 
         left: `${x}%`, 
         top: `${y}%`, 
-        // 关键：修改 transform，让元素以底部为轴心站立在圆环上
-        // translate(-50%, -100%) 将元素的底部中心移动到定位点
-        // rotateX(-60deg) 抵消父容器的旋转，使元素直立
         transform: 'translate(-50%, -100%) rotateX(-60deg)' 
       }}
       onClick={(e) => {
@@ -503,6 +717,11 @@ const MatrixNode = ({ label, angle, color = 'slate', isCore, onClick }: any) => 
         if (onClick) onClick(e);
       }}
     >
+      {image && (
+        <div className="w-5 h-5 rounded-full overflow-hidden border border-white/20 shrink-0">
+          <img src={image} alt={label} className="w-full h-full object-cover" />
+        </div>
+      )}
       {label}
     </div>
   );
@@ -1999,14 +2218,21 @@ const DesignTabItem = ({ active, onClick, label }: any) => (
    </button>
 );
 
-const DesignFeature = ({ icon: Icon, t, d }: any) => (
-   <li className="flex gap-4 items-start group">
-      <div className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center shrink-0 group-hover:bg-rose-50 transition-colors">
-         <Icon size={20} className="text-slate-400 group-hover:text-rose-500" />
+const DesignFeature = ({ icon: Icon, t, d, active, onClick }: any) => (
+   <li 
+     className={`flex gap-4 items-start group p-3 rounded-2xl transition-all cursor-pointer ${
+       active ? 'bg-indigo-50 shadow-sm border border-indigo-100' : 'hover:bg-slate-50 border border-transparent'
+     }`}
+     onClick={onClick}
+   >
+      <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-colors ${
+        active ? 'bg-indigo-500 text-white' : 'bg-slate-50 text-slate-400 group-hover:bg-rose-50 group-hover:text-rose-500'
+      }`}>
+         <Icon size={20} />
       </div>
       <div>
-         <div className="text-sm font-bold text-slate-800 mb-1">{t}</div>
-         <div className="text-xs text-slate-400 leading-relaxed">{d}</div>
+         <div className={`text-sm font-bold mb-1 transition-colors ${active ? 'text-indigo-900' : 'text-slate-800'}`}>{t}</div>
+         <div className={`text-xs leading-relaxed transition-colors ${active ? 'text-indigo-600' : 'text-slate-400'}`}>{d}</div>
       </div>
    </li>
 );

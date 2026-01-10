@@ -51,7 +51,7 @@ const MobileWrapper: React.FC<{ children: React.ReactNode; onBack: () => void }>
 );
 
 // --- COMPONENT: Matrix Diagram (3D Matrix View) ---
-const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterApp, orders, handleUpdateOrder, isMenuOpen, setIsMenuOpen, onRingClick }: { 
+const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterApp, orders, handleUpdateOrder, isMenuOpen, setIsMenuOpen, onRingClick, activeSubTab, setActiveSubTab }: { 
   onNavigate?: (tab: 'matrix' | 'scenario' | 'design', client?: 'xiaoxi' | 'agency' | 'spot' | 'living' | 'gov' | 'hotel' | 'dining') => void,
   onAgentClick?: (agent: 'gov' | 'spot' | 'agency' | 'living' | 'hotel' | 'dining') => void,
   setActiveQrCode: (code: string | null) => void,
@@ -60,12 +60,13 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
   handleUpdateOrder: (order: Order) => void,
   isMenuOpen: boolean,
   setIsMenuOpen: (open: boolean) => void,
-  onRingClick?: (ring: 'org' | 'role' | 'func') => void
+  onRingClick?: (ring: 'org' | 'role' | 'func') => void,
+  activeSubTab: 'status' | 'planning',
+  setActiveSubTab: (tab: 'status' | 'planning') => void
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [currentDesign, setCurrentDesign] = useState<'xiaoxi' | 'agency' | 'spot' | 'living' | 'gov' | 'hotel' | 'dining' | 'org'>('xiaoxi');
   const [activeOrgTab, setActiveOrgTab] = useState<'saas' | 'portal' | 'marketplace'>('saas');
-  const [activeSubTab, setActiveSubTab] = useState<'status' | 'planning'>('status');
 
   const openExternal = (url: string) => window.open(url, '_blank', 'noopener,noreferrer');
 
@@ -255,8 +256,8 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
 
                            <div className="flex flex-col gap-6">
                               <div className="bg-slate-50/80 p-6 rounded-3xl border border-slate-100">
-                                 <p className="text-slate-600 leading-relaxed text-lg">
-                                    景区智能体是面向游客的数字化服务核心，通过大模型能力聚合门票、导览、攻略与实时问答，为游客提供“点到即得”的全流程伴游体验。
+                                 <p className="text-slate-600 leading-relaxed text-lg font-medium">
+                                    专注于景区场景的智能化管理与游客服务，通过打通票务、导览、安防等系统，提供全方位的数智化运营支持。
                                  </p>
                               </div>
 
@@ -269,9 +270,9 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors ${activeSubTab === 'status' ? 'bg-emerald-500 text-white' : 'bg-slate-50 text-slate-400 group-hover:bg-emerald-50 group-hover:text-emerald-500'}`}>
                                           <ClipboardList size={20} />
                                        </div>
-                                       <h4 className={`text-xl font-bold ${activeSubTab === 'status' ? 'text-emerald-700' : 'text-slate-600'}`}>现状</h4>
+                                       <h4 className={`text-xl font-bold ${activeSubTab === 'status' ? 'text-emerald-700' : 'text-slate-600'}`}>现状：实时导览与问答</h4>
                                     </div>
-                                    <p className="text-slate-400 text-sm leading-relaxed pl-1">查看当前已上线的景区智慧服务功能，包括实时导览与智能问答系统。</p>
+                                    <p className="text-slate-400 text-sm leading-relaxed pl-1">打通票务、导览、安防监控与多端信息发布，实现景区全域智慧化管理与实时问答服务。</p>
                                  </div>
 
                                  <div 
@@ -282,9 +283,9 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors ${activeSubTab === 'planning' ? 'bg-emerald-500 text-white' : 'bg-slate-50 text-slate-400 group-hover:bg-emerald-50 group-hover:text-emerald-500'}`}>
                                           <Sparkles size={20} />
                                        </div>
-                                       <h4 className={`text-xl font-bold ${activeSubTab === 'planning' ? 'text-emerald-700' : 'text-slate-600'}`}>规划</h4>
+                                       <h4 className={`text-xl font-bold ${activeSubTab === 'planning' ? 'text-emerald-700' : 'text-slate-600'}`}>规划：沉浸式数智愿景</h4>
                                     </div>
-                                    <p className="text-slate-400 text-sm leading-relaxed pl-1">2026 愿景：多模态 AI 深度交互与 AR 沉浸式导览体验。</p>
+                                    <p className="text-slate-400 text-sm leading-relaxed pl-1">2026 愿景：多模态 AI 深度交互、AR 沉浸式导览，以及服务半径外扩的商业闭环。</p>
                                  </div>
                               </div>
                            </div>
@@ -958,6 +959,7 @@ const App: React.FC = () => {
   const [activeModule, setActiveModule] = useState<'architecture' | 'data' | 'platform' | 'agent'>('architecture');
   const [planningTab, setPlanningTab] = useState<'matrix' | 'scenario' | 'design'>('matrix');
   const [designTab, setDesignTab] = useState<'xiaoxi' | 'agency' | 'spot' | 'living' | 'gov' | 'hotel' | 'dining'>('agency');
+  const [activeSubTab, setActiveSubTab] = useState<'status' | 'planning'>('status');
 
   const handleEnterApp = (role: UserRole) => { 
     setUserRole(role); 
@@ -1711,6 +1713,8 @@ const App: React.FC = () => {
                         onRingClick={(ring) => {
                           setActiveRingInfo(ringData[ring as keyof typeof ringData]);
                         }}
+                        activeSubTab={activeSubTab}
+                        setActiveSubTab={setActiveSubTab}
                       />
                    </div>
                 )}
@@ -1990,39 +1994,79 @@ const App: React.FC = () => {
                                </div>
                             )}
 
-                            {(designTab === 'spot' || designTab === 'gov') && (
-                               designTab === 'spot' ? (
-                                 <div className="animate-in slide-in-from-left-4">
-                                    <h3 className="text-3xl font-black text-emerald-600 mb-6 flex items-center gap-3"><Mountain size={32}/> 景区智能体 · 产品端设计</h3>
-                                    <p className="text-slate-500 text-lg leading-relaxed mb-8">
-                                       面向游客的景区内实时服务入口，聚合门票、导览、攻略与现场问答，强调拟物化体验与“点到即得”的高频服务闭环。
-                                    </p>
-                                    <div className="grid grid-cols-2 gap-4 mb-10">
-                                       <div className="p-5 bg-emerald-50/60 rounded-2xl border border-emerald-100">
-                                          <div className="font-bold text-slate-800 mb-2">核心能力</div>
-                                          <div className="text-xs text-slate-500">景区问答、地图导览、票务/厕所/交通快捷入口。</div>
-                                       </div>
-                                       <div className="p-5 bg-slate-50 rounded-2xl border border-slate-100">
-                                          <div className="font-bold text-slate-800 mb-2">对接路径</div>
-                                          <div className="text-xs text-slate-500">与产品端方案联动，支持能力分发到各触点渠道。</div>
-                                       </div>
-                                    </div>
-                                    <div className="flex flex-col gap-6 items-start">
-                                       <button
-                                          disabled
-                                          className="bg-slate-100 text-slate-400 px-8 py-4 rounded-2xl font-black flex items-center gap-3 cursor-not-allowed"
-                                       >
-                                          请扫码体验
-                                       </button>
-                                       <div 
-                                          className="w-40 h-40 bg-white p-2 rounded-xl shadow-lg border border-slate-100 cursor-pointer hover:scale-105 transition-transform"
-                                          onClick={() => setActiveQrCode(jingquQrCode)}
-                                       >
-                                          <img src={jingquQrCode} alt="景区二维码" className="w-full h-full object-contain" />
-                                       </div>
-                                    </div>
-                                 </div>
-                               ) : (
+                           {(designTab === 'spot' || designTab === 'gov') && (
+                              designTab === 'spot' ? (
+                                <div className="animate-in slide-in-from-left-4">
+                                   <h3 className="text-3xl font-black text-emerald-600 mb-6 flex items-center gap-3"><Mountain size={32}/> 景区智能体 · 产品端设计</h3>
+                                   <p className="text-slate-500 text-lg leading-relaxed mb-8">
+                                      专注于景区场景的智能化管理与游客服务，通过打通票务、导览、安防等系统，提供全方位的数智化运营支持。
+                                   </p>
+
+                                   <div className="flex gap-4 mb-8">
+                                      <button 
+                                         onClick={() => setActiveSubTab('status')}
+                                         className={`px-6 py-2 rounded-xl font-bold transition-all ${activeSubTab === 'status' ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-200' : 'bg-slate-50 text-slate-500 hover:bg-slate-100'}`}
+                                      >
+                                         现状：实时导览
+                                      </button>
+                                      <button 
+                                         onClick={() => setActiveSubTab('planning')}
+                                         className={`px-6 py-2 rounded-xl font-bold transition-all ${activeSubTab === 'planning' ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-200' : 'bg-slate-50 text-slate-500 hover:bg-slate-100'}`}
+                                      >
+                                         规划：2026愿景
+                                      </button>
+                                   </div>
+
+                                   {activeSubTab === 'status' ? (
+                                      <div className="space-y-6">
+                                         <div className="grid grid-cols-2 gap-4">
+                                            <div className="p-5 bg-emerald-50/60 rounded-2xl border border-emerald-100">
+                                               <div className="font-bold text-slate-800 mb-2">核心能力</div>
+                                               <div className="text-xs text-slate-500">智能问答、全域导览、票务打通、安防监控。</div>
+                                            </div>
+                                            <div className="p-5 bg-slate-50 rounded-2xl border border-slate-100">
+                                               <div className="font-bold text-slate-800 mb-2">体验触点</div>
+                                               <div className="text-xs text-slate-500">公众号、小程序、H5、景区线下大屏。</div>
+                                            </div>
+                                         </div>
+                                         <div className="flex items-center gap-6">
+                                            <div 
+                                               className="w-32 h-32 bg-white p-2 rounded-xl shadow-lg border border-slate-100 cursor-pointer hover:scale-105 transition-transform"
+                                               onClick={() => setActiveQrCode(jingquQrCode)}
+                                            >
+                                               <img src={jingquQrCode} alt="景区二维码" className="w-full h-full object-contain" />
+                                            </div>
+                                            <div className="text-sm text-slate-500 leading-relaxed">
+                                               <p className="font-bold text-slate-800 mb-1">扫码即刻体验</p>
+                                               <p>实时获取景区AI导览服务，支持语音问答与位置精准导向。</p>
+                                            </div>
+                                         </div>
+                                      </div>
+                                   ) : (
+                                      <div className="space-y-6">
+                                         <div className="bg-emerald-50/40 p-6 rounded-2xl border border-emerald-100/50">
+                                            <h4 className="font-bold text-emerald-800 mb-3 flex items-center gap-2">
+                                               <Sparkles size={18} className="text-emerald-500" /> 2026 数智愿景规划
+                                            </h4>
+                                            <ul className="space-y-3">
+                                               <li className="flex items-start gap-2 text-sm text-slate-600">
+                                                  <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-1.5 shrink-0"></div>
+                                                  <span><strong className="text-emerald-700">服务半径外扩：</strong> 新增“周边推荐智能体”，不再局限于景区内部，而是把触角伸向周边的地道美食、精品民宿和特色探店，让游客不看攻略也能玩透周边。</span>
+                                               </li>
+                                               <li className="flex items-start gap-2 text-sm text-slate-600">
+                                                  <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-1.5 shrink-0"></div>
+                                                  <span><strong className="text-emerald-700">解决入口痛点：</strong> 重点接通智慧停车系统，实时同步车位动态和导航引导，从游客开车进入景区商圈的第一分钟起，就解决‘停车难’这个最大的体验瓶颈。</span>
+                                               </li>
+                                               <li className="flex items-start gap-2 text-sm text-slate-600">
+                                                  <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-1.5 shrink-0"></div>
+                                                  <span><strong className="text-emerald-700">商业变现闭环：</strong> 落地“自营商城”模块，通过智能体的精准推荐，将景区的文创周边、特产礼品直接推送到游客手机上，实现边逛边下单的二消。</span>
+                                               </li>
+                                            </ul>
+                                         </div>
+                                      </div>
+                                   )}
+                                </div>
+                              ) : (
                                  <div className="animate-in slide-in-from-left-4">
                                     <h3 className="text-3xl font-black text-blue-600 mb-6 flex items-center gap-3"><Landmark size={32}/> 政府智能体 · 监管决策中枢</h3>
                                     <p className="text-slate-500 text-lg leading-relaxed mb-6">
@@ -2062,17 +2106,41 @@ const App: React.FC = () => {
                             <div className="absolute inset-0 bg-indigo-500/5 rounded-[4rem] blur-3xl"></div>
                             
                             {designTab === 'spot' ? (
-                           <div className="relative w-full h-[600px] flex items-center justify-center gap-6">
-                              <div className="h-[500px] w-[240px] rounded-[2rem] overflow-hidden shadow-2xl border-[6px] border-slate-800 bg-white relative">
-                                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-5 bg-slate-800 rounded-b-xl z-10"></div>
-                                 <img src={jingquImg1} alt="景区首页" className="w-full h-full object-cover" />
-                              </div>
-                              <div className="h-[500px] w-[240px] rounded-[2rem] overflow-hidden shadow-2xl border-[6px] border-slate-800 bg-white relative">
-                                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-5 bg-slate-800 rounded-b-xl z-10"></div>
-                                 <img src={jingquImg2} alt="景区详情" className="w-full h-full object-cover" />
-                              </div>
-                           </div>
-                        ) : designTab === 'hotel' ? (
+                               <div className="relative w-full h-[600px] flex items-center justify-center gap-6 animate-in fade-in duration-500">
+                                  {activeSubTab === 'status' ? (
+                                     <>
+                                        <div className="h-[500px] w-[240px] rounded-[2rem] overflow-hidden shadow-2xl border-[6px] border-slate-800 bg-white relative animate-in slide-in-from-right-8">
+                                           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-5 bg-slate-800 rounded-b-xl z-10"></div>
+                                           <img src={jingquImg1} alt="景区首页" className="w-full h-full object-cover" />
+                                        </div>
+                                        <div className="h-[500px] w-[240px] rounded-[2rem] overflow-hidden shadow-2xl border-[6px] border-slate-800 bg-white relative animate-in slide-in-from-right-12">
+                                           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-5 bg-slate-800 rounded-b-xl z-10"></div>
+                                           <img src={jingquImg2} alt="景区详情" className="w-full h-full object-cover" />
+                                        </div>
+                                     </>
+                                  ) : (
+                                     <div className="w-[90%] h-[500px] rounded-[3rem] overflow-hidden shadow-2xl border-[8px] border-white bg-slate-100 relative group animate-in zoom-in-95">
+                                        <img 
+                                           src={jingquGuihuaImg} 
+                                           alt="2026规划" 
+                                           className="w-full h-full object-contain bg-slate-100 transition-transform duration-1000 group-hover:scale-105" 
+                                        />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-10">
+                                           <div className="bg-emerald-500 text-white px-4 py-1 rounded-full text-xs font-bold w-fit mb-4">未来规划核心逻辑</div>
+                                           <p className="text-white text-lg font-bold max-w-md mb-6 leading-relaxed">
+                                              从‘景区向内导览’延伸到‘服务全方位覆盖’。在现有智能导览的基础上，我们即将上线的几个核心模块将直接打通游客的出行全链路：
+                                           </p>
+                                           <button 
+                                              onClick={() => openExternal('https://arifinfirman788-blip.github.io/JingQu/')}
+                                              className="bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-3 rounded-full font-bold w-fit flex items-center gap-2 transition-all hover:gap-4 shadow-lg shadow-emerald-500/30"
+                                           >
+                                              立即体验 <ChevronRight size={18} />
+                                           </button>
+                                        </div>
+                                     </div>
+                                  )}
+                               </div>
+                            ) : designTab === 'hotel' ? (
                            <div className="relative w-full h-[600px] flex items-center justify-center">
                               <div className="h-[600px] w-[290px] rounded-[2.5rem] overflow-hidden shadow-2xl border-[8px] border-slate-800 bg-white relative">
                                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-6 bg-slate-800 rounded-b-xl z-10"></div>

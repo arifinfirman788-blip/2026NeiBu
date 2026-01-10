@@ -7,13 +7,16 @@ import {
   LayoutDashboard, Flag, Landmark, 
   Users, Bot, Map, Zap, MessageSquare, Search, 
   ChevronRight, Box, Terminal, 
-  LineChart, 
+  LineChart, Sparkles,
   FileSearch, ClipboardList, ShieldAlert,
   MapPin, Headphones, CheckCircle2, Store,
   Workflow, CreditCard, Building2, Wifi, Send, BarChart3, Lock
 } from 'lucide-react';
 
 import jingquGuihuaImg from '../image/jingquguihua.png';
+import jingquQrCode from '../image/jingqu.jpg';
+import jingquImg1 from '../image/jingqu1.png';
+import jingquImg2 from '../image/jingqu2.png';
 
 interface Props {
   onClose: () => void;
@@ -290,18 +293,35 @@ const PRDOverlay: React.FC<Props> = ({ onClose }) => {
                       {activeSubTab === 'status' ? (
                         <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
                           <div>
-                            <h5 className="text-2xl font-black text-slate-800 mb-4">{activeRingInfo.title}</h5>
+                            <h5 className="text-2xl font-black text-slate-800 mb-4">当前产品设计预览</h5>
                             <p className="text-slate-600 leading-relaxed text-sm bg-slate-50 p-6 rounded-2xl border border-slate-100/50">
-                              {activeRingInfo.desc}
+                               实时导览 · 智慧问答 · 全触点分发。通过扫码可直接体验当前已上线的智慧服务系统。
                             </p>
                           </div>
                           
+                          <div className="grid grid-cols-3 gap-6 w-full">
+                             <div className="flex flex-col gap-4">
+                                <div className="relative group p-4 bg-white rounded-[2rem] border border-slate-100 shadow-xl">
+                                   <img src={jingquQrCode} alt="扫码体验" className="w-full aspect-square rounded-2xl object-cover cursor-pointer hover:scale-105 transition-transform" />
+                                   <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-blue-600 text-white px-3 py-1 rounded-full text-[10px] font-bold shadow-lg whitespace-nowrap">
+                                      扫码体验
+                                   </div>
+                                </div>
+                             </div>
+                             <div className="relative group rounded-2xl overflow-hidden border-4 border-white shadow-lg h-[200px]">
+                                <img src={jingquImg1} alt="展示图1" className="w-full h-full object-cover" />
+                             </div>
+                             <div className="relative group rounded-2xl overflow-hidden border-4 border-white shadow-lg h-[200px]">
+                                <img src={jingquImg2} alt="展示图2" className="w-full h-full object-cover" />
+                             </div>
+                          </div>
+
                           <div className="grid grid-cols-2 gap-4">
                             {[
-                              { n: '票务系统打通', i: CreditCard, d: '实时分销与核销' },
-                              { n: '智慧导览服务', i: Headphones, d: '位置感知讲解' },
-                              { n: '安防联动监控', i: ShieldCheck, d: '客流异动预警' },
-                              { n: '多端信息发布', i: Smartphone, d: '景区动态触达' }
+                              { n: '智能问答', i: MessageSquare, d: '景区信息实时解答' },
+                              { n: '全域导览', i: Map, d: '拟物化地图与路线' },
+                              { n: '票务打通', i: CreditCard, d: '实时分销与核销' },
+                              { n: '安防监控', i: ShieldCheck, d: '客流异动预警' }
                             ].map((item, idx) => (
                               <div key={idx} className="p-4 rounded-2xl border border-slate-100 flex items-center gap-4 bg-white shadow-sm">
                                 <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600">
@@ -317,23 +337,43 @@ const PRDOverlay: React.FC<Props> = ({ onClose }) => {
                         </div>
                       ) : (
                         <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                          <div>
-                            <h5 className="text-2xl font-black text-slate-800 mb-4">2026 沉浸式数智景区规划</h5>
+                          <div className="space-y-4">
+                            <h5 className="text-2xl font-black text-slate-800">未来规划核心逻辑</h5>
+                            <p className="text-blue-600 font-bold text-lg">从‘景区向内导览’延伸到‘服务全方位覆盖’</p>
                             <p className="text-slate-600 leading-relaxed text-sm bg-blue-50/30 p-6 rounded-2xl border border-blue-100/50">
-                              通过引入 AI 智能导览、AR 互动体验及全自动客流调度系统，云峰屯堡景区将实现从传统游览到沉浸式数智体验的全面升级。AI 伴游将提供随身讲解、实时定位及个性化攻略，让每一位游客都能深度探秘大明遗风。
+                               在现有智能导览的基础上，我们即将上线的几个核心模块将直接打通游客的出行全链路：
                             </p>
                           </div>
 
-                          <div className="relative group">
-                            <div className="absolute inset-0 bg-blue-600/5 rounded-[2rem] transform rotate-1 group-hover:rotate-0 transition-transform"></div>
-                            <img 
-                              src={jingquGuihuaImg} 
-                              alt="景区规划图" 
-                              className="relative w-full h-[240px] object-cover rounded-[2rem] shadow-xl border-4 border-white"
-                            />
-                            <div className="absolute bottom-4 right-4 bg-white/90 backdrop-blur px-4 py-2 rounded-xl border border-white shadow-sm">
-                              <span className="text-[10px] font-black text-blue-600">规划效果预览图</span>
-                            </div>
+                          <div className="grid grid-cols-[1fr_200px] gap-6 items-stretch">
+                             <div className="flex flex-col gap-3">
+                                {[
+                                   { t: '服务半径外扩', d: '新增“周边推荐智能体”，把触角伸向周边的地道美食、精品民宿和特色探店。' },
+                                   { t: '解决入口痛点', d: '接通智慧停车系统，实时同步车位动态，解决‘停车难’这一最大的体验瓶颈。' },
+                                   { t: '商业变现闭环', d: '落地“自营商城”模块，通过精准推荐，实现文创周边与特产礼品的边逛边下单。' }
+                                ].map((module, i) => (
+                                   <div key={i} className="p-4 bg-blue-50/50 rounded-2xl border border-blue-100/50 flex flex-col gap-1">
+                                      <div className="font-bold text-blue-700 flex items-center gap-2 text-xs">
+                                         <div className="w-1.5 h-1.5 rounded-full bg-blue-500"></div>
+                                         {module.t}
+                                      </div>
+                                      <div className="text-[10px] text-slate-500 leading-relaxed">{module.d}</div>
+                                   </div>
+                                ))}
+                             </div>
+
+                             <div className="relative group rounded-2xl overflow-hidden border-4 border-white shadow-xl bg-slate-100">
+                                <img 
+                                   src={jingquGuihuaImg} 
+                                   alt="景区规划" 
+                                   className="w-full h-full object-contain bg-slate-100 transition-transform duration-1000 group-hover:scale-105" 
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end p-3">
+                                   <div className="text-left">
+                                      <p className="text-white text-[10px] font-bold">2026 数智愿景</p>
+                                   </div>
+                                </div>
+                             </div>
                           </div>
 
                           <a 

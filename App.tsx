@@ -1490,52 +1490,25 @@ const App: React.FC = () => {
                           <div className="w-1 h-6 bg-amber-500 rounded-full" />
                           <h3 className="text-xl font-black text-slate-800">平台各端入口</h3>
                         </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                           {[
                             {
-                              name: '景区/餐饮企业端',
-                              sub: '荔波县云上老乡餐馆',
-                              url: 'http://www.lbymt.com/config/home/home?sysFlag=qn',
-                              account: '15985402914',
-                              pass: 'Aa402914',
-                              icon: Utensils,
-                              color: 'emerald'
-                            },
-                            {
-                              name: '酒店企业端',
-                              sub: '荔波县玉屏石缘客栈',
-                              url: 'http://114.255.113.32:20000/hweb/#/pms/checkInList',
-                              account: '13765417466',
-                              pass: 'Qwe1234567_',
-                              icon: BedDouble,
-                              color: 'blue'
-                            },
-                            {
-                              name: '资金方金融端 (初审)',
-                              sub: '贵州荔波全域智慧旅游有限公司',
-                              url: 'https://lyb.ymtcloud.com/config/home/home?sysFlag=sj',
-                              account: '15286009622',
-                              pass: 'Cy123456',
-                              icon: ShieldCheck,
+                              name: '企业端 / 采购端',
+                              sub: '景区、餐饮、酒店企业及采购方入口',
+                              url: 'https://www.lbymt.com/config/home/home?sysFlag=sj',
+                              account: '演示账号登录',
+                              pass: '请使用分配账号',
+                              icon: Building2,
                               color: 'indigo'
                             },
                             {
-                              name: '金融端 (复审)',
-                              sub: '贵州信用通供应链数据管理有限公司',
-                              url: 'https://lyb.ymtcloud.com/config/home/home?sysFlag=sj',
-                              account: '18798041556',
-                              pass: 'Xyt123456',
-                              icon: Landmark,
-                              color: 'violet'
-                            },
-                            {
-                              name: '采购端',
-                              sub: '演示账号',
-                              url: 'https://lyb.ymtcloud.com/config/home/home?sysFlag=sj',
-                              account: '13885022658',
-                              pass: 'Ty123456',
-                              icon: ShoppingBag,
-                              color: 'orange'
+                              name: '供应链金融端',
+                              sub: '融资撮合与资金管理平台',
+                              url: 'https://ly.ymtcloud.com/wap/financialService.html',
+                              account: '金融机构/企业专户',
+                              pass: '请使用专户账号',
+                              icon: Wallet,
+                              color: 'amber'
                             }
                           ].map((entry, idx) => (
                             <div key={idx} className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm hover:shadow-md transition-all group/card">

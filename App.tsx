@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import BottomNav from './components/BottomNav';
 import ItineraryTimeline from './components/ItineraryTimeline';
@@ -727,8 +727,75 @@ const MatrixNode = ({ label, angle, color = 'slate', isCore, onClick, image }: a
   );
 };
 
+// --- PASSWORD LOCK COMPONENT ---
+const PasswordLock: React.FC<{ onUnlock: () => void }> = ({ onUnlock }) => {
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (password === 'glsw123456') {
+      onUnlock();
+      localStorage.setItem('page_unlocked', 'true');
+    } else {
+      setError(true);
+      setTimeout(() => setError(false), 2000);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 z-[9999] bg-slate-900 flex items-center justify-center p-4 font-sans">
+      <div className="w-full max-w-md bg-white rounded-[2.5rem] p-10 shadow-2xl animate-in zoom-in duration-300">
+        <div className="flex flex-col items-center text-center">
+          <div className="w-24 h-24 bg-indigo-50 rounded-full flex items-center justify-center mb-8">
+            <Lock className="text-indigo-600" size={48} />
+          </div>
+          <h2 className="text-3xl font-black text-slate-900 mb-3">访问受限</h2>
+          <p className="text-slate-500 mb-10 text-lg">内部战略规划展示系统<br/>请输入访问密码以查看内容</p>
+          
+          <form onSubmit={handleSubmit} className="w-full space-y-6">
+            <div className="relative">
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="请输入访问密码"
+                className={`w-full px-8 py-5 bg-slate-50 border-2 rounded-2xl outline-none transition-all text-center text-xl font-bold tracking-widest ${
+                  error ? 'border-red-400 animate-bounce' : 'border-transparent focus:border-indigo-500'
+                }`}
+                autoFocus
+              />
+            </div>
+            {error && <p className="text-red-500 text-sm font-bold">密码错误，请重试</p>}
+            <button
+              type="submit"
+              className="w-full bg-indigo-600 text-white font-black py-5 rounded-2xl shadow-xl shadow-indigo-100 hover:bg-indigo-700 transition-all active:scale-[0.98] text-lg"
+            >
+              解锁访问
+            </button>
+          </form>
+          
+          <div className="mt-12 flex items-center gap-2 text-slate-400 text-xs font-bold uppercase tracking-widest">
+            <ShieldCheck size={14} />
+            <span>Internal Strategy System</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 // --- MAIN APP ---
 const App: React.FC = () => {
+  const [isUnlocked, setIsUnlocked] = useState(false);
+
+  useEffect(() => {
+    const unlocked = localStorage.getItem('page_unlocked');
+    if (unlocked === 'true') {
+      setIsUnlocked(true);
+    }
+  }, []);
+
   const [currentView, setCurrentView] = useState<'portal' | 'app'>('portal');
   const [userRole, setUserRole] = useState<UserRole>('tourist');
   const [activeTab, setActiveTab] = useState(0);
@@ -808,6 +875,10 @@ const App: React.FC = () => {
     } catch (err) {
       console.error('Failed to copy: ', err);
     }
+  }
+
+  if (!isUnlocked) {
+    return <PasswordLock onUnlock={() => setIsUnlocked(true)} />;
   }
 
   if (currentView === 'portal') {

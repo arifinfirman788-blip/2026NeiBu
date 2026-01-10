@@ -27,7 +27,7 @@ import tiyanmaQrCode from './image/tiyanma.png';
 import jiudianImg from './image/jiudian.png';
 import canyinImg from './image/canyin.jpg';
 import dapingImg from './image/daping.png';
-import huangxiaoxiImg1 from './image/huangxiaoxi1.png';
+import huangxiaoxiImg1 from './image/ffcfd83472ae04ebb93f2e59eb423119.png';
 
 // --- MOBILE APP WRAPPER ---
 const MobileWrapper: React.FC<{ children: React.ReactNode; onBack: () => void }> = ({ children, onBack }) => (

@@ -622,8 +622,8 @@ const App: React.FC = () => {
             <div className="sticky top-0 z-[100] bg-white/80 backdrop-blur-md border-b border-slate-200">
                <div className="max-w-[1400px] mx-auto px-8 flex justify-between items-center h-20">
                   <div className="flex items-center gap-3">
-                     <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-200 overflow-hidden">
-                        <img src={huangxiaoxiImg1} alt="Logo" className="w-full h-full object-cover" />
+                     <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-md border border-slate-100 overflow-hidden p-1">
+                        <img src={huangxiaoxiImg1} alt="Logo" className="w-full h-full object-contain" />
                      </div>
                      <span className="text-xl font-black tracking-tight text-slate-900">贵旅数网2026战略规划</span>
                   </div>
@@ -1316,8 +1316,8 @@ const App: React.FC = () => {
                    <div className="animate-in fade-in duration-700">
                       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-12 gap-8">
                          <div className="flex items-center gap-6">
-                            <div className="w-16 h-16 bg-indigo-600 rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-200 overflow-hidden">
-                               <img src={huangxiaoxiImg1} alt="Logo" className="w-full h-full object-cover" />
+                            <div className="w-20 h-20 bg-white rounded-2xl flex items-center justify-center shadow-md border border-slate-100 overflow-hidden p-2">
+                               <img src={huangxiaoxiImg1} alt="Logo" className="w-full h-full object-contain" />
                             </div>
                             <div>
                                <h2 className="text-4xl font-black text-slate-900">智能体</h2>

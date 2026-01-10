@@ -621,9 +621,12 @@ const App: React.FC = () => {
             {/* Top Level Module Navigation */}
             <div className="sticky top-0 z-[100] bg-white/80 backdrop-blur-md border-b border-slate-200">
                <div className="max-w-[1400px] mx-auto px-8 flex justify-between items-center h-20">
-                  <div className="flex items-center gap-3">
-                     <img src={huangxiaoxiImg1} alt="Logo" className="w-12 h-12 object-contain" />
-                     <span className="text-xl font-black tracking-tight text-slate-900">贵旅数网2026战略规划</span>
+                  <div className="flex items-center gap-4">
+                     <img src={huangxiaoxiImg1} alt="Logo" className="w-16 h-16 object-contain" />
+                     <div className="flex flex-col">
+                        <span className="text-2xl font-black tracking-tight text-slate-900 leading-none">贵旅数网</span>
+                        <span className="text-indigo-600 text-xs font-bold tracking-[0.2em] mt-1.5 uppercase">2026 战略规划</span>
+                     </div>
                   </div>
                   <div className="flex items-center gap-1 bg-slate-100/50 p-1.5 rounded-2xl border border-slate-200">
                      {[
@@ -1313,8 +1316,8 @@ const App: React.FC = () => {
                 {activeModule === 'agent' && (
                    <div className="animate-in fade-in duration-700">
                       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-12 gap-8">
-                         <div className="flex items-center gap-6">
-                            <img src={huangxiaoxiImg1} alt="Logo" className="w-20 h-20 object-contain" />
+                         <div className="flex items-center gap-8">
+                            <img src={huangxiaoxiImg1} alt="Logo" className="w-24 h-24 object-contain" />
                             <div>
                                <h2 className="text-4xl font-black text-slate-900">智能体</h2>
                                <p className="text-slate-500 mt-1 uppercase tracking-widest text-xs font-bold">Multi-Agent Collaborative Network</p>

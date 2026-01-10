@@ -15,7 +15,8 @@ import {
   Briefcase, Landmark, Zap, Mountain, Map, LineChart, 
   CheckCircle2, ShieldAlert, Utensils, BedDouble, 
   FileSearch, MessageSquare, Sparkles, Heart,
-  LifeBuoy, Store, Megaphone, X, ChevronRight, Cpu, Users, Database, ShieldCheck, Box, Network, ClipboardList
+  LifeBuoy, Store, Megaphone, X, ChevronRight, Cpu, Users, Database, ShieldCheck, Box, Network, ClipboardList,
+  ShoppingBag, ExternalLink, Wallet, CreditCard, BarChart3, Workflow, Building2, Truck
 } from 'lucide-react';
 
 import hxxQrCode from './image/huangxiaoxi.png';
@@ -661,8 +662,8 @@ const App: React.FC = () => {
                    <div className="animate-in fade-in duration-700 space-y-8 pb-20">
                       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
                          <div className="flex items-center gap-6">
-                            <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-200">
-                               <Layers size={32} className="text-white" />
+                            <div className="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center shadow-sm border border-blue-100">
+                               <Layers size={32} className="text-blue-600" />
                             </div>
                             <div>
                                <h2 className="text-4xl font-black text-slate-900">总体架构</h2>
@@ -689,7 +690,7 @@ const App: React.FC = () => {
                         {/* N: 渠道层 - 紧凑化 */}
                         <div className="relative mb-6">
                           <div className="flex items-center gap-4 mb-3">
-                            <div className="bg-blue-600 text-white px-4 py-1 rounded-lg font-black text-sm shadow-sm">N</div>
+                            <div className="bg-blue-50 text-blue-600 border border-blue-100 px-4 py-1 rounded-lg font-black text-sm shadow-sm">N</div>
                             <span className="text-slate-800 font-bold text-lg">N类触点渠道</span>
                           </div>
                           <div className="bg-white/50 backdrop-blur-sm border border-slate-200 rounded-2xl p-4 flex flex-wrap justify-center gap-3 items-center">
@@ -703,47 +704,47 @@ const App: React.FC = () => {
 
                         {/* 第一层：智能终端与模型底座 (Merged Layer) */}
                         <div className="relative mb-8 group">
-                          <div className="absolute -left-12 top-1/2 -translate-y-1/2 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-black text-sm shadow-lg z-10">1</div>
+                          <div className="absolute -left-12 top-1/2 -translate-y-1/2 w-8 h-8 bg-blue-50 text-blue-600 border border-blue-200 rounded-full flex items-center justify-center font-black text-sm shadow-md z-10">1</div>
                           <div className="bg-white/60 backdrop-blur-md border-2 border-blue-100 rounded-[2.5rem] p-6 shadow-xl shadow-blue-50/50 transition-all hover:border-blue-200">
                             {/* 三端触点 */}
                             <div className="grid grid-cols-3 gap-4 mb-6">
                               {[
-                                { t: '游客端', c: 'from-blue-500 to-blue-600', icon: Users, desc: '行程/订购/伴游' },
-                                { t: '企业端', c: 'from-indigo-500 to-indigo-600', icon: Briefcase, desc: '客服/营销/分析' },
-                                { t: '政府端', c: 'from-slate-700 to-slate-800', icon: LineChart, desc: '分析/监管/资源' }
+                                { t: '游客端', c: 'bg-blue-50 border border-blue-200', tc: 'text-blue-700', icon: Users, desc: '行程/订购/伴游' },
+                                { t: '企业端', c: 'bg-indigo-50 border border-indigo-200', tc: 'text-indigo-700', icon: Briefcase, desc: '客服/营销/分析' },
+                                { t: '政府端', c: 'bg-slate-50 border border-slate-200', tc: 'text-slate-700', icon: LineChart, desc: '分析/监管/资源' }
                               ].map(item => (
-                                <div key={item.t} className={`bg-gradient-to-br ${item.c} rounded-2xl p-4 text-white shadow-md relative overflow-hidden group/item`}>
+                                <div key={item.t} className={`${item.c} rounded-2xl p-4 shadow-sm relative overflow-hidden group/item`}>
                                   <div className="relative z-10">
                                     <div className="flex items-center gap-3 mb-1">
-                                      <item.icon size={16} className="opacity-80" />
-                                      <h4 className="font-black text-sm">{item.t}</h4>
+                                      <item.icon size={16} className={`${item.tc} opacity-80`} />
+                                      <h4 className={`font-black text-sm ${item.tc}`}>{item.t}</h4>
                                     </div>
-                                    <p className="text-[10px] opacity-90 font-medium">{item.desc}</p>
+                                    <p className="text-[10px] text-slate-500 font-medium">{item.desc}</p>
                                   </div>
                                 </div>
                               ))}
                             </div>
 
                             {/* 大模型底座 - 紧接在三端下方 */}
-                            <div className="bg-gradient-to-r from-blue-600 to-indigo-700 p-5 rounded-2xl shadow-lg flex items-center justify-between">
+                            <div className="bg-white border-2 border-blue-100 p-5 rounded-2xl shadow-sm flex items-center justify-between">
                               <div className="flex items-center gap-4">
-                                <div className="p-3 bg-white/10 rounded-xl">
-                                  <Cpu className="text-white animate-spin-slow" size={24} />
+                                <div className="p-3 bg-blue-50 rounded-xl">
+                                  <Cpu className="text-blue-600 animate-spin-slow" size={24} />
                                 </div>
                                 <div>
-                                  <h4 className="text-white font-black text-lg">旅游行业大模型底座</h4>
+                                  <h4 className="text-slate-900 font-black text-lg">旅游行业大模型底座</h4>
                                   <div className="flex gap-4 mt-1">
                                     {['文旅资源', '产品商品', '交易结算', '企业经营'].map(t => (
-                                      <span key={t} className="text-[10px] text-blue-100 font-bold opacity-80">{t}数据</span>
+                                      <span key={t} className="text-[10px] text-blue-600/60 font-bold">{t}数据</span>
                                     ))}
                                   </div>
                                 </div>
                               </div>
                               <div className="flex items-center gap-2">
                                 <div className="flex -space-x-2">
-                                  {[1,2,3].map(i => <div key={i} className="w-6 h-6 rounded-full border-2 border-blue-500 bg-blue-400/30 backdrop-blur-sm" />)}
+                                  {[1,2,3].map(i => <div key={i} className="w-6 h-6 rounded-full border-2 border-blue-100 bg-blue-50" />)}
                                 </div>
-                                <ChevronRight className="text-white/30" size={24} />
+                                <ChevronRight className="text-blue-200" size={24} />
                               </div>
                             </div>
                           </div>
@@ -756,7 +757,7 @@ const App: React.FC = () => {
                           
                           {/* 2. 运营平台 */}
                           <div className="relative group">
-                            <div className="absolute -left-12 top-1/2 -translate-y-1/2 w-8 h-8 bg-indigo-600 text-white rounded-full flex items-center justify-center font-black text-sm shadow-lg">1</div>
+                            <div className="absolute -left-12 top-1/2 -translate-y-1/2 w-8 h-8 bg-indigo-50 text-indigo-600 border border-indigo-200 rounded-full flex items-center justify-center font-black text-sm shadow-md">1</div>
                             <div className="bg-white border-2 border-indigo-500 p-5 rounded-2xl shadow-lg flex items-center justify-between group-hover:border-indigo-600 transition-all">
                               <div className="flex items-center gap-4">
                                 <div className="p-3 bg-indigo-50 rounded-xl">
@@ -781,37 +782,37 @@ const App: React.FC = () => {
 
                           {/* 3. 可信数据空间与数据管理平台 (Merged Layer 1) */}
                           <div className="relative group">
-                            <div className="absolute -left-12 top-1/2 -translate-y-1/2 w-8 h-8 bg-slate-800 text-white rounded-full flex items-center justify-center font-black text-sm shadow-lg z-10">1</div>
-                            <div className="bg-slate-900 rounded-[2rem] p-6 shadow-xl relative overflow-hidden group-hover:bg-slate-800/95 transition-all">
+                            <div className="absolute -left-12 top-1/2 -translate-y-1/2 w-8 h-8 bg-slate-50 text-slate-800 border border-slate-200 rounded-full flex items-center justify-center font-black text-sm shadow-md z-10">1</div>
+                            <div className="bg-white border-2 border-slate-200 rounded-[2rem] p-6 shadow-xl relative overflow-hidden group-hover:bg-slate-50/95 transition-all">
                               <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 rounded-bl-[4rem] -mr-8 -mt-8" />
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10">
                                 {/* 旅游可信数据空间 */}
                                 <div className="space-y-3">
                                   <div className="flex items-center gap-3">
-                                    <div className="p-2 bg-blue-500/20 rounded-lg border border-blue-500/30">
-                                      <Database className="text-blue-400" size={18} />
+                                    <div className="p-2 bg-blue-50 rounded-lg border border-blue-100">
+                                      <Database className="text-blue-600" size={18} />
                                     </div>
-                                    <h4 className="text-white font-black text-base">旅游可信数据空间</h4>
+                                    <h4 className="text-slate-900 font-black text-base">旅游可信数据空间</h4>
                                   </div>
                                   <div className="flex flex-wrap gap-3">
                                     {['区块链', '隐私计算', '可信认证', '数据沙箱'].map(t => (
-                                      <span key={t} className="text-[10px] text-slate-400 font-bold flex items-center gap-1">
+                                      <span key={t} className="text-[10px] text-slate-500 font-bold flex items-center gap-1">
                                         <div className="w-1 h-1 rounded-full bg-blue-500"></div>{t}
                                       </span>
                                     ))}
                                   </div>
                                 </div>
                                 {/* 数据管理平台 */}
-                                <div className="space-y-3 md:border-l md:border-white/10 md:pl-6">
+                                <div className="space-y-3 md:border-l md:border-slate-100 md:pl-6">
                                   <div className="flex items-center gap-3">
-                                    <div className="p-2 bg-amber-500/20 rounded-lg border border-amber-500/30">
-                                      <ClipboardList className="text-amber-400" size={18} />
+                                    <div className="p-2 bg-amber-50 rounded-lg border border-amber-100">
+                                      <ClipboardList className="text-amber-600" size={18} />
                                     </div>
-                                    <h4 className="text-white font-black text-base">数据管理平台</h4>
+                                    <h4 className="text-slate-900 font-black text-base">数据管理平台</h4>
                                   </div>
                                   <div className="flex flex-wrap gap-3">
                                     {['数据采集', '数据治理', '问题管理', '报表统计'].map(t => (
-                                      <span key={t} className="text-[10px] text-slate-400 font-bold flex items-center gap-1">
+                                      <span key={t} className="text-[10px] text-slate-500 font-bold flex items-center gap-1">
                                         <div className="w-1 h-1 rounded-full bg-amber-500"></div>{t}
                                       </span>
                                     ))}
@@ -851,8 +852,8 @@ const App: React.FC = () => {
                 {activeModule === 'data' && (
                    <div className="animate-in fade-in duration-700 space-y-10">
                       <div className="flex items-center gap-6 mb-10">
-                         <div className="w-16 h-16 bg-emerald-600 rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-200">
-                            <Database size={32} className="text-white" />
+                         <div className="w-16 h-16 bg-emerald-50 rounded-2xl flex items-center justify-center shadow-sm border border-emerald-100">
+                            <Database size={32} className="text-emerald-600" />
                          </div>
                          <div>
                             <h2 className="text-4xl font-black text-slate-900">汇数据</h2>
@@ -874,9 +875,9 @@ const App: React.FC = () => {
                               <div className="w-2 h-8 bg-blue-600 rounded-full" />
                               <h3 className="text-2xl font-black text-slate-800">旅游可信数据空间</h3>
                             </div>
-                            <div className="bg-blue-600 rounded-3xl p-8 text-white shadow-xl shadow-blue-100 relative overflow-hidden group">
-                              <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-bl-[4rem] -mr-12 -mt-12 transition-transform group-hover:scale-110" />
-                              <p className="text-sm leading-relaxed relative z-10 font-medium opacity-95">
+                            <div className="bg-blue-50 rounded-3xl p-8 text-slate-800 border border-blue-200 shadow-sm relative overflow-hidden group">
+                              <div className="absolute top-0 right-0 w-32 h-32 bg-blue-100/50 rounded-bl-[4rem] -mr-12 -mt-12 transition-transform group-hover:scale-110" />
+                              <p className="text-sm leading-relaxed relative z-10 font-medium text-slate-600">
                                 旅游可信数据空间是贵州省旅游数据流通的基础设施，是基于标准化互信协议构建的分布式可信数据协作环境。参与者通过主权身份认证，在共识规则下实现数据使用权与控制的分离交换。所有操作记录均通过分布式账本存证，确保数据来源可溯、数据权限可控、流通过程可信。一是帮助省旅游数字互联平台更好地实现数据汇集，二是帮助更好地实现贵州旅游数据要素的价值实现。
                               </p>
                             </div>
@@ -963,15 +964,15 @@ const App: React.FC = () => {
                               <div className="w-2 h-8 bg-amber-600 rounded-full" />
                               <h3 className="text-2xl font-black text-slate-800">数据管理平台</h3>
                             </div>
-                            <div className="bg-slate-900 rounded-3xl p-8 text-slate-300 shadow-xl shadow-slate-200 relative overflow-hidden group">
-                              <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-bl-[4rem] -mr-12 -mt-12 transition-transform group-hover:scale-110" />
+                            <div className="bg-amber-50 rounded-3xl p-8 text-slate-800 border border-amber-200 shadow-sm relative overflow-hidden group">
+                              <div className="absolute top-0 right-0 w-32 h-32 bg-amber-200/50 rounded-bl-[4rem] -mr-12 -mt-12 transition-transform group-hover:scale-110" />
                               <div className="relative z-10 space-y-4">
-                                <p className="text-sm leading-relaxed font-medium opacity-90">
+                                <p className="text-sm leading-relaxed font-medium text-slate-600">
                                   数据管理平台主要用于管理及治理汇聚的各类涉旅数据。通过标准化的治理流程，将原始数据转化为高质量的文旅数字资产，为大模型及各类涉旅应用提供精准的数据支撑。
                                 </p>
                                 <div className="flex flex-wrap gap-2 pt-2">
                                   {['数据采集人员', '数据治理人员', '数据管理人员'].map(role => (
-                                    <span key={role} className="px-3 py-1 bg-white/10 rounded-full text-[10px] font-bold text-amber-400 border border-white/10">
+                                    <span key={role} className="px-3 py-1 bg-white rounded-full text-[10px] font-bold text-amber-600 border border-amber-200">
                                       {role}
                                     </span>
                                   ))}
@@ -1072,83 +1073,240 @@ const App: React.FC = () => {
 
                 {activeModule === 'platform' && (
                    <div className="animate-in fade-in duration-700">
-                      <div className="flex items-center gap-6 mb-12">
-                         <div className="w-16 h-16 bg-amber-600 rounded-2xl flex items-center justify-center shadow-lg shadow-amber-200">
-                            <Network size={32} className="text-white" />
+                      {/* 头部标题 */}
+                      <div className="flex items-center gap-6 mb-10">
+                         <div className="w-16 h-16 bg-amber-50 rounded-2xl flex items-center justify-center shadow-sm border border-amber-100">
+                            <Network size={32} className="text-amber-600" />
                          </div>
                          <div>
                             <h2 className="text-4xl font-black text-slate-900">建平台</h2>
-                            <p className="text-slate-500 mt-1 uppercase tracking-widest text-xs font-bold">Platform Construction & Services</p>
+                            <p className="text-slate-500 mt-1 uppercase tracking-widest text-[10px] font-bold">Market-Oriented Transaction Interconnection Platform</p>
                          </div>
                       </div>
 
-                      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
-                        {[
-                          {
-                            title: '统一服务汇聚',
-                            desc: '聚合全省涉旅公共服务、商业服务与政务服务，实现服务的一站式接入与标准化输出。',
-                            icon: Layers,
-                            color: 'amber',
-                            features: ['API 统一管理', '服务目录标准化', '动态资源调度']
-                          },
-                          {
-                            title: '智能能力中台',
-                            desc: '沉淀 AI 语音、图像识别、意图理解等核心算法，为各级智能体提供底层能力支撑。',
-                            icon: Zap,
-                            color: 'orange',
-                            features: ['AI 算法共享', '大数据分析引擎', '多语种翻译能力']
-                          },
-                          {
-                            title: '全域运行监测',
-                            desc: '实时感知旅游市场脉搏，通过数据可视化实现精准调度与应急指挥。',
-                            icon: LineChart,
-                            color: 'yellow',
-                            features: ['实时流量看板', '舆情预警系统', '应急指挥调度']
-                          }
-                        ].map((item, i) => (
-                          <div key={i} className="group bg-white rounded-2xl p-6 border border-slate-200 shadow-sm transition-all hover:-translate-y-1 hover:shadow-md">
-                            <div className="relative z-10">
-                              <div className={`w-12 h-12 rounded-xl bg-${item.color}-100 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform`}>
+                      {/* 平台概述 */}
+                      <div className="bg-white border border-slate-200 rounded-3xl p-8 mb-12 shadow-sm relative overflow-hidden">
+                        <div className="absolute top-0 right-0 p-8 opacity-10">
+                          <Building2 size={120} className="text-amber-600" />
+                        </div>
+                        <div className="relative z-10">
+                          <div className="inline-flex items-center gap-2 px-3 py-1 bg-amber-50 rounded-full border border-amber-100 mb-6">
+                            <Zap size={12} className="text-amber-600" />
+                            <span className="text-[10px] font-bold text-amber-600 uppercase">平台定位</span>
+                          </div>
+                          <h3 className="text-xl font-bold text-slate-900 mb-4">市场型互联平台：构建旅游产业交易组织新生态</h3>
+                          <p className="text-slate-600 text-xs leading-relaxed max-w-4xl">
+                            贵州省省旅游数智互联平台是专为旅游产业建立交易组织的市场型互联平台。平台高效连接旅游供应商（景区、酒店、餐厅、车队等）与分销商（旅行社、OTA等），实现资源快速采购与交易，为旅游企业提供一站式、便捷高效的数字化交易体验与供应链金融服务。
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* 核心功能模块 */}
+                      <div className="mb-12">
+                        <div className="flex items-center gap-3 mb-8">
+                          <div className="w-1 h-6 bg-amber-500 rounded-full" />
+                          <h3 className="text-xl font-black text-slate-800">平台核心功能矩阵</h3>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                          {[
+                            {
+                              title: '商品展示及采购',
+                              desc: '涵盖景区门票、酒店住宿、餐厅餐饮、车队租赁等全品类资源，支持一键比价与下单。',
+                              icon: ShoppingBag,
+                              color: 'blue',
+                              tags: ['全品类接入', '快速交易']
+                            },
+                            {
+                              title: '订单与渠道管理',
+                              desc: '实时同步OTA订单，支持订单补录、状态追踪，实现渠道价格与库存的精准控管。',
+                              icon: Workflow,
+                              color: 'indigo',
+                              tags: ['多渠道同步', '精细化管理']
+                            },
+                            {
+                              title: '用信与额度管理',
+                              desc: '为采购商建立信用体系，实现额度申请、审批、使用及预警的全生命周期管理。',
+                              icon: CreditCard,
+                              color: 'emerald',
+                              tags: ['信用专户', '风险预警']
+                            },
+                            {
+                              title: '报表中心与决策',
+                              desc: '提供经营数据分析、财务报表、采购商画像等可视化看板，辅助经营决策。',
+                              icon: BarChart3,
+                              color: 'violet',
+                              tags: ['实时看板', '经营洞察']
+                            },
+                            {
+                              title: '供应链金融服务',
+                              desc: '联合金融机构提供信贷支持，推出符合涉旅企业业务需求的金融产品。',
+                              icon: Wallet,
+                              color: 'amber',
+                              tags: ['融资撮合', '资金增值']
+                            },
+                            {
+                              title: '基础服务支撑',
+                              desc: '组织架构管理、数据权限配置、标准接口对接，确保系统高效稳定运行。',
+                              icon: Database,
+                              color: 'slate',
+                              tags: ['标准化接口', '高并发支撑']
+                            }
+                          ].map((item, i) => (
+                            <div key={i} className="group bg-white rounded-2xl p-6 border border-slate-200 shadow-sm transition-all hover:-translate-y-1 hover:shadow-md">
+                              <div className={`w-12 h-12 rounded-xl bg-${item.color}-50 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform`}>
                                 <item.icon className={`text-${item.color}-600`} size={24} />
                               </div>
-                              <h3 className="text-lg font-bold text-slate-900 mb-3">{item.title}</h3>
+                              <h3 className="text-base font-bold text-slate-900 mb-3">{item.title}</h3>
                               <p className="text-slate-500 text-[11px] leading-relaxed mb-6">{item.desc}</p>
-                              
-                              <div className="flex flex-wrap gap-2 pt-5 border-t border-slate-100">
-                                {item.features.map((f, idx) => (
-                                  <span key={idx} className={`px-2 py-0.5 bg-${item.color}-50 text-${item.color}-600 rounded-full text-[9px] font-bold flex items-center gap-1`}>
-                                    <CheckCircle2 size={10} />
-                                    {f}
+                              <div className="flex flex-wrap gap-2">
+                                {item.tags.map((tag, idx) => (
+                                  <span key={idx} className={`px-2 py-0.5 bg-${item.color}-50 text-${item.color}-600 rounded-md text-[9px] font-bold`}>
+                                    {tag}
                                   </span>
                                 ))}
                               </div>
                             </div>
-                          </div>
-                        ))}
+                          ))}
+                        </div>
                       </div>
 
-                      <div className="bg-white border border-slate-200 rounded-[2rem] p-10 overflow-hidden relative shadow-sm">
-                        <div className="absolute top-0 right-0 w-1/2 h-full opacity-[0.03] pointer-events-none">
-                          <img src={dapingImg} alt="大屏" className="w-full h-full object-cover" />
+                      {/* 供应链金融流程 */}
+                      <div className="bg-white border border-slate-200 rounded-[2.5rem] p-10 mb-12 relative overflow-hidden shadow-sm">
+                        <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-amber-500/5 to-transparent" />
+                        <div className="relative z-10">
+                          <div className="flex flex-col md:flex-row md:items-center justify-between mb-10 gap-6">
+                            <div>
+                              <h3 className="text-2xl font-black text-slate-900 mb-2">供应链金融服务流程</h3>
+                              <p className="text-slate-500 text-xs">助力企业高效流转，确保资金安全增值</p>
+                            </div>
+                            <div className="flex gap-4">
+                              <div className="flex items-center gap-2 px-4 py-2 bg-amber-50 rounded-xl border border-amber-100">
+                                <Building2 size={16} className="text-amber-600" />
+                                <span className="text-amber-900 text-[10px] font-bold">金融机构合作</span>
+                              </div>
+                              <div className="flex items-center gap-2 px-4 py-2 bg-emerald-50 rounded-xl border border-emerald-100">
+                                <ShieldCheck size={16} className="text-emerald-600" />
+                                <span className="text-emerald-900 text-[10px] font-bold">资金安全保障</span>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                            {[
+                              { step: '01', title: '申请专户', desc: '涉旅企业在平台申请信用专户' },
+                              { step: '02', title: '审核授信', desc: '平台审核及金融机构尽调获得额度' },
+                              { step: '03', title: '提交申请', desc: '提交行程、清单等订单材料发起用信' },
+                              { step: '04', title: '资金注入', desc: '审核通过后资金打入专户用于采购' },
+                              { step: '05', title: '资源采购', desc: '在平台内采购景、酒、餐、车等资源' },
+                              { step: '06', title: '还本付息', desc: '还款周期到期后向金融机构归还款项' }
+                            ].map((s, idx) => (
+                              <div key={idx} className="relative group">
+                                <div className="bg-slate-50 border border-slate-100 rounded-2xl p-5 hover:bg-white hover:border-amber-200 hover:shadow-md transition-all h-full">
+                                  <span className="text-amber-600 text-xs font-black mb-3 block">{s.step}</span>
+                                  <h4 className="text-slate-900 text-sm font-bold mb-2">{s.title}</h4>
+                                  <p className="text-slate-500 text-[10px] leading-relaxed">{s.desc}</p>
+                                </div>
+                                {idx < 5 && (
+                                  <div className="hidden lg:block absolute top-1/2 -right-2 -translate-y-1/2 z-20">
+                                    <ChevronRight className="text-slate-300" size={16} />
+                                  </div>
+                                )}
+                              </div>
+                            ))}
+                          </div>
                         </div>
-                        <div className="relative z-10 max-w-2xl">
-                          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-indigo-50 rounded-full border border-indigo-100 mb-6">
-                            <Sparkles size={14} className="text-indigo-600" />
-                            <span className="text-[10px] font-bold text-indigo-600 uppercase tracking-widest">核心价值</span>
-                          </div>
-                          <h3 className="text-2xl font-black text-slate-900 mb-5 leading-tight">贵州旅游数字互联平台：打造“一云一网一平台”升级版</h3>
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-slate-500 text-xs leading-relaxed">
-                            <p>通过构建统一的数字底座，打破数据孤岛，实现文旅资源要素的数字化建模与全生命周期管理。</p>
-                            <p>赋能各级政府部门实现精准监管，助力涉旅企业数字化转型，为游客提供更加智能化、个性化的旅行服务体验。</p>
-                          </div>
-                          <div className="flex gap-4 mt-8">
-                            <button className="bg-indigo-600 text-white px-6 py-3 rounded-xl font-bold text-xs hover:bg-indigo-700 transition-all active:scale-95 shadow-lg shadow-indigo-100">
-                              了解平台架构
-                            </button>
-                            <button className="bg-white text-slate-600 px-6 py-3 rounded-xl font-bold text-xs hover:bg-slate-50 border border-slate-200 transition-all active:scale-95">
-                              查看典型案例
-                            </button>
-                          </div>
+                      </div>
+
+                      {/* 平台多端入口展示 */}
+                      <div className="mb-12">
+                        <div className="flex items-center gap-3 mb-6">
+                          <div className="w-1 h-6 bg-amber-500 rounded-full" />
+                          <h3 className="text-xl font-black text-slate-800">平台各端入口</h3>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                          {[
+                            {
+                              name: '景区/餐饮企业端',
+                              sub: '荔波县云上老乡餐馆',
+                              url: 'http://www.lbymt.com/config/home/home?sysFlag=qn',
+                              account: '15985402914',
+                              pass: 'Aa402914',
+                              icon: Utensils,
+                              color: 'emerald'
+                            },
+                            {
+                              name: '酒店企业端',
+                              sub: '荔波县玉屏石缘客栈',
+                              url: 'http://114.255.113.32:20000/hweb/#/pms/checkInList',
+                              account: '13765417466',
+                              pass: 'Qwe1234567_',
+                              icon: BedDouble,
+                              color: 'blue'
+                            },
+                            {
+                              name: '资金方金融端 (初审)',
+                              sub: '贵州荔波全域智慧旅游有限公司',
+                              url: 'https://lyb.ymtcloud.com/config/home/home?sysFlag=sj',
+                              account: '15286009622',
+                              pass: 'Cy123456',
+                              icon: ShieldCheck,
+                              color: 'indigo'
+                            },
+                            {
+                              name: '金融端 (复审)',
+                              sub: '贵州信用通供应链数据管理有限公司',
+                              url: 'https://lyb.ymtcloud.com/config/home/home?sysFlag=sj',
+                              account: '18798041556',
+                              pass: 'Xyt123456',
+                              icon: Landmark,
+                              color: 'violet'
+                            },
+                            {
+                              name: '采购端',
+                              sub: '演示账号',
+                              url: 'https://lyb.ymtcloud.com/config/home/home?sysFlag=sj',
+                              account: '13885022658',
+                              pass: 'Ty123456',
+                              icon: ShoppingBag,
+                              color: 'orange'
+                            }
+                          ].map((entry, idx) => (
+                            <div key={idx} className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm hover:shadow-md transition-all group/card">
+                              <div className="flex items-center gap-4 mb-4">
+                                <div className={`w-10 h-10 bg-${entry.color}-50 rounded-xl flex items-center justify-center group-hover/card:scale-110 transition-transform`}>
+                                  <entry.icon className={`text-${entry.color}-600`} size={20} />
+                                </div>
+                                <div className="min-w-0">
+                                  <h4 className="font-bold text-slate-900 text-sm truncate">{entry.name}</h4>
+                                  <p className="text-[10px] text-slate-400 truncate">{entry.sub}</p>
+                                </div>
+                              </div>
+                              <div className="space-y-2 bg-slate-50 rounded-xl p-3 mb-4 border border-slate-100">
+                                <div className="flex justify-between items-center text-[10px]">
+                                  <span className="text-slate-400">账号</span>
+                                  <span className="text-slate-700 font-mono font-bold">{entry.account}</span>
+                                </div>
+                                <div className="flex justify-between items-center text-[10px]">
+                                  <span className="text-slate-400">密码</span>
+                                  <span className="text-slate-700 font-mono font-bold">{entry.pass}</span>
+                                </div>
+                              </div>
+                              <div className="flex gap-2">
+                                <button 
+                                  onClick={() => copyText(`${entry.account} ${entry.pass}`)}
+                                  className="flex-1 py-2 rounded-lg bg-slate-100 text-slate-600 text-[10px] font-bold hover:bg-slate-200 transition-colors flex items-center justify-center gap-1 border border-slate-200"
+                                >
+                                  <ClipboardList size={12} /> 复制凭证
+                                </button>
+                                <button 
+                                  onClick={() => openExternal(entry.url)}
+                                  className={`flex-1 py-2 rounded-lg bg-${entry.color}-50 text-${entry.color}-700 border border-${entry.color}-200 text-[10px] font-bold hover:bg-${entry.color}-600 hover:text-white transition-all flex items-center justify-center gap-1 shadow-sm`}
+                                >
+                                  立即进入 <ExternalLink size={12} />
+                                </button>
+                              </div>
+                            </div>
+                          ))}
                         </div>
                       </div>
                    </div>

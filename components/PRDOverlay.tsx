@@ -2,15 +2,18 @@
 import React, { useState } from 'react';
 /* Added MapPin, Headphones, and CheckCircle2 to the imports from lucide-react */
 import {
-  X, Download, FileText, Cpu, Database, ShieldCheck, 
+  X, Download, Cpu, Database, ShieldCheck, 
   Layers, Target, TrendingUp, Globe, Smartphone, 
-  Briefcase, LayoutDashboard, Flag, Landmark, 
+  LayoutDashboard, Flag, Landmark, 
   Users, Bot, Map, Zap, MessageSquare, Search, 
-  ChevronRight, Network, Box, Terminal, Award, 
-  Utensils, BedDouble, Truck, Mountain, LineChart, 
-  FileSearch, ClipboardList, ShieldAlert, Heart,
-  MapPin, Headphones, CheckCircle2, Store
+  ChevronRight, Box, Terminal, 
+  LineChart, 
+  FileSearch, ClipboardList, ShieldAlert,
+  MapPin, Headphones, CheckCircle2, Store,
+  Workflow, CreditCard, Building2, Wifi, Send, BarChart3, Lock
 } from 'lucide-react';
+
+import jingquGuihuaImg from '../image/jingquguihua.png';
 
 interface Props {
   onClose: () => void;
@@ -23,22 +26,33 @@ const PRDOverlay: React.FC<Props> = ({ onClose }) => {
   const [activeTab, setActiveTab] = useState<TabId>('matrix');
   const [activeClient, setActiveClient] = useState<ClientId>('agency');
   const [showLegacyPRD, setShowLegacyPRD] = useState(false);
-  const [activeRingInfo, setActiveRingInfo] = useState<{title: string, desc: string, summary: string, color: string} | null>(null);
+  const [activeRingInfo, setActiveRingInfo] = useState<{type: string, title: string, desc: string, summary: string, color: string} | null>(null);
+  const [activeSubTab, setActiveSubTab] = useState<'status' | 'planning'>('status');
 
   const ringData = {
     org: {
+      type: 'org',
       title: "组织端智能体 (Organization Agents)",
       summary: "产业垂直领域的数字化决策大脑",
       desc: "针对旅行社、酒店、景区、政府等文旅核心主体，提供定制化的管理与决策支持。通过整合多维行业数据，实现从经营分析、资源调度到产业监管的全面智能化，是文旅产业实现数智化转型的核心底座。",
       color: "indigo"
     },
+    spot: {
+      type: 'spot',
+      title: "景区智能体 (Scenic Spot Agent)",
+      summary: "景区数智化运营核心",
+      desc: "专注于景区场景的智能化管理与游客服务，通过打通票务、导览、安防等系统，提供全方位的数智化运营支持。",
+      color: "blue"
+    },
     role: {
+      type: 'role',
       title: "角色智能体 (Role Agents)",
       summary: "行业从业者的全能数字伙伴",
       desc: "深度嵌入具体职业场景（如导游、线路设计师、前台、销售等），为其提供针对性的作业辅助。具备专业领域知识，能够自动化处理重复性劳动，如解说词生成、行程优化、客户话术辅助等，显著提升一线人员的人效与服务质量。",
       color: "slate"
     },
     func: {
+      type: 'func',
       title: "功能智能体 (Function Agents)",
       summary: "细粒度任务的自动化执行专家",
       desc: "专注于文旅场景中的原子化功能模块（如房态查询、车辆调度、天气动态调整、客流预测等）。通过高精度的 API 调用与算法模型，为上层应用提供即插即用的 AI 技能插件，确保服务链条中的每一个细节都能实现智能响应。",
@@ -105,10 +119,19 @@ const PRDOverlay: React.FC<Props> = ({ onClose }) => {
                 <MatrixNode label="酒店智能体" angle={60} color="blue" />
                 <MatrixNode label="出行智能体" angle={120} color="blue" />
                 <MatrixNode label="政府智能体" angle={180} color="indigo" isCore />
-                <MatrixNode label="景区智能体" angle={240} color="blue" />
+                <MatrixNode 
+                  label="景区智能体" 
+                  angle={240} 
+                  color="blue" 
+                  onClick={(e: any) => {
+                    e.stopPropagation();
+                    setActiveRingInfo(ringData.spot);
+                    setActiveSubTab('status');
+                  }}
+                />
                 <MatrixNode label="旅行社智能体" angle={300} color="blue" />
                 <MatrixNode label="旅居智能体" angle={330} color="blue" />
-             </div>
+              </div>
           </div>
 
           {/* C. 第二层环：角色智能体 */}
@@ -195,59 +218,219 @@ const PRDOverlay: React.FC<Props> = ({ onClose }) => {
       {activeRingInfo && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm animate-in fade-in duration-300" onClick={() => setActiveRingInfo(null)}>
            <div 
-            className="bg-white w-[500px] rounded-[2.5rem] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-300 border border-slate-100"
+            className={`bg-white ${activeRingInfo.type === 'org' || activeRingInfo.type === 'spot' ? 'w-[800px]' : 'w-[500px]'} rounded-[2.5rem] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-300 border border-slate-100 transition-all`}
             onClick={e => e.stopPropagation()}
            >
               <div className={`h-3 bg-gradient-to-r ${
                 activeRingInfo.color === 'indigo' ? 'from-blue-500 to-indigo-600' :
                 activeRingInfo.color === 'teal' ? 'from-teal-400 to-emerald-500' :
+                activeRingInfo.color === 'blue' ? 'from-blue-400 to-blue-600' :
                 'from-slate-400 to-slate-600'
               }`}></div>
               
-              <div className="p-10">
-                 <div className="flex justify-between items-start mb-6">
-                    <div>
-                       <h4 className="text-2xl font-black text-slate-800 mb-2">{activeRingInfo.title}</h4>
-                       <div className={`inline-block px-3 py-1 rounded-full text-xs font-bold ${
-                         activeRingInfo.color === 'indigo' ? 'bg-indigo-50 text-indigo-600' :
-                         activeRingInfo.color === 'teal' ? 'bg-teal-50 text-teal-600' :
-                         'bg-slate-50 text-slate-600'
-                       }`}>
-                          {activeRingInfo.summary}
-                       </div>
+              {activeRingInfo.type === 'spot' ? (
+                <div className="flex h-[600px]">
+                  {/* Left Sidebar */}
+                  <div className="w-56 bg-slate-50/50 border-r border-slate-100 p-8 flex flex-col gap-4">
+                    <div className="mb-6">
+                      <div className="w-12 h-12 rounded-2xl bg-blue-600 flex items-center justify-center text-white mb-4 shadow-lg shadow-blue-100">
+                        <MapPin size={24} />
+                      </div>
+                      <h4 className="text-xl font-black text-slate-800">景区智能体</h4>
+                      <p className="text-[10px] text-slate-400 mt-1 uppercase tracking-wider">Scenic Spot Agent</p>
                     </div>
-                    <button onClick={() => setActiveRingInfo(null)} className="p-2 hover:bg-slate-100 rounded-full transition-colors">
-                       <X size={20} className="text-slate-400" />
-                    </button>
-                 </div>
-                 
-                 <div className="space-y-6">
-                    <p className="text-slate-600 leading-relaxed text-sm bg-slate-50 p-6 rounded-2xl border border-slate-100/50">
-                       {activeRingInfo.desc}
-                    </p>
-                    
-                    <div className="flex items-center gap-4 p-4 rounded-2xl bg-indigo-50/30 border border-indigo-50">
-                       <div className="w-10 h-10 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-600">
-                          <Bot size={20} />
-                       </div>
-                       <div className="flex-1">
-                          <div className="text-xs font-black text-slate-800">2026 数智化演进</div>
-                          <div className="text-[10px] text-slate-500">基于多源垂直大模型，实现从单一任务到全链路智能化的跨越</div>
-                       </div>
+
+                    <div className="space-y-2">
+                      {[
+                        { id: 'status', label: '1. 现状', icon: ClipboardList },
+                        { id: 'planning', label: '2. 规划', icon: Layers }
+                      ].map(tab => (
+                        <button
+                          key={tab.id}
+                          onClick={() => setActiveSubTab(tab.id as any)}
+                          className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all ${
+                            activeSubTab === tab.id 
+                              ? 'bg-white text-blue-600 shadow-md shadow-blue-50 border border-blue-50' 
+                              : 'text-slate-400 hover:bg-slate-100'
+                          }`}
+                        >
+                          <tab.icon size={18} />
+                          {tab.label}
+                        </button>
+                      ))}
                     </div>
-                 </div>
-                 
-                 <button 
-                  onClick={() => setActiveRingInfo(null)}
-                  className={`w-full mt-8 py-4 rounded-2xl font-black text-sm shadow-lg transition-all active:scale-95 ${
-                    activeRingInfo.color === 'indigo' ? 'bg-indigo-600 text-white shadow-indigo-100 hover:bg-indigo-700' :
-                    activeRingInfo.color === 'teal' ? 'bg-teal-600 text-white shadow-teal-100 hover:bg-teal-700' :
-                    'bg-slate-800 text-white shadow-slate-100 hover:bg-slate-900'
-                  }`}
-                 >
-                    了解更多规划细节
-                 </button>
-              </div>
+
+                    <div className="mt-auto pt-6 border-t border-slate-100">
+                      <div className="bg-blue-50 rounded-2xl p-4 border border-blue-100">
+                        <div className="text-[10px] font-black text-blue-600 uppercase mb-1">运行状态</div>
+                        <div className="flex items-center gap-2">
+                          <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
+                          <span className="text-xs font-bold text-slate-700">服务正常运行中</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Right Content */}
+                  <div className="flex-1 flex flex-col min-h-0">
+                    <div className="p-6 border-b border-slate-50 flex justify-between items-center">
+                      <div className="flex items-center gap-2">
+                        <div className={`px-3 py-1 rounded-full text-[10px] font-black ${
+                          activeSubTab === 'status' ? 'bg-slate-100 text-slate-600' : 'bg-blue-50 text-blue-600'
+                        }`}>
+                          {activeSubTab === 'status' ? 'CURRENT STATUS' : 'FUTURE PLANNING'}
+                        </div>
+                      </div>
+                      <button onClick={() => setActiveRingInfo(null)} className="p-2 hover:bg-slate-100 rounded-full transition-colors">
+                        <X size={20} className="text-slate-400" />
+                      </button>
+                    </div>
+
+                    <div className="flex-1 overflow-y-auto p-10 custom-scrollbar">
+                      {activeSubTab === 'status' ? (
+                        <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                          <div>
+                            <h5 className="text-2xl font-black text-slate-800 mb-4">{activeRingInfo.title}</h5>
+                            <p className="text-slate-600 leading-relaxed text-sm bg-slate-50 p-6 rounded-2xl border border-slate-100/50">
+                              {activeRingInfo.desc}
+                            </p>
+                          </div>
+                          
+                          <div className="grid grid-cols-2 gap-4">
+                            {[
+                              { n: '票务系统打通', i: CreditCard, d: '实时分销与核销' },
+                              { n: '智慧导览服务', i: Headphones, d: '位置感知讲解' },
+                              { n: '安防联动监控', i: ShieldCheck, d: '客流异动预警' },
+                              { n: '多端信息发布', i: Smartphone, d: '景区动态触达' }
+                            ].map((item, idx) => (
+                              <div key={idx} className="p-4 rounded-2xl border border-slate-100 flex items-center gap-4 bg-white shadow-sm">
+                                <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600">
+                                  <item.i size={20} />
+                                </div>
+                                <div>
+                                  <div className="text-xs font-black text-slate-800">{item.n}</div>
+                                  <div className="text-[10px] text-slate-400 mt-0.5">{item.d}</div>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                          <div>
+                            <h5 className="text-2xl font-black text-slate-800 mb-4">2026 沉浸式数智景区规划</h5>
+                            <p className="text-slate-600 leading-relaxed text-sm bg-blue-50/30 p-6 rounded-2xl border border-blue-100/50">
+                              通过引入 AI 智能导览、AR 互动体验及全自动客流调度系统，云峰屯堡景区将实现从传统游览到沉浸式数智体验的全面升级。AI 伴游将提供随身讲解、实时定位及个性化攻略，让每一位游客都能深度探秘大明遗风。
+                            </p>
+                          </div>
+
+                          <div className="relative group">
+                            <div className="absolute inset-0 bg-blue-600/5 rounded-[2rem] transform rotate-1 group-hover:rotate-0 transition-transform"></div>
+                            <img 
+                              src={jingquGuihuaImg} 
+                              alt="景区规划图" 
+                              className="relative w-full h-[240px] object-cover rounded-[2rem] shadow-xl border-4 border-white"
+                            />
+                            <div className="absolute bottom-4 right-4 bg-white/90 backdrop-blur px-4 py-2 rounded-xl border border-white shadow-sm">
+                              <span className="text-[10px] font-black text-blue-600">规划效果预览图</span>
+                            </div>
+                          </div>
+
+                          <a 
+                            href="https://arifinfirman788-blip.github.io/JingQu/" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="flex items-center justify-between w-full p-6 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl text-white shadow-xl shadow-blue-100 hover:scale-[1.02] transition-all group"
+                          >
+                            <div className="flex items-center gap-4">
+                              <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur flex items-center justify-center">
+                                <Globe size={24} />
+                              </div>
+                              <div>
+                                <div className="font-black text-lg">访问 AI 伴游预览</div>
+                                <div className="text-blue-100 text-xs">体验云峰屯堡景区智慧导览原型</div>
+                              </div>
+                            </div>
+                            <ChevronRight size={24} className="group-hover:translate-x-1 transition-transform" />
+                          </a>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="p-10">
+                   <div className="flex justify-between items-start mb-6">
+                      <div>
+                         <h4 className="text-2xl font-black text-slate-800 mb-2">{activeRingInfo.title}</h4>
+                         <div className={`inline-block px-3 py-1 rounded-full text-xs font-bold ${
+                           activeRingInfo.color === 'indigo' ? 'bg-indigo-50 text-indigo-600' :
+                           activeRingInfo.color === 'teal' ? 'bg-teal-50 text-teal-600' :
+                           'bg-slate-50 text-slate-600'
+                         }`}>
+                            {activeRingInfo.summary}
+                         </div>
+                      </div>
+                      <button onClick={() => setActiveRingInfo(null)} className="p-2 hover:bg-slate-100 rounded-full transition-colors">
+                         <X size={20} className="text-slate-400" />
+                      </button>
+                   </div>
+                   
+                   <div className="space-y-6">
+                      <p className="text-slate-600 leading-relaxed text-sm bg-slate-50 p-6 rounded-2xl border border-slate-100/50">
+                         {activeRingInfo.desc}
+                      </p>
+                      
+                      {activeRingInfo.type === 'org' && (
+                         <div className="pt-2">
+                            <div className="flex items-center gap-2 mb-4 text-indigo-600 font-black text-[10px] uppercase tracking-widest">
+                               <Store size={14} />
+                               核心业务能力集 (MCP 接口集)
+                            </div>
+                            <div className="grid grid-cols-2 gap-3">
+                               {[
+                                  { n: 'OTA 渠道分销插件', i: Workflow, d: '携程/美团库存同步' },
+                                  { n: '支付与财务接口', i: CreditCard, d: '对接微信/支付宝结算' },
+                                  { n: 'PMS/ERP 深度打通', i: Building2, d: '实时房态与车调数据' },
+                                  { n: 'IoT 硬件控制集', i: Wifi, d: '智能门锁与闸机控制' }
+                               ].map((item, idx) => (
+                                  <div key={idx} className="bg-white p-3 rounded-2xl border border-slate-100 flex items-center gap-3 hover:border-indigo-200 transition-colors shadow-sm">
+                                     <div className="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-600 shrink-0">
+                                        <item.i size={18} />
+                                     </div>
+                                     <div>
+                                        <div className="text-[11px] font-bold text-slate-800">{item.n}</div>
+                                        <div className="text-[9px] text-slate-400 mt-0.5">{item.d}</div>
+                                     </div>
+                                  </div>
+                               ))}
+                            </div>
+                         </div>
+                      )}
+                      
+                      <div className="flex items-center gap-4 p-4 rounded-2xl bg-indigo-50/30 border border-indigo-50">
+                         <div className="w-10 h-10 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-600">
+                            <Bot size={20} />
+                         </div>
+                         <div className="flex-1">
+                            <div className="text-xs font-black text-slate-800">2026 数智化演进</div>
+                            <div className="text-[10px] text-slate-500">基于多源垂直大模型，实现从单一任务到全链路智能化的跨越</div>
+                         </div>
+                      </div>
+                   </div>
+                   
+                   <button 
+                    onClick={() => setActiveRingInfo(null)}
+                    className={`w-full mt-8 py-4 rounded-2xl font-black text-sm shadow-lg transition-all active:scale-95 ${
+                      activeRingInfo.color === 'indigo' ? 'bg-indigo-600 text-white shadow-indigo-100 hover:bg-indigo-700' :
+                      activeRingInfo.color === 'teal' ? 'bg-teal-600 text-white shadow-teal-100 hover:bg-teal-700' :
+                      'bg-slate-800 text-white shadow-slate-100 hover:bg-slate-900'
+                    }`}
+                   >
+                      了解更多规划细节
+                   </button>
+                </div>
+              )}
            </div>
         </div>
       )}
@@ -255,7 +438,7 @@ const PRDOverlay: React.FC<Props> = ({ onClose }) => {
   );
 
   // --- Helper: Matrix Node (Orbiting) ---
-  const MatrixNode = ({ label, angle, color, isCore }: any) => {
+  const MatrixNode = ({ label, angle, isCore, onClick }: any) => {
     // Calculate position on ellipse
     const rad = (angle * Math.PI) / 180;
     const x = 50 + 42 * Math.cos(rad); // %
@@ -263,7 +446,8 @@ const PRDOverlay: React.FC<Props> = ({ onClose }) => {
     
     return (
       <div 
-        className={`absolute px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm whitespace-nowrap transition-all hover:scale-110 cursor-pointer
+        onClick={onClick}
+        className={`absolute px-3 py-1.5 rounded-xl text-xs font-bold shadow-sm whitespace-nowrap transition-all hover:scale-110 cursor-pointer
           ${isCore ? 'bg-indigo-600 text-white z-50 scale-110 shadow-indigo-200' : 'bg-white text-slate-700 border border-slate-200'}
         `}
         style={{ left: `${x}%`, top: `${y}%`, transform: 'translate(-50%, -50%)' }}
@@ -335,46 +519,47 @@ const PRDOverlay: React.FC<Props> = ({ onClose }) => {
           </div>
 
           <div className="grid grid-cols-1 gap-8">
-             {/* 类别 1: 智能体底层插件 */}
+             {/* 类别 1: 业务动作连接器 (MCP 接口集) */}
              <MarketSection 
-                title="智能体底层插件" 
-                color="slate"
+                title="业务动作连接器 (MCP 接口集)" 
+                color="indigo"
                 items={[
-                   { name: '知识库管理系统', p: 'P1', desc: '官方数据+用户UGC+合作伙伴数据三位一体' },
-                   { name: '智能体配置功能', p: 'P1', desc: '单Agent/Multi-Agent标准化通信协议' },
-                   { name: '用户偏好与画像', p: 'P2', desc: '多维度用户数据采集与权重优化' }
+                   { name: 'OTA 渠道分销插件', p: 'P1', icon: Workflow, desc: '携程/美团库存同步与订单确认' },
+                   { name: '支付与财务接口', p: 'P1', icon: CreditCard, desc: '对接微信/支付宝分账与结算系统' },
+                   { name: 'PMS/ERP 深度打通', p: 'P1', icon: Building2, desc: '实时房态、门票与车调数据交互' }
                 ]}
              />
 
-             {/* 类别 2: 智能体功能插件 */}
+             {/* 类别 2: 现场执行执行器 (端到端连接) */}
              <MarketSection 
-                title="智能体功能插件" 
-                color="blue"
+                title="现场执行执行器 (端到端连接)" 
+                color="orange"
                 items={[
-                   { name: '多语言助手', p: 'P2', desc: '快速搭建中英日韩的多语言版本' },
-                   { name: '文件解析助手', p: 'P2', desc: 'PDF/WORD/EXCEL等内容研判解析' },
-                   { name: '智能推荐', p: 'P2', desc: '基于用户画像的个性化内容生成' }
+                   { name: 'IoT 硬件控制集', p: 'P1', icon: Wifi, desc: '智能门锁、闸机及语音杆控制' },
+                   { name: '多端媒介触达', p: 'P1', icon: Smartphone, desc: '视频号/小红书/公众号内容分发' },
+                   { name: '即时指令推送', p: 'P1', icon: Send, desc: '实时向导游及司机端下发任务' }
                 ]}
              />
 
-             {/* 类别 3: 安全与合规管理 */}
+             {/* 类别 3: 智能决策与分析支撑 */}
              <MarketSection 
-                title="安全与合规管理" 
-                color="red"
-                items={[
-                   { name: '敏感数据加密', p: 'P1', desc: '传输与存储加密，敏感词白名单' },
-                   { name: '用户权限体系', p: 'P1', desc: '基于省市区/组织架构/菜单的数据权限' }
-                ]}
-             />
-
-             {/* 类别 4: 传统能力插件 */}
-             <MarketSection 
-                title="传统能力插件" 
+                title="智能决策与分析支撑" 
                 color="emerald"
                 items={[
-                   { name: '订购管理', p: 'P1', desc: '产品上架/分发/订单管理/售后管理' },
-                   { name: '营销活动管理', p: 'P2', desc: '优惠券/积分商城/会员体系' },
-                   { name: '合作伙伴管理', p: 'P1', desc: '供应商资质审核与分账结算自动化' }
+                   { name: 'BI 业务实时看板', p: 'P1', icon: BarChart3, desc: '基于真实交易数据的 AI 辅助决策' },
+                   { name: '智能营销触发器', p: 'P2', icon: Zap, desc: '根据库存自动触发优惠投放' },
+                   { name: '舆情监控插件', p: 'P2', icon: Search, desc: '全网评价研判与应对建议生成' }
+                ]}
+             />
+
+             {/* 类别 4: 安全合规与基础设施 */}
+             <MarketSection 
+                title="安全合规与基础设施" 
+                color="slate"
+                items={[
+                   { name: '敏感数据沙箱', p: 'P1', icon: Lock, desc: '确保 MCP 调用过程的数据安全' },
+                   { name: 'Multi-Agent 标准协议', p: 'P1', icon: Layers, desc: '支持异构系统智能体协同交互' },
+                   { name: '知识库增强系统', p: 'P1', icon: Database, desc: '业务 SOP 与专业知识 RAG 挂载' }
                 ]}
              />
           </div>
@@ -388,7 +573,9 @@ const PRDOverlay: React.FC<Props> = ({ onClose }) => {
        slate: 'bg-slate-50 border-slate-200 text-slate-700',
        blue: 'bg-blue-50 border-blue-200 text-blue-700',
        red: 'bg-red-50 border-red-200 text-red-700',
-       emerald: 'bg-emerald-50 border-emerald-200 text-emerald-700'
+       emerald: 'bg-emerald-50 border-emerald-200 text-emerald-700',
+       indigo: 'bg-indigo-50 border-indigo-200 text-indigo-700',
+       orange: 'bg-orange-50 border-orange-200 text-orange-700'
     };
     
     return (
@@ -399,14 +586,23 @@ const PRDOverlay: React.FC<Props> = ({ onClose }) => {
           </h4>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
              {items.map((item: any) => (
-                <div key={item.name} className="bg-white p-4 rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
-                   <div className="flex justify-between items-start mb-2">
-                      <span className="font-bold text-slate-700 text-sm">{item.name}</span>
-                      <span className={`text-[10px] font-black px-1.5 py-0.5 rounded ${item.p === 'P1' ? 'bg-rose-100 text-rose-600' : 'bg-slate-100 text-slate-500'}`}>
-                         {item.p}
-                      </span>
+                <div key={item.name} className="bg-white p-4 rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow group">
+                   <div className="flex gap-3 items-start mb-2">
+                      {item.icon && (
+                         <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${colors[color].split(' ')[0]} ${colors[color].split(' ')[2]} group-hover:scale-110 transition-transform`}>
+                            <item.icon size={16} />
+                         </div>
+                      )}
+                      <div className="flex-1">
+                         <div className="flex justify-between items-center">
+                            <span className="font-bold text-slate-700 text-xs">{item.name}</span>
+                            <span className={`text-[9px] font-black px-1.5 py-0.5 rounded shrink-0 ${item.p === 'P1' ? 'bg-rose-100 text-rose-600' : 'bg-slate-100 text-slate-500'}`}>
+                               {item.p}
+                            </span>
+                         </div>
+                         <p className="text-[10px] text-slate-400 leading-relaxed mt-1">{item.desc}</p>
+                      </div>
                    </div>
-                   <p className="text-[10px] text-slate-400 leading-relaxed">{item.desc}</p>
                 </div>
              ))}
           </div>
@@ -634,36 +830,6 @@ const ClientTab = ({ id, label, active, onClick }: any) => (
       {label}
    </button>
 );
-
-const AgentNode = ({ icon: Icon, label, color = 'slate' }: any) => (
-   <div className="flex flex-col items-center gap-3 animate-in zoom-in duration-700">
-      <div className={`w-16 h-16 rounded-2xl bg-${color}-100 flex items-center justify-center text-${color}-600 shadow-lg border border-${color}-200 group hover:scale-110 transition-transform`}>
-         <Icon size={32} />
-      </div>
-      <span className="text-[11px] font-black text-slate-700 whitespace-nowrap">{label}</span>
-   </div>
-);
-
-const RoleBox = ({ title, roles, color = 'indigo' }: any) => {
-   const colors: any = {
-      indigo: 'bg-indigo-50 border-indigo-100 text-indigo-900',
-      blue: 'bg-blue-50 border-blue-100 text-blue-900',
-      rose: 'bg-rose-50 border-rose-100 text-rose-900',
-      emerald: 'bg-emerald-50 border-emerald-100 text-emerald-900'
-   };
-   return (
-      <div className={`p-5 rounded-3xl border ${colors[color]}`}>
-         <h5 className="text-xs font-black uppercase tracking-widest mb-4 opacity-60">{title}</h5>
-         <div className="space-y-2">
-            {roles.map((r: string) => (
-              <div key={r} className="text-xs font-bold flex items-center gap-2">
-                 <ChevronRight size={10} /> {r}
-              </div>
-            ))}
-         </div>
-      </div>
-   );
-};
 
 const ScenarioCard = ({ title, desc, features, icon: Icon, color }: any) => {
    const colors: any = {

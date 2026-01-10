@@ -16,15 +16,17 @@ import {
   CheckCircle2, ShieldAlert, Utensils, BedDouble, 
   FileSearch, MessageSquare, Sparkles, Heart,
   LifeBuoy, Store, Megaphone, X, ChevronRight, Cpu, Users, Database, ShieldCheck, Box, Network, ClipboardList,
-  ShoppingBag, ExternalLink, Wallet, CreditCard, BarChart3, Workflow, Building2, Truck,
+  ShoppingBag, ExternalLink, Wallet, CreditCard, BarChart3, Workflow, Building2, Truck, Wifi,
   Search, Menu, User, Send, Settings, Globe, Lock
 } from 'lucide-react';
 
 import hxxQrCode from './image/huangxiaoxi.png';
 import jingquQrCode from './image/jingqu.jpg';
+import jingquGuihuaImg from './image/jingquguihua.png';
 import jingquImg1 from './image/jingqu1.png';
 import jingquImg2 from './image/jingqu2.png';
-import tiyanmaQrCode from './image/tiyanma.png';
+import datangmaQrCode from './image/datangma.png';
+import fangjianmaQrCode from './image/fangjianma.jpg';
 import jiudianImg from './image/jiudian.png';
 import canyinImg from './image/canyin.jpg';
 import dapingImg from './image/daping.png';
@@ -63,6 +65,7 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
   const [isExpanded, setIsExpanded] = useState(false);
   const [currentDesign, setCurrentDesign] = useState<'xiaoxi' | 'agency' | 'spot' | 'living' | 'gov' | 'hotel' | 'dining' | 'org'>('xiaoxi');
   const [activeOrgTab, setActiveOrgTab] = useState<'saas' | 'portal' | 'marketplace'>('saas');
+  const [activeSubTab, setActiveSubTab] = useState<'status' | 'planning'>('status');
 
   const openExternal = (url: string) => window.open(url, '_blank', 'noopener,noreferrer');
 
@@ -116,12 +119,12 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
               <RingLabel label="组织端智能体" color="indigo" className="top-1/2 [transform:translate(-50%,-50%)_rotateX(-60deg)]" />
               
               <div className="absolute top-0 left-0 w-full h-full animate-spin-slow [transform-style:preserve-3d]" style={{ animationDuration: '60s' }}>
-                <MatrixNode label="旅行社智能体" angle={0} color="blue" onClick={(e: any) => { e.stopPropagation(); setCurrentDesign('agency'); setIsExpanded(true); }} />
-                <MatrixNode label="酒店智能体" angle={60} color="blue" onClick={(e: any) => { e.stopPropagation(); setCurrentDesign('hotel'); setIsExpanded(true); }} />
-                <MatrixNode label="景区智能体" angle={120} color="blue" onClick={(e: any) => { e.stopPropagation(); setCurrentDesign('spot'); setIsExpanded(true); }} />
-                <MatrixNode label="政府智能体" angle={180} color="gov" onClick={(e: any) => { e.stopPropagation(); setCurrentDesign('gov'); setIsExpanded(true); }} />
-                <MatrixNode label="出行智能体" angle={240} color="gray" />
-                <MatrixNode label="餐饮智能体" angle={300} color="blue" onClick={(e: any) => { e.stopPropagation(); setCurrentDesign('dining'); setIsExpanded(true); }} />
+                <MatrixNode label="旅行社智能体" angle={0} color="blue" isLarge onClick={(e: any) => { e.stopPropagation(); setCurrentDesign('agency'); setIsExpanded(true); }} />
+                <MatrixNode label="酒店智能体" angle={60} color="blue" isLarge onClick={(e: any) => { e.stopPropagation(); setCurrentDesign('hotel'); setIsExpanded(true); }} />
+                <MatrixNode label="景区智能体" angle={120} color="blue" isLarge onClick={(e: any) => { e.stopPropagation(); setCurrentDesign('spot'); setIsExpanded(true); setActiveSubTab('status'); }} />
+                <MatrixNode label="政府智能体" angle={180} color="gov" isLarge onClick={(e: any) => { e.stopPropagation(); setCurrentDesign('gov'); setIsExpanded(true); }} />
+                <MatrixNode label="出行智能体" angle={240} color="gray" isLarge />
+                <MatrixNode label="餐饮智能体" angle={300} color="blue" isLarge onClick={(e: any) => { e.stopPropagation(); setCurrentDesign('dining'); setIsExpanded(true); }} />
               </div>
             </div>
 
@@ -140,30 +143,25 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                 <MatrixNode label="客房管家" angle={180} color="violet" />
                 <MatrixNode label="餐饮部" angle={210} color="violet" />
                 <MatrixNode label="前台接待" angle={150} color="violet" />
-                <MatrixNode label="执法监督" angle={270} color="violet" />
-                <MatrixNode label="运行监测" angle={290} color="violet" />
               </div>
             </div>
 
             {/* D. 第三层环：功能智能体 */}
             <div 
-              className="absolute top-88 left-1/2 w-[1050px] h-[260px] border-2 border-slate-100 bg-slate-50/10 rounded-[50%] [transform:translateX(-50%)_rotateX(60deg)] [transform-style:preserve-3d] z-20 transition-all group/ring"
+              className="absolute top-88 left-1/2 w-[1050px] h-[260px] border-2 border-teal-400 bg-teal-50/40 rounded-[50%] [transform:translateX(-50%)_rotateX(60deg)] [transform-style:preserve-3d] z-20 transition-all group/ring"
             >
               <RingLabel label="功能智能体" color="teal" className="top-1/2 [transform:translate(-50%,-50%)_rotateX(-60deg)]" />
               
               <div className="absolute top-0 left-0 w-full h-full animate-spin-slow [transform-style:preserve-3d]" style={{ animationDuration: '100s' }}>
                 <MatrixNode label="房态查询" angle={0} color="teal" />
                 <MatrixNode label="预约送餐" angle={30} color="teal" />
-                <MatrixNode label="天气动态调整" angle={60} color="teal" />
                 <MatrixNode label="智能行程规划" angle={90} color="teal" />
                 <MatrixNode label="智能订购" angle={120} color="teal" />
                 <MatrixNode label="政策问答" angle={150} color="teal" />
                 <MatrixNode label="智能导览" angle={180} color="teal" />
-                <MatrixNode label="客流预测" angle={210} color="teal" />
                 <MatrixNode label="活动智能推荐" angle={240} color="teal" />
                 <MatrixNode label="游记生成" angle={270} color="teal" />
                 <MatrixNode label="旅居智能体" angle={300} color="teal" onClick={(e: any) => { e.stopPropagation(); setCurrentDesign('xiaoxi'); setIsExpanded(true); }} />
-                <MatrixNode label="紧急救援" angle={330} color="teal" />
               </div>
             </div>
           </div>
@@ -244,29 +242,53 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                      )}
 
                      {currentDesign === 'spot' && (
-                        <>
-                           <h3 className="text-4xl font-black text-emerald-600 flex items-center gap-3"><Mountain size={40}/> 景区智能体 · 产品设计</h3>
-                           <p className="text-slate-500 text-lg leading-relaxed">面向游客的景区内实时服务入口，聚合门票、导览、攻略与现场问答，强调拟物化体验与“点到即得”的高频服务闭环。</p>
-                           <div className="grid grid-cols-1 gap-4">
-                              <div className="p-6 bg-emerald-50/60 rounded-3xl border border-emerald-100">
-                                 <div className="font-bold text-slate-800 mb-2">核心能力</div>
-                                 <div className="text-sm text-slate-500">景区问答、地图导览、票务/厕所/交通快捷入口。</div>
+                        <div className="flex flex-col h-full space-y-8">
+                           <div className="flex items-center gap-4">
+                              <div className="w-16 h-16 bg-emerald-100 rounded-2xl flex items-center justify-center text-emerald-600">
+                                 <Mountain size={40}/>
                               </div>
-                              <div className="p-6 bg-slate-50 rounded-3xl border border-slate-100">
-                                 <div className="font-bold text-slate-800 mb-2">对接路径</div>
-                                 <div className="text-sm text-slate-500">与产品端方案联动，支持能力分发到各触点渠道。</div>
+                              <div>
+                                 <h3 className="text-4xl font-black text-emerald-600">景区智能体 · 产品设计</h3>
+                                 <p className="text-slate-400 text-sm uppercase tracking-widest mt-1">Scenic Spot Agent Design</p>
                               </div>
                            </div>
-                           <div className="flex flex-col gap-6 pt-4">
-                              <div className="flex items-center gap-4 p-4 bg-white rounded-2xl border border-slate-100 shadow-sm cursor-pointer hover:shadow-md transition-all" onClick={() => setActiveQrCode(jingquQrCode)}>
-                                 <img src={jingquQrCode} alt="扫码体验" className="w-24 h-24 rounded-xl object-cover" />
-                                 <div>
-                                    <div className="font-bold text-slate-800 text-lg">扫码体验景区服务</div>
-                                    <div className="text-xs text-slate-400 mt-1">获取景区实时导览与智能问答</div>
+
+                           <div className="flex flex-col gap-6">
+                              <div className="bg-slate-50/80 p-6 rounded-3xl border border-slate-100">
+                                 <p className="text-slate-600 leading-relaxed text-lg">
+                                    景区智能体是面向游客的数字化服务核心，通过大模型能力聚合门票、导览、攻略与实时问答，为游客提供“点到即得”的全流程伴游体验。
+                                 </p>
+                              </div>
+
+                              <div className="flex flex-col gap-4">
+                                 <div 
+                                    onClick={() => setActiveSubTab('status')}
+                                    className={`p-6 rounded-[2rem] border-2 transition-all cursor-pointer group flex flex-col gap-2 ${activeSubTab === 'status' ? 'bg-emerald-50 border-emerald-500 shadow-lg shadow-emerald-100' : 'bg-white border-slate-100 hover:border-emerald-200 shadow-sm'}`}
+                                 >
+                                    <div className="flex items-center gap-3">
+                                       <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors ${activeSubTab === 'status' ? 'bg-emerald-500 text-white' : 'bg-slate-50 text-slate-400 group-hover:bg-emerald-50 group-hover:text-emerald-500'}`}>
+                                          <ClipboardList size={20} />
+                                       </div>
+                                       <h4 className={`text-xl font-bold ${activeSubTab === 'status' ? 'text-emerald-700' : 'text-slate-600'}`}>现状</h4>
+                                    </div>
+                                    <p className="text-slate-400 text-sm leading-relaxed pl-1">查看当前已上线的景区智慧服务功能，包括实时导览与智能问答系统。</p>
+                                 </div>
+
+                                 <div 
+                                    onClick={() => setActiveSubTab('planning')}
+                                    className={`p-6 rounded-[2rem] border-2 transition-all cursor-pointer group flex flex-col gap-2 ${activeSubTab === 'planning' ? 'bg-emerald-50 border-emerald-500 shadow-lg shadow-emerald-100' : 'bg-white border-slate-100 hover:border-emerald-200 shadow-sm'}`}
+                                 >
+                                    <div className="flex items-center gap-3">
+                                       <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors ${activeSubTab === 'planning' ? 'bg-emerald-500 text-white' : 'bg-slate-50 text-slate-400 group-hover:bg-emerald-50 group-hover:text-emerald-500'}`}>
+                                          <Sparkles size={20} />
+                                       </div>
+                                       <h4 className={`text-xl font-bold ${activeSubTab === 'planning' ? 'text-emerald-700' : 'text-slate-600'}`}>规划</h4>
+                                    </div>
+                                    <p className="text-slate-400 text-sm leading-relaxed pl-1">2026 愿景：多模态 AI 深度交互与 AR 沉浸式导览体验。</p>
                                  </div>
                               </div>
                            </div>
-                        </>
+                        </div>
                      )}
 
                      {currentDesign === 'agency' && (
@@ -329,11 +351,20 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                               <DesignFeature icon={MessageSquare} t="客房管家" d="即时通讯、多语言翻译、快速响应服务需求。" />
                            </ul>
                            <div className="flex flex-col gap-6 pt-4">
-                              <div className="flex items-center gap-4 p-4 bg-white rounded-2xl border border-slate-100 shadow-sm cursor-pointer hover:shadow-md transition-all" onClick={() => setActiveQrCode(tiyanmaQrCode)}>
-                                 <img src={tiyanmaQrCode} alt="扫码体验" className="w-24 h-24 rounded-xl object-cover" />
-                                 <div>
-                                    <div className="font-bold text-slate-800 text-lg">扫码体验</div>
-                                    <div className="text-xs text-slate-400 mt-1">获取酒店智能体全流程体验</div>
+                              <div className="grid grid-cols-2 gap-4">
+                                 <div className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 shadow-sm cursor-pointer hover:shadow-md transition-all" onClick={() => setActiveQrCode(datangmaQrCode)}>
+                                    <img src={datangmaQrCode} alt="大堂码" className="w-full aspect-square rounded-xl object-cover" />
+                                    <div className="text-center">
+                                       <div className="font-bold text-slate-800 text-sm">大堂码体验</div>
+                                       <div className="text-[10px] text-slate-400 mt-1">酒店公区服务</div>
+                                    </div>
+                                 </div>
+                                 <div className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 shadow-sm cursor-pointer hover:shadow-md transition-all" onClick={() => setActiveQrCode(fangjianmaQrCode)}>
+                                    <img src={fangjianmaQrCode} alt="房间码" className="w-full aspect-square rounded-xl object-cover" />
+                                    <div className="text-center">
+                                       <div className="font-bold text-slate-800 text-sm">房间码体验</div>
+                                       <div className="text-[10px] text-slate-400 mt-1">客房专属服务</div>
+                                    </div>
                                  </div>
                               </div>
                            </div>
@@ -484,42 +515,43 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                                     <div className="grid grid-cols-2 gap-x-12 gap-y-10">
                                        {[
                                           { 
-                                             title: '智能体底层插件', 
-                                             color: 'text-blue-600',
-                                             bg: 'bg-blue-50',
+                                             title: '业务动作连接器 (MCP 接口集)', 
+                                             color: 'text-indigo-600',
+                                             bg: 'bg-indigo-50',
                                              items: [
-                                                { n: '知识库管理系统', i: Database, d: '官方数据+用户UGC三位一体' },
-                                                { n: '智能体配置功能', i: Settings, d: 'Multi-Agent 标准化协议' },
-                                                { n: '用户偏好与画像', i: Users, d: '多维度采集与权重优化' }
+                                                { n: 'OTA 渠道分销插件', i: Workflow, d: '携程/美团库存同步与订单确认' },
+                                                { n: '支付与财务接口', i: CreditCard, d: '对接微信/支付宝分账与结算系统' },
+                                                { n: 'PMS/ERP 深度打通', i: Building2, d: '实时房态、门票与车调数据交互' }
                                              ]
                                           },
                                           { 
-                                             title: '智能体功能插件', 
-                                             color: 'text-purple-600',
-                                             bg: 'bg-purple-50',
+                                             title: '现场执行执行器 (端到端连接)', 
+                                             color: 'text-orange-600',
+                                             bg: 'bg-orange-50',
                                              items: [
-                                                { n: '多语言助手', i: Globe, d: '中英日韩多语言版本支持' },
-                                                { n: '文件解析助手', i: FileSearch, d: 'PDF/Word内容研判解析' },
-                                                { n: '智能推荐', i: Sparkles, d: '个性化行程与内容生成' }
+                                                { n: 'IoT 硬件控制集', i: Wifi, d: '智能门锁、闸机及语音杆控制' },
+                                                { n: '多端媒介触达', i: Smartphone, d: '视频号/小红书/公众号内容分发' },
+                                                { n: '即时指令推送', i: Send, d: '实时向导游及司机端下发任务' }
                                              ]
                                           },
                                           { 
-                                             title: '安全与合规管理', 
-                                             color: 'text-rose-600',
-                                             bg: 'bg-rose-50',
-                                             items: [
-                                                { n: '敏感数据加密', i: Lock, d: '传输加密与敏感词过滤' },
-                                                { n: '用户权限体系', i: ShieldCheck, d: '多级架构数据权限管控' }
-                                             ]
-                                          },
-                                          { 
-                                             title: '传统能力插件', 
+                                             title: '智能决策与分析支撑', 
                                              color: 'text-emerald-600',
                                              bg: 'bg-emerald-50',
                                              items: [
-                                                { n: '订购管理', i: ShoppingBag, d: '产品上架与全流程订单' },
-                                                { n: '营销活动管理', i: Megaphone, d: '优惠券、积分与会员体系' },
-                                                { n: '合作伙伴管理', i: Workflow, d: '分账结算与供应商审核' }
+                                                { n: 'BI 业务实时看板', i: BarChart3, d: '基于真实交易数据的 AI 辅助决策' },
+                                                { n: '智能营销触发器', i: Zap, d: '根据库存自动触发优惠投放' },
+                                                { n: '舆情监控插件', i: Search, d: '全网评价研判与应对建议生成' }
+                                             ]
+                                          },
+                                          { 
+                                             title: '安全合规与基础设施', 
+                                             color: 'text-slate-600',
+                                             bg: 'bg-slate-50',
+                                             items: [
+                                                { n: '敏感数据沙箱', i: Lock, d: '确保 MCP 调用过程的数据安全' },
+                                                { n: 'Multi-Agent 标准协议', i: Layers, d: '支持异构系统智能体协同交互' },
+                                                { n: '知识库增强系统', i: Database, d: '业务 SOP 与专业知识 RAG 挂载' }
                                              ]
                                           }
                                        ].map((section, idx) => (
@@ -546,8 +578,8 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                                     </div>
                                  </div>
                                  <div className="mt-8 text-center space-y-2">
-                                    <div className="text-2xl font-black text-slate-800">场景化能力自由组合</div>
-                                    <div className="text-indigo-600 font-bold tracking-widest uppercase text-sm">原子化插件 · 按需订阅</div>
+                                    <div className="text-2xl font-black text-slate-800">打通业务系统 · 赋予智能体行动力</div>
+                                    <div className="text-indigo-600 font-bold tracking-widest uppercase text-sm">标准化 MCP 接口集 · 插件化原子能力</div>
                                  </div>
                               </div>
                            )}
@@ -583,19 +615,96 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                      )}
 
                      {currentDesign === 'spot' && (
-                        <div className="flex flex-col gap-6 items-center justify-center scale-90">
-                           <div className="flex gap-4">
-                              <div className="h-[450px] w-[210px] rounded-[2rem] overflow-hidden shadow-2xl border-[6px] border-slate-800 bg-white relative">
-                                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-16 h-4 bg-slate-800 rounded-b-xl z-10"></div>
-                                 <img src={jingquImg1} alt="景区首页" className="w-full h-full object-cover" />
-                              </div>
-                              <div className="h-[450px] w-[210px] rounded-[2rem] overflow-hidden shadow-2xl border-[6px] border-slate-800 bg-white relative">
-                                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-16 h-4 bg-slate-800 rounded-b-xl z-10"></div>
-                                 <img src={jingquImg2} alt="景区详情" className="w-full h-full object-cover" />
-                              </div>
-                           </div>
-                           <div className="bg-white/50 backdrop-blur px-4 py-2 rounded-full border border-white text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                              Scenic Area Interface
+                        <div className="w-full h-full flex flex-col items-center justify-center animate-in fade-in slide-in-from-right-10 duration-500">
+                           <div className="bg-white/50 backdrop-blur-sm rounded-[3rem] border border-white/50 shadow-2xl overflow-hidden w-full max-w-[800px]">
+                              {activeSubTab === 'status' ? (
+                                 <div className="flex flex-col p-8 space-y-8 animate-in fade-in slide-in-from-right-8 duration-500">
+                                    <div className="bg-slate-50/50 rounded-[2.5rem] p-8 border border-slate-100 flex flex-col items-center justify-center space-y-8">
+                                       <div className="text-center">
+                                          <h4 className="text-2xl font-black text-slate-800 mb-2">当前产品设计预览</h4>
+                                          <p className="text-slate-400">实时导览 · 智慧问答 · 全触点分发</p>
+                                       </div>
+                                       
+                                       <div className="grid grid-cols-3 gap-6 w-full">
+                                          <div className="flex flex-col gap-4">
+                                             <div className="relative group p-4 bg-white rounded-[2rem] border border-slate-100 shadow-xl" onClick={() => setActiveQrCode(jingquQrCode)}>
+                                                <img src={jingquQrCode} alt="扫码体验" className="w-full aspect-square rounded-2xl object-cover cursor-pointer hover:scale-105 transition-transform" />
+                                                <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-emerald-500 text-white px-3 py-1 rounded-full text-[10px] font-bold shadow-lg whitespace-nowrap">
+                                                   扫码体验
+                                                </div>
+                                             </div>
+                                          </div>
+                                          <div className="relative group rounded-2xl overflow-hidden border-4 border-white shadow-lg h-[240px]">
+                                             <img src={jingquImg1} alt="展示图1" className="w-full h-full object-cover" />
+                                          </div>
+                                          <div className="relative group rounded-2xl overflow-hidden border-4 border-white shadow-lg h-[240px]">
+                                             <img src={jingquImg2} alt="展示图2" className="w-full h-full object-cover" />
+                                          </div>
+                                       </div>
+
+                                       <div className="grid grid-cols-2 gap-4 w-full max-w-md">
+                                          <div className="p-4 bg-white rounded-2xl border border-slate-100 text-center">
+                                             <div className="font-bold text-slate-800 text-sm">智能问答</div>
+                                             <div className="text-[10px] text-slate-400">景区信息实时解答</div>
+                                          </div>
+                                          <div className="p-4 bg-white rounded-2xl border border-slate-100 text-center">
+                                             <div className="font-bold text-slate-800 text-sm">全域导览</div>
+                                             <div className="text-[10px] text-slate-400">拟物化地图与路线</div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              ) : (
+                                 <div className="flex flex-col p-8 space-y-6 animate-in fade-in slide-in-from-right-8 duration-500 overflow-y-auto max-h-[700px] no-scrollbar">
+                                    <div className="space-y-4 text-center">
+                                       <h4 className="text-2xl font-black text-slate-800">未来规划核心逻辑</h4>
+                                       <p className="text-emerald-600 font-bold text-xl">从‘景区向内导览’延伸到‘服务全方位覆盖’</p>
+                                       <p className="text-slate-500 leading-relaxed text-sm max-w-2xl mx-auto">
+                                          在现有智能导览的基础上，我们即将上线的几个核心模块将直接打通游客的出行全链路：
+                                       </p>
+                                    </div>
+
+                                    <div className="grid grid-cols-[1fr_280px] gap-6 items-stretch">
+                                       <div className="flex flex-col gap-4">
+                                          {[
+                                             { t: '服务半径外扩', d: '新增“周边推荐智能体”，不再局限于景区内部，而是把触角伸向周边的地道美食、精品民宿和特色探店，让游客不看攻略也能玩透周边。' },
+                                             { t: '解决入口痛点', d: '重点接通智慧停车系统，实时同步车位动态和导航引导，从游客开车进入景区商圈的第一分钟起，就解决‘停车难’这个最大的体验瓶颈。' },
+                                             { t: '商业变现闭环', d: '落地“自营商城”模块，通过智能体的精准推荐，将景区的文创周边、特产礼品直接推送到游客手机上，实现边逛边下单的二消。' }
+                                          ].map((module, i) => (
+                                             <div key={i} className="p-4 bg-emerald-50/50 rounded-2xl border border-emerald-100/50 flex flex-col gap-1 flex-1 justify-center">
+                                                <div className="font-bold text-emerald-700 flex items-center gap-2">
+                                                   <div className="w-1.5 h-1.5 rounded-full bg-emerald-500"></div>
+                                                   {module.t}
+                                                </div>
+                                                <div className="text-[11px] text-slate-500 leading-relaxed">{module.d}</div>
+                                             </div>
+                                          ))}
+                                       </div>
+
+                                       <div className="relative group rounded-[2.5rem] overflow-hidden border-8 border-slate-50 shadow-2xl bg-slate-100 flex-1 min-h-[400px]">
+                                          <img 
+                                             src={jingquGuihuaImg} 
+                                             alt="景区规划" 
+                                             className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" 
+                                          />
+                                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end p-4">
+                                             <div className="text-left">
+                                                <p className="text-white text-base font-bold">云峰屯堡 · 2026 数智愿景</p>
+                                                <p className="text-white/70 text-[10px]">AI 伴游 + AR 沉浸式导览规划效果图</p>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+
+                                    <button 
+                                       onClick={() => openExternal('https://arifinfirman788-blip.github.io/JingQu/')}
+                                       className="w-full bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-5 rounded-[2rem] font-black shadow-xl shadow-emerald-200 transition-all flex items-center justify-center gap-4 group mt-2"
+                                    >
+                                       <span className="text-lg">进入景区智能体规划设计</span>
+                                       <ChevronRight size={24} className="group-hover:translate-x-2 transition-transform" />
+                                    </button>
+                                 </div>
+                              )}
                            </div>
                         </div>
                      )}
@@ -691,7 +800,7 @@ const RingLabel = ({ label, color, className, onClick }: { label: string, color:
 };
 
 // --- Helper: Matrix Node (Orbiting) ---
-const MatrixNode = ({ label, angle, color = 'slate', isCore, onClick, image }: any) => {
+const MatrixNode = ({ label, angle, color = 'slate', isCore, onClick, image, isLarge }: any) => {
   // Calculate position on ellipse
   const rad = (angle * Math.PI) / 180;
   
@@ -699,20 +808,21 @@ const MatrixNode = ({ label, angle, color = 'slate', isCore, onClick, image }: a
   const y = 50 + 50 * Math.sin(rad); // 半径为 50%
   
   const colorStyles: any = {
-    slate: 'bg-white text-slate-600 border-slate-200 hover:border-slate-300 hover:bg-slate-50 rounded-lg',
-    blue: 'bg-white text-blue-600 border-blue-200 hover:border-blue-300 hover:bg-blue-50 rounded-lg',
-    teal: 'bg-teal-50 text-teal-700 border-teal-200 hover:border-teal-300 hover:bg-teal-100 rounded-md border-dashed',
-    indigo: 'bg-white text-indigo-600 border-indigo-200 hover:border-indigo-300 hover:bg-indigo-50 rounded-lg',
-    gov: 'bg-gradient-to-r from-rose-500 to-fuchsia-600 text-white border-rose-200 hover:brightness-105 rounded-lg shadow-lg shadow-rose-200 ring-2 ring-white/70 font-black',
+    slate: 'bg-white text-slate-600 border-slate-200 hover:border-slate-300 hover:bg-slate-50 rounded-2xl shadow-sm',
+    blue: 'bg-white text-blue-600 border-blue-200 hover:border-blue-300 hover:bg-blue-50 rounded-2xl shadow-sm',
+    teal: 'bg-teal-50 text-teal-800 border-teal-400 hover:border-teal-500 hover:bg-teal-100 rounded-xl border-dashed font-bold',
+    indigo: 'bg-white text-indigo-600 border-indigo-200 hover:border-indigo-300 hover:bg-indigo-50 rounded-2xl shadow-sm',
+    gov: 'bg-gradient-to-r from-rose-500 to-fuchsia-600 text-white border-rose-200 hover:brightness-105 rounded-2xl shadow-lg shadow-rose-200 ring-2 ring-white/70 font-black',
     violet: 'bg-violet-50 text-violet-700 border-violet-200 hover:border-violet-300 hover:bg-violet-100 rounded-full',
-    gray: 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed grayscale opacity-80 rounded-lg'
+    gray: 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed grayscale opacity-80 rounded-2xl'
   };
 
   const specificStyle = colorStyles[color] || colorStyles.slate;
 
   return (
     <div 
-      className={`absolute px-3 py-1.5 text-xs font-bold shadow-sm whitespace-nowrap transition-all hover:scale-110 cursor-pointer origin-bottom border z-[60] flex items-center gap-2
+      className={`absolute shadow-sm whitespace-nowrap transition-all hover:scale-110 cursor-pointer origin-bottom border z-[60] flex items-center gap-2
+        ${isLarge ? 'px-6 py-3 text-lg' : 'px-3 py-1.5 text-xs'}
         ${isCore ? 'bg-indigo-600 text-white scale-110 shadow-indigo-200 rounded-lg' : specificStyle}
       `}
       style={{ 
@@ -829,7 +939,7 @@ const App: React.FC = () => {
     func: {
       title: "功能智能体 (Function Agents)",
       summary: "细粒度任务的自动化执行专家",
-      desc: "专注于文旅场景中的原子化功能模块（如房态查询、车辆调度、天气动态调整、客流预测等）。通过高精度的 API 调用与算法模型，为上层应用提供即插即用的 AI 技能插件，确保服务链条中的每一个细节都能实现智能响应。",
+      desc: "专注于文旅场景中的原子化功能模块（如房态查询、车辆调度等）。通过高精度的 API 调用与算法模型，为上层应用提供即插即用的 AI 技能插件，确保服务链条中的每一个细节都能实现智能响应。",
       color: "teal"
     }
   };
@@ -1802,17 +1912,31 @@ const App: React.FC = () => {
                                      <DesignFeature icon={MessageSquare} t="客房管家" d="即时通讯、多语言翻译、快速响应服务需求。" />
                                   </ul>
                                   <div className="flex flex-col gap-6 items-start">
-                                     <button
-                                        disabled
-                                        className="bg-slate-100 text-slate-400 px-8 py-4 rounded-2xl font-black flex items-center gap-3 cursor-not-allowed"
-                                     >
-                                        请扫码体验
-                                     </button>
-                                     <div 
-                                        className="w-40 h-40 bg-white p-2 rounded-xl shadow-lg border border-slate-100 cursor-pointer hover:scale-105 transition-transform"
-                                        onClick={() => setActiveQrCode(tiyanmaQrCode)}
-                                     >
-                                        <img src={tiyanmaQrCode} alt="体验码" className="w-full h-full object-contain" />
+                                     <div className="flex gap-6">
+                                        <div className="flex flex-col gap-3">
+                                           <div 
+                                              className="w-40 h-40 bg-white p-2 rounded-xl shadow-lg border border-slate-100 cursor-pointer hover:scale-105 transition-transform"
+                                              onClick={() => setActiveQrCode(datangmaQrCode)}
+                                           >
+                                              <img src={datangmaQrCode} alt="大堂码" className="w-full h-full object-contain" />
+                                           </div>
+                                           <div className="text-center">
+                                              <div className="font-bold text-slate-800">大堂码</div>
+                                              <div className="text-xs text-slate-400">公区体验</div>
+                                           </div>
+                                        </div>
+                                        <div className="flex flex-col gap-3">
+                                           <div 
+                                              className="w-40 h-40 bg-white p-2 rounded-xl shadow-lg border border-slate-100 cursor-pointer hover:scale-105 transition-transform"
+                                              onClick={() => setActiveQrCode(fangjianmaQrCode)}
+                                           >
+                                              <img src={fangjianmaQrCode} alt="房间码" className="w-full h-full object-contain" />
+                                           </div>
+                                           <div className="text-center">
+                                              <div className="font-bold text-slate-800">房间码</div>
+                                              <div className="text-xs text-slate-400">客房体验</div>
+                                           </div>
+                                        </div>
                                      </div>
                                   </div>
                                </div>

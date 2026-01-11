@@ -1700,8 +1700,11 @@ const App: React.FC = () => {
                               name: '企业端 / 采购端',
                               sub: '景区、餐饮、酒店企业及采购方入口',
                               url: 'https://www.lbymt.com/config/home/home?sysFlag=sj',
-                              account: '演示账号登录',
-                              pass: '请使用分配账号',
+                              accounts: [
+                                { label: '景区企业端 (荔波县云上老乡餐馆)', account: '15985402914', pass: 'Aa402914', note: '右上角选择景区' },
+                                { label: '酒店企业端 (荔波县玉屏石缘客栈)', account: '13765417466', pass: 'Qwe1234567_', note: '右上角选择酒店' },
+                                { label: '采购端账号', account: '13885022658', pass: 'Ty123456', note: '右上角选旅行社' }
+                              ],
                               icon: Building2,
                               color: 'indigo'
                             },
@@ -1709,45 +1712,58 @@ const App: React.FC = () => {
                               name: '供应链金融端',
                               sub: '融资撮合与资金管理平台',
                               url: 'https://ly.ymtcloud.com/wap/financialService.html',
-                              account: '金融机构/企业专户',
-                              pass: '请使用专户账号',
+                              accounts: [
+                                { label: '金融端 (初审 - 荔波全域智慧旅游)', account: '15286009622', pass: 'Cy123456', note: '右上角选择旅行社' },
+                                { label: '金融端 (复审 - 信用通供应链)', account: '18798041556', pass: 'Xyt123456', note: '右上角选择旅行社' }
+                              ],
                               icon: Wallet,
                               color: 'amber'
                             }
                           ].map((entry, idx) => (
-                            <div key={idx} className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm hover:shadow-md transition-all group/card">
-                              <div className="flex items-center gap-4 mb-4">
-                                <div className={`w-10 h-10 bg-${entry.color}-50 rounded-xl flex items-center justify-center group-hover/card:scale-110 transition-transform`}>
-                                  <entry.icon className={`text-${entry.color}-600`} size={20} />
+                            <div key={idx} className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm hover:shadow-md transition-all group/card flex flex-col">
+                              <div className="flex items-center justify-between gap-4 mb-4">
+                                <div className="flex items-center gap-4">
+                                  <div className={`w-10 h-10 bg-${entry.color}-50 rounded-xl flex items-center justify-center group-hover/card:scale-110 transition-transform`}>
+                                    <entry.icon className={`text-${entry.color}-600`} size={20} />
+                                  </div>
+                                  <div className="min-w-0">
+                                    <h4 className="font-bold text-slate-900 text-sm truncate">{entry.name}</h4>
+                                    <p className="text-[10px] text-slate-400 truncate">{entry.sub}</p>
+                                  </div>
                                 </div>
-                                <div className="min-w-0">
-                                  <h4 className="font-bold text-slate-900 text-sm truncate">{entry.name}</h4>
-                                  <p className="text-[10px] text-slate-400 truncate">{entry.sub}</p>
-                                </div>
-                              </div>
-                              <div className="space-y-2 bg-slate-50 rounded-xl p-3 mb-4 border border-slate-100">
-                                <div className="flex justify-between items-center text-[10px]">
-                                  <span className="text-slate-400">账号</span>
-                                  <span className="text-slate-700 font-mono font-bold">{entry.account}</span>
-                                </div>
-                                <div className="flex justify-between items-center text-[10px]">
-                                  <span className="text-slate-400">密码</span>
-                                  <span className="text-slate-700 font-mono font-bold">{entry.pass}</span>
-                                </div>
-                              </div>
-                              <div className="flex gap-2">
-                                <button 
-                                  onClick={() => copyText(`${entry.account} ${entry.pass}`)}
-                                  className="flex-1 py-2 rounded-lg bg-slate-100 text-slate-600 text-[10px] font-bold hover:bg-slate-200 transition-colors flex items-center justify-center gap-1 border border-slate-200"
-                                >
-                                  <ClipboardList size={12} /> 复制凭证
-                                </button>
                                 <button 
                                   onClick={() => openExternal(entry.url)}
-                                  className={`flex-1 py-2 rounded-lg bg-${entry.color}-50 text-${entry.color}-700 border border-${entry.color}-200 text-[10px] font-bold hover:bg-${entry.color}-600 hover:text-white transition-all flex items-center justify-center gap-1 shadow-sm`}
+                                  className={`px-3 py-1.5 rounded-lg bg-${entry.color}-50 text-${entry.color}-700 border border-${entry.color}-200 text-[10px] font-bold hover:bg-${entry.color}-600 hover:text-white transition-all flex items-center gap-1 shadow-sm shrink-0`}
                                 >
-                                  立即进入 <ExternalLink size={12} />
+                                  进入 <ExternalLink size={12} />
                                 </button>
+                              </div>
+                              
+                              <div className="space-y-3 flex-grow">
+                                {entry.accounts.map((acc, aIdx) => (
+                                  <div key={aIdx} className="bg-slate-50 rounded-xl p-3 border border-slate-100 flex flex-col gap-2">
+                                    <div className="flex justify-between items-start">
+                                      <div className="text-[10px] font-bold text-slate-600">{acc.label}</div>
+                                      {acc.note && <div className="text-[9px] text-amber-600 font-medium bg-amber-50 px-1.5 py-0.5 rounded">{acc.note}</div>}
+                                    </div>
+                                    <div className="flex flex-wrap items-center gap-2">
+                                      <div 
+                                        onClick={() => copyText(acc.account)}
+                                        className="px-2 py-1 bg-white rounded text-[10px] font-mono text-slate-500 cursor-pointer hover:bg-slate-100 hover:text-indigo-600 transition-colors border border-slate-100 whitespace-nowrap"
+                                        title="点击复制账号"
+                                      >
+                                        <span className="text-slate-400 mr-1 font-sans">账号:</span>{acc.account}
+                                      </div>
+                                      <div 
+                                        onClick={() => copyText(acc.pass)}
+                                        className="px-2 py-1 bg-white rounded text-[10px] font-mono text-slate-500 cursor-pointer hover:bg-slate-100 hover:text-indigo-600 transition-colors border border-slate-100 whitespace-nowrap"
+                                        title="点击复制密码"
+                                      >
+                                        <span className="text-slate-400 mr-1 font-sans">密码:</span>{acc.pass}
+                                      </div>
+                                    </div>
+                                  </div>
+                                ))}
                               </div>
                             </div>
                           ))}

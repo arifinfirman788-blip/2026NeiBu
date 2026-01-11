@@ -471,7 +471,7 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                                   <DesignFeature 
                                     icon={Box} 
                                     t="功能插件集市" 
-                                    d="将传统功能转化为原子化插件，支持场景化能力自由组合与按需订阅。" 
+                                    d="逐步覆盖企业经营既有的各类软件系统" 
                                     active={activeOrgTab === 'marketplace'}
                                     onClick={() => setActiveOrgTab('marketplace')}
                                   />
@@ -807,6 +807,12 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                                              <div className="text-slate-400 text-xs font-bold uppercase tracking-widest mt-0.5">AI Agent Skill Marketplace</div>
                                           </div>
                                        </div>
+                                    </div>
+
+                                    <div className="mb-10 bg-indigo-50/50 p-6 rounded-2xl border border-indigo-100/50">
+                                       <p className="text-indigo-600/80 leading-relaxed font-medium text-sm">
+                                          产品到底能不能打，取决于 AI 是否能调用软件系统实现业务闭环。我们梳理了旅游产业的标准软件系统，让智能体具备“手”和“脚”。
+                                       </p>
                                     </div>
                                     
                                     <div className="grid grid-cols-2 gap-x-12 gap-y-10">

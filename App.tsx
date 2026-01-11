@@ -28,9 +28,20 @@ const ImageWithLoader: React.FC<{
   className?: string;
   priority?: 'high' | 'low' | 'auto';
   loading?: 'lazy' | 'eager';
-}> = ({ src, alt, className, priority = 'auto', loading = 'lazy' }) => {
+  objectFit?: 'cover' | 'contain' | 'fill' | 'none' | 'scale-down';
+}> = ({ src, alt, className, priority = 'auto', loading = 'lazy', objectFit = 'cover' }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState(false);
+
+  const getObjectFitClass = () => {
+    switch (objectFit) {
+      case 'contain': return 'object-contain';
+      case 'fill': return 'object-fill';
+      case 'none': return 'object-none';
+      case 'scale-down': return 'object-scale-down';
+      default: return 'object-cover';
+    }
+  };
 
   return (
     <div className={`relative overflow-hidden ${className}`}>
@@ -46,10 +57,10 @@ const ImageWithLoader: React.FC<{
         </div>
       ) : (
         <img
-          src={src}
-          alt={alt}
-          className={`w-full h-full object-cover transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
-          onLoad={() => setIsLoaded(true)}
+                  src={src}
+                  alt={alt}
+                  className={`w-full ${className?.includes('h-auto') ? 'h-auto' : 'h-full'} ${getObjectFitClass()} transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+                  onLoad={() => setIsLoaded(true)}
           onError={() => setError(true)}
           loading={loading}
           // @ts-ignore
@@ -254,14 +265,27 @@ const BusinessProcessArea: React.FC = () => {
                           {/* Detail Content (Expandable) */}
                           <div className="mt-6 p-4 bg-white rounded-2xl border border-slate-100 shadow-sm animate-in fade-in slide-in-from-top-4 duration-500">
                             {(node as any).images ? (
-                              (node as any).images.length === 4 ? (
-                                <div className="flex gap-4 h-[400px]">
+                              (node as any).images.length === 1 ? (
+                                <div className="flex justify-center">
+                                  <div className="relative rounded-xl overflow-hidden border border-slate-100 shadow-sm group/img bg-slate-50 max-w-[280px] w-full">
+                                    <ImageWithLoader 
+                                      src={(node as any).images[0]} 
+                                      alt={`${node.title}`} 
+                                      className="w-full h-auto" 
+                                      objectFit="contain"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent opacity-0 group-hover/img:opacity-100 transition-opacity" />
+                                  </div>
+                                </div>
+                              ) : (node as any).images.length === 4 ? (
+                                <div className="flex gap-4 h-[300px]">
                                   {/* Left: 1 Large Image */}
                                   <div className="flex-[2] relative rounded-xl overflow-hidden border border-slate-100 shadow-sm group/img bg-slate-50">
                                     <ImageWithLoader 
                                       src={(node as any).images[0]} 
                                       alt={`${node.title}-large`} 
                                       className="w-full h-full" 
+                                      objectFit="contain"
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent opacity-0 group-hover/img:opacity-100 transition-opacity" />
                                   </div>
@@ -273,6 +297,7 @@ const BusinessProcessArea: React.FC = () => {
                                           src={img} 
                                           alt={`${node.title}-small-${idx}`} 
                                           className="w-full h-full" 
+                                          objectFit="contain"
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent opacity-0 group-hover/img:opacity-100 transition-opacity" />
                                       </div>
@@ -280,13 +305,14 @@ const BusinessProcessArea: React.FC = () => {
                                   </div>
                                 </div>
                               ) : (node as any).images.length === 3 ? (
-                                <div className="flex gap-4 h-[400px]">
+                                <div className="flex gap-4 h-[300px]">
                                   {/* Left: 1 Large Image (Image 2) */}
                                   <div className="flex-[1.5] relative rounded-xl overflow-hidden border border-slate-100 shadow-sm group/img bg-slate-50">
                                     <ImageWithLoader 
                                       src={(node as any).images[0]} 
                                       alt={`${node.title}-large`} 
                                       className="w-full h-full" 
+                                      objectFit="contain"
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent opacity-0 group-hover/img:opacity-100 transition-opacity" />
                                   </div>
@@ -298,6 +324,7 @@ const BusinessProcessArea: React.FC = () => {
                                           src={img} 
                                           alt={`${node.title}-small-${idx}`} 
                                           className="w-full h-full" 
+                                          objectFit="contain"
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent opacity-0 group-hover/img:opacity-100 transition-opacity" />
                                       </div>
@@ -305,13 +332,14 @@ const BusinessProcessArea: React.FC = () => {
                                   </div>
                                 </div>
                               ) : (
-                                <div className="grid grid-cols-2 gap-4">
+                                <div className={`grid ${ (node as any).images.length === 2 ? 'grid-cols-2' : 'grid-cols-2' } gap-4`}>
                                   {(node as any).images.map((img: string, idx: number) => (
                                     <div key={idx} className="relative rounded-xl overflow-hidden border border-slate-100 shadow-sm group/img bg-slate-50">
                                       <ImageWithLoader 
                                         src={img} 
                                         alt={`${node.title}-${idx}`} 
-                                        className="w-full h-auto max-h-[300px]" 
+                                        className="w-full h-auto max-h-[240px]" 
+                                        objectFit="contain"
                                       />
                                       <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent opacity-0 group-hover/img:opacity-100 transition-opacity" />
                                     </div>
@@ -319,13 +347,16 @@ const BusinessProcessArea: React.FC = () => {
                                 </div>
                               )
                             ) : (node as any).image ? (
-                              <div className="relative rounded-xl overflow-hidden border border-slate-100 shadow-sm group/img max-w-[400px] mx-auto">
-                                <ImageWithLoader 
-                                  src={(node as any).image} 
-                                  alt={node.title} 
-                                  className="w-full h-auto" 
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover/img:opacity-100 transition-opacity" />
+                              <div className="flex justify-center">
+                                <div className="relative rounded-xl overflow-hidden border border-slate-100 shadow-sm group/img bg-slate-50 max-w-[280px] w-full">
+                                  <ImageWithLoader 
+                                    src={(node as any).image} 
+                                    alt={node.title} 
+                                    className="w-full h-auto" 
+                                    objectFit="contain"
+                                  />
+                                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover/img:opacity-100 transition-opacity" />
+                                </div>
                               </div>
                             ) : (
                               <div className="aspect-video bg-slate-50 rounded-xl border-2 border-dashed border-slate-200 flex flex-col items-center justify-center gap-3">
@@ -982,7 +1013,7 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                         <div className="w-full h-full flex items-center justify-center p-8 animate-in fade-in duration-500">
                            <div className="flex gap-12 items-start justify-center w-full max-w-[1200px] scale-[0.75]">
                               {/* Left: Mobile Phone Frame */}
-                              <div className="bg-white border-[12px] border-slate-900 rounded-[3.5rem] w-[320px] h-[650px] shadow-2xl overflow-hidden relative isolate shrink-0">
+                              <div className="bg-white border-[12px] border-slate-900 rounded-[3.5rem] w-[320px] h-[750px] shadow-2xl overflow-hidden relative isolate shrink-0">
                                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-6 bg-slate-900 rounded-b-xl z-50"></div>
                                  <div className="flex flex-col h-full bg-slate-50 relative overflow-hidden rounded-[2.5rem] transform-gpu">
                                     <Header userRole="tourist" onToggleRole={() => {}} className="rounded-t-[2.5rem]" />
@@ -996,7 +1027,7 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                               </div>
 
                               {/* Right: Business Process Area Preview */}
-                              <div className="flex-1 overflow-y-auto no-scrollbar h-[650px]">
+                              <div className="flex-1 overflow-y-auto no-scrollbar h-[750px]">
                                  <div className="h-full">
                                     <BusinessProcessArea />
                                  </div>
@@ -1848,19 +1879,31 @@ const App: React.FC = () => {
                                         <div key={idx} className={`flex flex-col gap-3 ${(node.title === '业务节点' || node.title === '连接器') ? 'bg-slate-50/50 p-4 rounded-xl border border-slate-100 hover:bg-slate-100/80 transition-colors' : ''}`}>
                                           <div className="flex items-center justify-between gap-2">
                                             <div className="text-[10px] font-bold text-slate-400 uppercase tracking-tight">{sub.name}</div>
-                                            <button 
-                                              onClick={() => openExternal(sub.url)}
-                                              className="bg-indigo-600 text-white px-2.5 py-1 rounded-lg text-[10px] font-bold hover:bg-indigo-700 transition-all shadow-sm shrink-0"
-                                            >
-                                              进入
-                                            </button>
+                                            {sub.name !== '业务后台 (运营/管理)' && (
+                                              <button 
+                                                onClick={() => openExternal(sub.url)}
+                                                className="bg-indigo-600 text-white px-2.5 py-1 rounded-lg text-[10px] font-bold hover:bg-indigo-700 transition-all shadow-sm shrink-0"
+                                              >
+                                                进入
+                                              </button>
+                                            )}
                                           </div>
                                           <div className="flex flex-col gap-2 min-w-0">
                                             {sub.accounts ? (
                                               <div className="space-y-3">
                                                 {sub.accounts.map((acc, aIdx) => (
                                                   <div key={aIdx} className="flex flex-col gap-1.5">
-                                                    <div className="text-[9px] text-slate-400 font-medium">{acc.label}</div>
+                                                    <div className="flex items-center justify-between gap-2">
+                                                      <div className="text-[9px] text-slate-400 font-medium">{acc.label}</div>
+                                                      {sub.name === '业务后台 (运营/管理)' && (
+                                                        <button 
+                                                          onClick={() => openExternal(sub.url)}
+                                                          className="bg-indigo-600 text-white px-2.5 py-1 rounded-lg text-[10px] font-bold hover:bg-indigo-700 transition-all shadow-sm shrink-0"
+                                                        >
+                                                          进入
+                                                        </button>
+                                                      )}
+                                                    </div>
                                                     <div className="flex flex-wrap items-center gap-2">
                                                       <div 
                                                         onClick={() => copyText(acc.account)}
@@ -2792,7 +2835,7 @@ const App: React.FC = () => {
                                        {isMenuOpen && (
                                           <div className="absolute inset-0 z-40 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200" onClick={() => setIsMenuOpen(false)}>
                                              <div className="absolute bottom-24 left-4 flex items-end gap-4" onClick={e => e.stopPropagation()}>
-                                                <img src="/image/huangxiaoxi1.png" className="w-32 h-auto drop-shadow-2xl animate-in slide-in-from-bottom-10 duration-500" alt="Huang Xiaoxi" />
+                                                <img src={huangxiaoxiImg2} className="w-32 h-auto drop-shadow-2xl animate-in slide-in-from-bottom-10 duration-500" alt="Huang Xiaoxi" />
                                                 <div className="flex flex-col gap-4 mb-8">
                                                    <button className="bg-gradient-to-r from-indigo-500 to-purple-500 text-white px-6 py-3 rounded-2xl shadow-xl flex items-center gap-3 animate-in slide-in-from-right-8 duration-300 delay-100 transform active:scale-95 transition-all hover:scale-105">
                                                       <div className="text-left">
@@ -2959,7 +3002,7 @@ const App: React.FC = () => {
             {isMenuOpen && (
                <div className="absolute inset-0 z-40 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200" onClick={() => setIsMenuOpen(false)}>
                   <div className="absolute bottom-24 left-4 flex items-end gap-4" onClick={e => e.stopPropagation()}>
-                     <img src="/image/huangxiaoxi1.png" className="w-32 h-auto drop-shadow-2xl animate-in slide-in-from-bottom-10 duration-500" alt="Huang Xiaoxi" />
+                     <img src={huangxiaoxiImg2} className="w-32 h-auto drop-shadow-2xl animate-in slide-in-from-bottom-10 duration-500" alt="Huang Xiaoxi" />
                      <div className="flex flex-col gap-4 mb-8">
                         <button className="bg-gradient-to-r from-indigo-500 to-purple-500 text-white px-6 py-3 rounded-2xl shadow-xl flex items-center gap-3 animate-in slide-in-from-right-8 duration-300 delay-100 transform active:scale-95 transition-all hover:scale-105">
                            <div className="text-left">

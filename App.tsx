@@ -1016,9 +1016,9 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                      )}
 
                      {currentDesign === 'func' && (
-                        <div className="w-full max-w-[900px] animate-in fade-in slide-in-from-right-10 duration-500">
-                           <div className="bg-white rounded-[3rem] p-10 shadow-2xl border border-slate-100">
-                              <div className="flex items-center gap-4 mb-8 pb-6 border-b border-slate-50">
+                        <div className="w-full max-w-[820px] animate-in fade-in slide-in-from-right-10 duration-500">
+                           <div className="bg-white rounded-[3rem] p-8 shadow-2xl border border-slate-100">
+                              <div className="flex items-center gap-4 mb-6 pb-4 border-b border-slate-50">
                                  <div className="w-12 h-12 bg-teal-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-teal-100">
                                     <Cpu size={28} />
                                  </div>
@@ -1028,12 +1028,12 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                                  </div>
                               </div>
 
-                              <div className="space-y-8">
-                                 <p className="text-slate-500 text-lg leading-relaxed font-medium">
+                              <div className="space-y-6">
+                                 <p className="text-slate-500 text-base leading-relaxed font-medium">
                                     专注于文旅场景中的原子化功能模块。通过多维感知游客意图，自动组合交通、餐饮、门票等插件，生成可交互、可执行的实时行程方案。
                                  </p>
                                  
-                                 <div className="grid grid-cols-1 gap-8">
+                                 <div className="grid grid-cols-1 gap-6">
                                     {[
                                        { 
                                           title: '智能决策与分析支撑', 
@@ -1058,18 +1058,18 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                                     ].map((section, idx) => (
                                        <div key={idx} className="space-y-4">
                                           <div className={`text-sm font-black uppercase tracking-[0.2em] ${section.color} flex items-center gap-2 mb-2`}>
-                                             <div className={`w-2 h-2 rounded-full ${section.bg.replace('bg-', 'bg-')}`}></div>
+                                             <div className={`w-1.5 h-1.5 rounded-full ${section.bg.replace('bg-', 'bg-')}`}></div>
                                              {section.title}
                                           </div>
                                           <div className="grid grid-cols-3 gap-4">
                                              {section.items.map((item, i) => (
-                                                <div key={i} className="flex flex-col gap-3 p-5 rounded-[2rem] bg-slate-50/50 border border-slate-100 hover:bg-white hover:shadow-xl hover:shadow-slate-200/50 transition-all cursor-pointer group">
-                                                   <div className={`w-12 h-12 rounded-2xl ${section.bg} flex items-center justify-center ${section.color} group-hover:scale-110 transition-transform shadow-sm`}>
-                                                      <item.i size={24} />
+                                                <div key={i} className="flex flex-col gap-3 p-4 rounded-[2rem] bg-slate-50/50 border border-slate-100 hover:bg-white hover:shadow-xl hover:shadow-slate-200/50 transition-all cursor-pointer group">
+                                                   <div className={`w-10 h-10 rounded-xl ${section.bg} flex items-center justify-center ${section.color} group-hover:scale-110 transition-transform shadow-sm`}>
+                                                      <item.i size={20} />
                                                    </div>
                                                    <div className="space-y-1">
                                                       <div className="text-sm font-black text-slate-800 whitespace-nowrap">{item.n}</div>
-                                                      <div className="text-[11px] text-slate-400 leading-snug">{item.d}</div>
+                                                      <div className="text-[10px] text-slate-400 leading-tight">{item.d}</div>
                                                    </div>
                                                 </div>
                                              ))}

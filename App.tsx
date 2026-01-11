@@ -463,8 +463,8 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                                   />
                                   <DesignFeature 
                                     icon={LayoutDashboard} 
-                                    t="主动式服务+多角色智能体" 
-                                    d="支持省、市、县、景区、旅行社等多级组织，根据角色与场景动态生成专属首页。" 
+                                    t="门户式首页设计" 
+                                    d="主动式服务+多角色智能体，根据角色与场景动态生成专属首页" 
                                     active={activeOrgTab === 'portal'}
                                     onClick={() => setActiveOrgTab('portal')}
                                   />
@@ -788,8 +788,8 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                                     </div>
                                  </div>
                                  <div className="mt-8 text-center space-y-2">
-                                    <div className="text-3xl font-black text-slate-800 tracking-tight">主动式服务+多角色智能体</div>
-                                    <div className="text-indigo-600 font-bold tracking-[0.2em] uppercase text-sm">侦察需求式的服务（主动服务）</div>
+                                    <div className="text-3xl font-black text-slate-800 tracking-tight">门户式首页设计</div>
+                                    <div className="text-indigo-600 font-bold tracking-[0.2em] uppercase text-sm">主动式服务+多角色智能体，根据角色与场景动态生成专属首页</div>
                                  </div>
                               </div>
                            )}

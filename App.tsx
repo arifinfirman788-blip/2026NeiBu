@@ -22,7 +22,7 @@ import {
 
 import hxxQrCode from './image/huangxiaoxi.png';
 import jingquQrCode from './image/jingqu.jpg';
-import jingquGuihuaImg from './image/jingquguihua.png';
+import jingquGuihuaImg from './image/jingquxiugai.png';
 import jingquImg1 from './image/jingqu1.png';
 import jingquImg2 from './image/jingqu2.png';
 import datangmaQrCode from './image/datangma.png';

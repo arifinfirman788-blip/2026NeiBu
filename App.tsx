@@ -669,6 +669,40 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                            </button>
                         </>
                      )}
+
+                     {currentDesign === 'func' && (
+                        <>
+                           <div className="flex items-center gap-4 mb-6">
+                              <div className="w-16 h-16 bg-teal-100 rounded-2xl flex items-center justify-center text-teal-600 shadow-lg shadow-teal-100/50">
+                                 <Cpu size={40} />
+                              </div>
+                              <div>
+                                 <h3 className="text-4xl font-black text-teal-600">功能智能体</h3>
+                                 <p className="text-slate-400 text-sm uppercase tracking-widest mt-1">Atomic Function Agents</p>
+                              </div>
+                           </div>
+                           <div className="space-y-6">
+                              <div className="bg-teal-50/50 p-6 rounded-3xl border border-teal-100/50">
+                                 <p className="text-slate-600 leading-relaxed text-lg font-medium">
+                                    专注于文旅场景中的原子化功能模块。通过多维感知游客意图，自动组合交通、餐饮、门票等插件，生成可交互、可执行的实时行程方案。
+                                 </p>
+                              </div>
+                              <div className="p-6 bg-slate-50 rounded-3xl border border-slate-100">
+                                 <h4 className="font-bold text-slate-800 mb-4 flex items-center gap-2 text-sm uppercase tracking-widest text-slate-400">核心能力集</h4>
+                                 <ul className="space-y-3">
+                                    <li className="flex items-start gap-3 text-slate-500">
+                                       <div className="w-5 h-5 rounded-full bg-teal-500 flex items-center justify-center text-white shrink-0 mt-0.5"><CheckCircle2 size={12} strokeWidth={4} /></div>
+                                       <span className="text-sm font-medium">智能决策与分析支撑：BI业务实时看板、智能营销触发器</span>
+                                    </li>
+                                    <li className="flex items-start gap-3 text-slate-500">
+                                       <div className="w-5 h-5 rounded-full bg-teal-500 flex items-center justify-center text-white shrink-0 mt-0.5"><CheckCircle2 size={12} strokeWidth={4} /></div>
+                                       <span className="text-sm font-medium">安全合规与基础设施：敏感数据沙箱、Multi-Agent标准协议</span>
+                                    </li>
+                                 </ul>
+                              </div>
+                           </div>
+                        </>
+                     )}
                   </div>
 
                   {/* Preview Content */}
@@ -1016,68 +1050,51 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                      )}
 
                      {currentDesign === 'func' && (
-                        <div className="w-full max-w-[820px] animate-in fade-in slide-in-from-right-10 duration-500">
-                           <div className="bg-white rounded-[3rem] p-8 shadow-2xl border border-slate-100">
-                              <div className="flex items-center gap-4 mb-6 pb-4 border-b border-slate-50">
-                                 <div className="w-12 h-12 bg-teal-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-teal-100">
-                                    <Cpu size={28} />
-                                 </div>
-                                 <div>
-                                    <div className="font-black text-2xl text-slate-800">功能智能体 · 原子化服务</div>
-                                    <div className="text-slate-400 text-xs font-bold uppercase tracking-widest mt-0.5">Atomic Function Agents</div>
-                                 </div>
-                              </div>
-
-                              <div className="space-y-6">
-                                 <p className="text-slate-500 text-base leading-relaxed font-medium">
-                                    专注于文旅场景中的原子化功能模块。通过多维感知游客意图，自动组合交通、餐饮、门票等插件，生成可交互、可执行的实时行程方案。
-                                 </p>
-                                 
-                                 <div className="grid grid-cols-1 gap-6">
-                                    {[
-                                       { 
-                                          title: '智能决策与分析支撑', 
-                                          color: 'text-emerald-600',
-                                          bg: 'bg-emerald-50',
-                                          items: [
-                                             { n: 'BI 业务实时看板', i: BarChart3, d: '基于真实交易数据的 AI 辅助决策' },
-                                             { n: '智能营销触发器', i: Zap, d: '根据库存自动触发优惠投放' },
-                                             { n: '舆情监控插件', i: Search, d: '全网评价研判与应对建议生成' }
-                                          ]
-                                       },
-                                       { 
-                                          title: '安全合规与基础设施', 
-                                          color: 'text-slate-600',
-                                          bg: 'bg-slate-50',
-                                          items: [
-                                             { n: '敏感数据沙箱', i: Lock, d: '确保 MCP 调用过程的数据安全' },
-                                             { n: 'Multi-Agent 标准协议', i: Layers, d: '支持异构系统智能体协同交互' },
-                                             { n: '知识库增强系统', i: Database, d: '业务 SOP 与专业知识 RAG 挂载' }
-                                          ]
-                                       }
-                                    ].map((section, idx) => (
-                                       <div key={idx} className="space-y-4">
-                                          <div className={`text-sm font-black uppercase tracking-[0.2em] ${section.color} flex items-center gap-2 mb-2`}>
-                                             <div className={`w-1.5 h-1.5 rounded-full ${section.bg.replace('bg-', 'bg-')}`}></div>
-                                             {section.title}
+                        <div className="w-full animate-in fade-in slide-in-from-right-10 duration-500">
+                           <div className="grid grid-cols-1 gap-10">
+                              {[
+                                 { 
+                                    title: '智能决策与分析支撑', 
+                                    color: 'text-emerald-600',
+                                    bg: 'bg-emerald-50',
+                                    items: [
+                                       { n: 'BI 业务实时看板', i: BarChart3, d: '基于真实交易数据的 AI 辅助决策' },
+                                       { n: '智能营销触发器', i: Zap, d: '根据库存自动触发优惠投放' },
+                                       { n: '舆情监控插件', i: Search, d: '全网评价研判与应对建议生成' }
+                                    ]
+                                 },
+                                 { 
+                                    title: '安全合规与基础设施', 
+                                    color: 'text-slate-600',
+                                    bg: 'bg-slate-50',
+                                    items: [
+                                       { n: '敏感数据沙箱', i: Lock, d: '确保 MCP 调用过程的数据安全' },
+                                       { n: 'Multi-Agent 标准协议', i: Layers, d: '支持异构系统智能体协同交互' },
+                                       { n: '知识库增强系统', i: Database, d: '业务 SOP 与专业知识 RAG 挂载' }
+                                    ]
+                                 }
+                              ].map((section, idx) => (
+                                 <div key={idx} className="space-y-6">
+                                    <div className={`text-base font-black uppercase tracking-[0.3em] ${section.color} flex items-center gap-3`}>
+                                       <div className={`w-2 h-2 rounded-full ${section.bg.replace('bg-', 'bg-')}`}></div>
+                                       {section.title}
+                                    </div>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                       {section.items.map((item, i) => (
+                                          <div key={i} className="flex flex-col gap-4 p-6 rounded-[2.5rem] bg-white/60 backdrop-blur-sm border border-white hover:bg-white hover:shadow-2xl hover:shadow-slate-200/50 transition-all cursor-pointer group relative isolate overflow-hidden">
+                                             <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-slate-100/20 to-transparent -z-10 rounded-bl-[3rem]"></div>
+                                             <div className={`w-12 h-12 rounded-2xl ${section.bg} flex items-center justify-center ${section.color} group-hover:scale-110 transition-transform shadow-sm`}>
+                                                <item.i size={24} />
+                                             </div>
+                                             <div className="space-y-2">
+                                                <div className="text-base font-black text-slate-800">{item.n}</div>
+                                                <div className="text-xs text-slate-500 leading-relaxed font-medium">{item.d}</div>
+                                             </div>
                                           </div>
-                                          <div className="grid grid-cols-3 gap-4">
-                                             {section.items.map((item, i) => (
-                                                <div key={i} className="flex flex-col gap-3 p-4 rounded-[2rem] bg-slate-50/50 border border-slate-100 hover:bg-white hover:shadow-xl hover:shadow-slate-200/50 transition-all cursor-pointer group">
-                                                   <div className={`w-10 h-10 rounded-xl ${section.bg} flex items-center justify-center ${section.color} group-hover:scale-110 transition-transform shadow-sm`}>
-                                                      <item.i size={20} />
-                                                   </div>
-                                                   <div className="space-y-1">
-                                                      <div className="text-sm font-black text-slate-800 whitespace-nowrap">{item.n}</div>
-                                                      <div className="text-[10px] text-slate-400 leading-tight">{item.d}</div>
-                                                   </div>
-                                                </div>
-                                             ))}
-                                          </div>
-                                       </div>
-                                    ))}
+                                       ))}
+                                    </div>
                                  </div>
-                              </div>
+                              ))}
                            </div>
                         </div>
                      )}

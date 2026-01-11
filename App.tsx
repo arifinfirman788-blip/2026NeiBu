@@ -969,10 +969,8 @@ const App: React.FC = () => {
   };
   const handleBackToPortal = () => {
     setCurrentView('portal');
-    // 确保返回到旅行社智能体的说明页
-    setActiveModule('agent');
-    setPlanningTab('design');
-    setDesignTab('agency');
+    // 返回到框架/架构页
+    setActiveModule('architecture');
   };
   const openExternal = (url: string) => window.open(url, '_blank', 'noopener,noreferrer')
   const copyText = async (text: string) => {

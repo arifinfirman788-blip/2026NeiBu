@@ -1364,59 +1364,59 @@ const App: React.FC = () => {
                                     
                                     <div className={`pt-4 border-t border-slate-50 ${node.title === '业务节点' ? 'grid grid-cols-1 md:grid-cols-2 gap-8' : 'space-y-3'}`}>
                                       {node.subNodes.map((sub, idx) => (
-                                        <div key={idx} className={`flex items-start justify-between gap-4 ${node.title === '业务节点' ? 'bg-slate-50/50 p-4 rounded-xl border border-slate-100 hover:bg-slate-100/80 transition-colors' : ''}`}>
-                                          <div className="flex flex-col gap-2 min-w-0">
+                                        <div key={idx} className={`flex flex-col gap-3 ${node.title === '业务节点' ? 'bg-slate-50/50 p-4 rounded-xl border border-slate-100 hover:bg-slate-100/80 transition-colors' : ''}`}>
+                                          <div className="flex items-center justify-between gap-2">
                                             <div className="text-[10px] font-bold text-slate-400 uppercase tracking-tight">{sub.name}</div>
+                                            <button 
+                                              onClick={() => openExternal(sub.url)}
+                                              className="bg-indigo-600 text-white px-2.5 py-1 rounded-lg text-[10px] font-bold hover:bg-indigo-700 transition-all shadow-sm shrink-0"
+                                            >
+                                              进入
+                                            </button>
+                                          </div>
+                                          <div className="flex flex-col gap-2 min-w-0">
                                             {sub.accounts ? (
-                                              <div className="space-y-2">
+                                              <div className="space-y-3">
                                                 {sub.accounts.map((acc, aIdx) => (
-                                                  <div key={aIdx} className="flex flex-col gap-1">
+                                                  <div key={aIdx} className="flex flex-col gap-1.5">
                                                     <div className="text-[9px] text-slate-400 font-medium">{acc.label}</div>
-                                                    <div className="flex items-center gap-2">
+                                                    <div className="flex flex-wrap items-center gap-2">
                                                       <div 
                                                         onClick={() => copyText(acc.account)}
-                                                        className="px-2 py-1 bg-white rounded text-[10px] font-mono text-slate-500 cursor-pointer hover:bg-slate-100 hover:text-indigo-600 transition-colors border border-slate-100"
+                                                        className="px-2 py-1 bg-white rounded text-[10px] font-mono text-slate-500 cursor-pointer hover:bg-slate-100 hover:text-indigo-600 transition-colors border border-slate-100 whitespace-nowrap"
                                                         title="点击复制账号"
                                                       >
-                                                        <span className="text-slate-400 mr-1">账号:</span>{acc.account}
+                                                        <span className="text-slate-400 mr-1 font-sans">账号:</span>{acc.account}
                                                       </div>
                                                       <div 
                                                         onClick={() => copyText(acc.password)}
-                                                        className="px-2 py-1 bg-white rounded text-[10px] font-mono text-slate-500 cursor-pointer hover:bg-slate-100 hover:text-indigo-600 transition-colors border border-slate-100"
+                                                        className="px-2 py-1 bg-white rounded text-[10px] font-mono text-slate-500 cursor-pointer hover:bg-slate-100 hover:text-indigo-600 transition-colors border border-slate-100 whitespace-nowrap"
                                                         title="点击复制密码"
                                                       >
-                                                        <span className="text-slate-400 mr-1">密码:</span>{acc.password}
+                                                        <span className="text-slate-400 mr-1 font-sans">密码:</span>{acc.password}
                                                       </div>
                                                     </div>
                                                   </div>
                                                 ))}
                                               </div>
                                             ) : (
-                                              <div className="flex items-center gap-2">
+                                              <div className="flex flex-wrap items-center gap-2">
                                                 <div 
                                                   onClick={() => copyText(sub.account)}
-                                                  className="px-2 py-1 bg-white rounded text-[10px] font-mono text-slate-500 cursor-pointer hover:bg-slate-100 hover:text-indigo-600 transition-colors border border-slate-100"
+                                                  className="px-2 py-1 bg-white rounded text-[10px] font-mono text-slate-500 cursor-pointer hover:bg-slate-100 hover:text-indigo-600 transition-colors border border-slate-100 whitespace-nowrap"
                                                   title="点击复制账号"
                                                 >
-                                                  <span className="text-slate-400 mr-1">账号:</span>{sub.account}
+                                                  <span className="text-slate-400 mr-1 font-sans">账号:</span>{sub.account}
                                                 </div>
                                                 <div 
                                                   onClick={() => copyText(sub.password)}
-                                                  className="px-2 py-1 bg-white rounded text-[10px] font-mono text-slate-500 cursor-pointer hover:bg-slate-100 hover:text-indigo-600 transition-colors border border-slate-100"
+                                                  className="px-2 py-1 bg-white rounded text-[10px] font-mono text-slate-500 cursor-pointer hover:bg-slate-100 hover:text-indigo-600 transition-colors border border-slate-100 whitespace-nowrap"
                                                   title="点击复制密码"
                                                 >
-                                                  <span className="text-slate-400 mr-1">密码:</span>{sub.password}
+                                                  <span className="text-slate-400 mr-1 font-sans">密码:</span>{sub.password}
                                                 </div>
                                               </div>
                                             )}
-                                          </div>
-                                          <div className="flex items-center self-center">
-                                            <button 
-                                              onClick={() => openExternal(sub.url)}
-                                              className="bg-indigo-600 text-white px-3 py-1.5 rounded-lg text-[10px] font-bold hover:bg-indigo-700 transition-all shadow-sm shrink-0"
-                                            >
-                                              进入
-                                            </button>
                                           </div>
                                         </div>
                                       ))}

@@ -1504,8 +1504,8 @@ const App: React.FC = () => {
                      {[
                         { id: 'architecture', label: '总体架构', icon: Layers },
                         { id: 'agent', label: '智能体', icon: Cpu },
-                        { id: 'data', label: '汇数据', icon: Database },
                         { id: 'platform', label: '建平台', icon: Network },
+                        { id: 'data', label: '汇数据', icon: Database },
                      ].map((m) => (
                         <button
                            key={m.id}

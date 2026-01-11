@@ -224,8 +224,8 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                            <p className="text-slate-500 text-lg leading-relaxed">作为官方数字分身，提供 24h 1对1 服务。重点建立信任感与不确定性消除。同时面向数字游民与长期旅居人群，提供虚实结合的社区交互、灵活办公空间预约及在地化深度文化体验。</p>
                            <ul className="space-y-4">
                               <DesignFeature icon={LayoutDashboard} t="省级旅游行程服务总入口" d="服务资源聚合，一站式获取全省景区、酒店及交通等官方服务。" />
-                              <DesignFeature icon={LifeBuoy} t="24小时行程陪伴" d="智能AI全天候在线，提供实时问答、行程动态调整与应急响应。" />
-                              <DesignFeature icon={Heart} t="旅居管家" d="面向长期旅居人群，提供租房对接、社群融入及本地生活指引。" />
+                              <DesignFeature icon={LifeBuoy} t="侦察需求式动态行程卡片" d="实时捕捉游客潜在需求，动态生成个性化行程卡片，实现从‘搜攻略’到‘等服务’的体验升级。" />
+                              <DesignFeature icon={Heart} t="多智能体数字分身" d="构建由多个垂直领域智能体组成的数字分身矩阵，提供覆盖行前、行中、行后的全生命周期陪伴。" />
                            </ul>
                            <div className="flex flex-col gap-6 pt-4">
                               <button onClick={() => handleEnterApp('tourist')} className="w-full bg-teal-600 hover:bg-teal-700 text-white px-8 py-5 rounded-2xl font-black shadow-xl transition-all active:scale-95 text-lg">
@@ -933,14 +933,14 @@ const App: React.FC = () => {
     },
     role: {
       title: "角色智能体 (Role Agents)",
-      summary: "行业从业者的全能数字伙伴",
-      desc: "深度嵌入具体职业场景（如导游、线路设计师、前台、销售等），为其提供针对性的作业辅助。具备专业领域知识，能够自动化处理重复性劳动，如解说词生成、行程优化、客户话术辅助等，显著提升一线人员的人效与服务质量。",
+      summary: "多智能体数字分身矩阵",
+      desc: "深度嵌入具体职业场景与游客服务场景。核心产品为‘多智能体数字分身’，基于多源垂直大模型，为导游、管家乃至游客本人构建具备专业知识与个性化特征的数字孪生，实现全天候、多角色的智能协同与交互。",
       color: "violet"
     },
     func: {
       title: "功能智能体 (Function Agents)",
-      summary: "细粒度任务的自动化执行专家",
-      desc: "专注于文旅场景中的原子化功能模块（如房态查询、车辆调度等）。通过高精度的 API 调用与算法模型，为上层应用提供即插即用的 AI 技能插件，确保服务链条中的每一个细节都能实现智能响应。",
+      summary: "侦察需求式动态行程卡片",
+      desc: "专注于文旅场景中的原子化功能模块。核心能力在于‘侦察需求式动态行程卡片’，通过多维感知游客意图，自动组合交通、餐饮、门票等插件，生成可交互、可执行的实时行程方案。",
       color: "teal"
     }
   };
@@ -1975,8 +1975,8 @@ const App: React.FC = () => {
                                   
                                   <ul className="space-y-4 mb-10">
                                      <DesignFeature icon={LayoutDashboard} t="省级旅游行程服务总入口" d="服务资源聚合，一站式获取全省景区、酒店及交通等官方服务。" />
-                                     <DesignFeature icon={LifeBuoy} t="24小时行程陪伴" d="智能AI全天候在线，提供实时问答、行程动态调整与应急响应。" />
-                                     <DesignFeature icon={Heart} t="旅居管家" d="面向长期旅居人群，提供租房对接、社群融入及本地生活指引。" />
+                                     <DesignFeature icon={LifeBuoy} t="侦察需求式动态行程卡片" d="实时捕捉游客潜在需求，动态生成个性化行程卡片，实现从‘搜攻略’到‘等服务’的体验升级。" />
+                                     <DesignFeature icon={Heart} t="多智能体数字分身" d="构建由多个垂直领域智能体组成的数字分身矩阵，提供覆盖行前、行中、行后的全生命周期陪伴。" />
                                   </ul>
 
                                   <div className="flex flex-wrap gap-6 items-center">

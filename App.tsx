@@ -16,9 +16,49 @@ import {
   CheckCircle2, ShieldAlert, Utensils, BedDouble, 
   FileSearch, MessageSquare, Sparkles, Heart,
   LifeBuoy, Store, Megaphone, X, ChevronRight, Cpu, Users, Database, ShieldCheck, Box, Network, ClipboardList,
+  UserCheck, Clock, Loader2,
   ShoppingBag, ExternalLink, Wallet, CreditCard, BarChart3, Workflow, Building2, Truck, Wifi,
   Search, Menu, User, Send, Settings, Globe, Lock
 } from 'lucide-react';
+
+// --- COMPONENT: ImageWithLoader ---
+const ImageWithLoader: React.FC<{
+  src: string;
+  alt: string;
+  className?: string;
+  priority?: 'high' | 'low' | 'auto';
+  loading?: 'lazy' | 'eager';
+}> = ({ src, alt, className, priority = 'auto', loading = 'lazy' }) => {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [error, setError] = useState(false);
+
+  return (
+    <div className={`relative overflow-hidden ${className}`}>
+      {!isLoaded && !error && (
+        <div className="absolute inset-0 bg-slate-100 flex items-center justify-center animate-pulse">
+          <Loader2 className="w-6 h-6 text-slate-300 animate-spin" />
+        </div>
+      )}
+      {error ? (
+        <div className="absolute inset-0 bg-slate-50 flex flex-col items-center justify-center text-slate-300 gap-2">
+          <Smartphone size={24} />
+          <span className="text-xs">图片加载失败</span>
+        </div>
+      ) : (
+        <img
+          src={src}
+          alt={alt}
+          className={`w-full h-full object-cover transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+          onLoad={() => setIsLoaded(true)}
+          onError={() => setError(true)}
+          loading={loading}
+          // @ts-ignore
+          fetchpriority={priority}
+        />
+      )}
+    </div>
+  );
+};
 
 import hxxQrCode from './image/huangxiaoxi.png';
 import jingquQrCode from './image/jingqu.jpg';
@@ -34,6 +74,9 @@ import huangxiaoxiImg1 from './image/ffcfd83472ae04ebb93f2e59eb423119.png';
 import huangxiaoxiImg2 from './image/huangxiaoxi1.png';
 import huangxiaoxiFenshen from './image/huangxiaoxifenshen.png';
 import jiudianFenshen from './image/jiudianfenshen.png';
+import fuzhudaoyouImg from './image/fuzhudaoyou1.png';
+import fuzhukefuImg from './image/fuzhukefu1.png';
+import xuniyuangongImg from './image/xuniyuangong2.png';
 
 // Import image2 resources
 import xingchengdaoruImg from './image2/xingchengdaoru.png';
@@ -215,10 +258,10 @@ const BusinessProcessArea: React.FC = () => {
                                 <div className="flex gap-4 h-[400px]">
                                   {/* Left: 1 Large Image */}
                                   <div className="flex-[2] relative rounded-xl overflow-hidden border border-slate-100 shadow-sm group/img bg-slate-50">
-                                    <img 
+                                    <ImageWithLoader 
                                       src={(node as any).images[0]} 
                                       alt={`${node.title}-large`} 
-                                      className="w-full h-full object-contain transition-transform duration-500 group-hover/img:scale-105" 
+                                      className="w-full h-full" 
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent opacity-0 group-hover/img:opacity-100 transition-opacity" />
                                   </div>
@@ -226,10 +269,10 @@ const BusinessProcessArea: React.FC = () => {
                                   <div className="flex-1 flex flex-col gap-2">
                                     {(node as any).images.slice(1).map((img: string, idx: number) => (
                                       <div key={idx} className="flex-1 relative rounded-lg overflow-hidden border border-slate-100 shadow-sm group/img bg-slate-50">
-                                        <img 
+                                        <ImageWithLoader 
                                           src={img} 
                                           alt={`${node.title}-small-${idx}`} 
-                                          className="w-full h-full object-contain transition-transform duration-500 group-hover/img:scale-105" 
+                                          className="w-full h-full" 
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent opacity-0 group-hover/img:opacity-100 transition-opacity" />
                                       </div>
@@ -240,10 +283,10 @@ const BusinessProcessArea: React.FC = () => {
                                 <div className="flex gap-4 h-[400px]">
                                   {/* Left: 1 Large Image (Image 2) */}
                                   <div className="flex-[1.5] relative rounded-xl overflow-hidden border border-slate-100 shadow-sm group/img bg-slate-50">
-                                    <img 
+                                    <ImageWithLoader 
                                       src={(node as any).images[0]} 
                                       alt={`${node.title}-large`} 
-                                      className="w-full h-full object-contain transition-transform duration-500 group-hover/img:scale-105" 
+                                      className="w-full h-full" 
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent opacity-0 group-hover/img:opacity-100 transition-opacity" />
                                   </div>
@@ -251,10 +294,10 @@ const BusinessProcessArea: React.FC = () => {
                                   <div className="flex-1 flex flex-col gap-2">
                                     {(node as any).images.slice(1).map((img: string, idx: number) => (
                                       <div key={idx} className="flex-1 relative rounded-lg overflow-hidden border border-slate-100 shadow-sm group/img bg-slate-50">
-                                        <img 
+                                        <ImageWithLoader 
                                           src={img} 
                                           alt={`${node.title}-small-${idx}`} 
-                                          className="w-full h-full object-contain transition-transform duration-500 group-hover/img:scale-105" 
+                                          className="w-full h-full" 
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent opacity-0 group-hover/img:opacity-100 transition-opacity" />
                                       </div>
@@ -265,10 +308,10 @@ const BusinessProcessArea: React.FC = () => {
                                 <div className="grid grid-cols-2 gap-4">
                                   {(node as any).images.map((img: string, idx: number) => (
                                     <div key={idx} className="relative rounded-xl overflow-hidden border border-slate-100 shadow-sm group/img bg-slate-50">
-                                      <img 
+                                      <ImageWithLoader 
                                         src={img} 
                                         alt={`${node.title}-${idx}`} 
-                                        className="w-full h-auto max-h-[300px] object-contain transition-transform duration-500 group-hover/img:scale-105" 
+                                        className="w-full h-auto max-h-[300px]" 
                                       />
                                       <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent opacity-0 group-hover/img:opacity-100 transition-opacity" />
                                     </div>
@@ -277,10 +320,10 @@ const BusinessProcessArea: React.FC = () => {
                               )
                             ) : (node as any).image ? (
                               <div className="relative rounded-xl overflow-hidden border border-slate-100 shadow-sm group/img max-w-[400px] mx-auto">
-                                <img 
+                                <ImageWithLoader 
                                   src={(node as any).image} 
                                   alt={node.title} 
-                                  className="w-full h-auto object-contain transition-transform duration-500 group-hover/img:scale-105" 
+                                  className="w-full h-auto" 
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover/img:opacity-100 transition-opacity" />
                               </div>
@@ -322,8 +365,9 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
   setActiveSubTab: (tab: 'status' | 'planning') => void
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [currentDesign, setCurrentDesign] = useState<'xiaoxi' | 'agency' | 'spot' | 'living' | 'gov' | 'hotel' | 'dining' | 'org' | 'func'>('xiaoxi');
+  const [currentDesign, setCurrentDesign] = useState<'xiaoxi' | 'agency' | 'spot' | 'living' | 'gov' | 'hotel' | 'dining' | 'org' | 'func' | 'role'>('xiaoxi');
   const [activeOrgTab, setActiveOrgTab] = useState<'saas' | 'portal' | 'marketplace'>('saas');
+  const [activeRoleTab, setActiveRoleTab] = useState<'assistant' | 'digital_employee'>('assistant');
 
   const openExternal = (url: string) => window.open(url, '_blank', 'noopener,noreferrer');
 
@@ -388,7 +432,12 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
 
             {/* C. 第二层环：角色智能体 */}
             <div 
-              className="absolute top-56 left-1/2 w-[900px] h-[200px] border-2 border-slate-200 bg-slate-50/20 rounded-[50%] [transform:translateX(-50%)_rotateX(60deg)] [transform-style:preserve-3d] z-30 shadow-sm transition-all group/ring"
+              className="absolute top-56 left-1/2 w-[900px] h-[200px] border-2 border-slate-200 bg-slate-50/20 rounded-[50%] [transform:translateX(-50%)_rotateX(60deg)] [transform-style:preserve-3d] z-30 shadow-sm transition-all group/ring cursor-pointer hover:bg-slate-50/40"
+              onClick={(e) => {
+                e.stopPropagation();
+                setCurrentDesign('role');
+                setIsExpanded(true);
+              }}
             >
               <RingLabel label="角色智能体" color="violet" className="top-1/2 [transform:translate(-50%,-50%)_rotateX(-60deg)]" />
               
@@ -675,6 +724,34 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                            </button>
                         </>
                      )}
+
+                     {currentDesign === 'role' && (
+                        <>
+                           <h3 className="text-4xl font-black text-violet-600 flex items-center gap-3"><Users size={40}/> 角色智能体 · 数字孪生员工</h3>
+                           <p className="text-slate-500 text-lg leading-relaxed">通过对优秀从业者能力的数字化建模，构建出具备专业知识、服务意识与执行能力的数字角色矩阵。</p>
+                           <div className="bg-slate-50 rounded-3xl p-4 border border-slate-100">
+                              <h4 className="font-bold text-slate-800 mb-4 px-3 flex items-center gap-2 text-sm uppercase tracking-widest text-slate-400">
+                                核心价值 (点击切换预览)
+                              </h4>
+                              <ul className="space-y-2">
+                                 <DesignFeature 
+                                   icon={UserCheck} 
+                                   t="1. 辅助旅游从业人员" 
+                                   d="作为从业者的“数字助手”，提供专业知识支持、方案快速生成与任务协同。" 
+                                   active={activeRoleTab === 'assistant'}
+                                   onClick={() => setActiveRoleTab('assistant')}
+                                 />
+                                 <DesignFeature 
+                                   icon={Clock} 
+                                   t="2. 24小时在线数字员工" 
+                                   d="帮助企业拥有永不疲倦的各类数字员工，实现全天候、标准化的高质量服务。" 
+                                   active={activeRoleTab === 'digital_employee'}
+                                   onClick={() => setActiveRoleTab('digital_employee')}
+                                 />
+                              </ul>
+                           </div>
+                        </>
+                     )}
                   </div>
 
                   {/* Preview Content */}
@@ -748,13 +825,13 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                                  <div className="flex gap-8 items-center justify-center p-6 bg-white/50 backdrop-blur-sm rounded-[2.5rem] border border-white/40 shadow-2xl">
                                     <div className="flex flex-col items-center gap-3 group">
                                        <div className="w-[260px] h-[460px] rounded-xl overflow-hidden shadow-lg border-2 border-white bg-slate-50 transition-transform group-hover:scale-[1.02] duration-500">
-                                          <img src={huangxiaoxiFenshen} alt="黄小西分身" className="w-full h-full object-contain" />
+                                          <ImageWithLoader src={huangxiaoxiFenshen} alt="黄小西分身" className="w-full h-full" />
                                        </div>
                                        <div className="text-slate-800 font-bold text-sm tracking-tight">黄小西分身</div>
                                     </div>
                                     <div className="flex flex-col items-center gap-3 group">
                                        <div className="w-[260px] h-[460px] rounded-xl overflow-hidden shadow-lg border-2 border-white bg-slate-50 transition-transform group-hover:scale-[1.02] duration-500">
-                                          <img src={jiudianFenshen} alt="酒店分身" className="w-full h-full object-contain" />
+                                          <ImageWithLoader src={jiudianFenshen} alt="酒店分身" className="w-full h-full" />
                                        </div>
                                        <div className="text-slate-800 font-bold text-sm tracking-tight">酒店分身</div>
                                     </div>
@@ -840,7 +917,67 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                            )}
                         </div>
                      )}
-                     
+
+                     {currentDesign === 'role' && (
+                        <div className="w-full flex flex-col items-center animate-in fade-in slide-in-from-right-10 duration-500">
+                           <div className="bg-white/50 backdrop-blur-sm rounded-[2.5rem] p-8 border border-white/40 shadow-2xl w-full max-w-[800px]">
+                              {activeRoleTab === 'assistant' && (
+                                 <div className="flex flex-col items-center gap-8 animate-in fade-in slide-in-from-right-8 duration-500">
+                                    <div className="grid grid-cols-2 gap-6 w-full max-w-[700px]">
+                                       <div className="bg-slate-50 rounded-[2rem] border border-slate-100 overflow-hidden shadow-sm group">
+                                          <ImageWithLoader 
+                                             src={fuzhudaoyouImg} 
+                                             alt="辅助导游" 
+                                             className="w-full h-auto" 
+                                             priority="high"
+                                          />
+                                       </div>
+                                       <div className="bg-slate-50 rounded-[2rem] border border-slate-100 overflow-hidden shadow-sm group">
+                                          <ImageWithLoader 
+                                             src={fuzhukefuImg} 
+                                             alt="辅助客服" 
+                                             className="w-full h-auto" 
+                                             priority="high"
+                                          />
+                                       </div>
+                                    </div>
+                                    <div className="text-center space-y-3">
+                                       <h4 className="text-3xl font-black text-slate-800">1. 辅助旅游从业人员</h4>
+                                       <p className="text-violet-600 font-bold text-lg">数字化助手 · 专业知识支持 · 方案快速生成</p>
+                                       <p className="text-slate-500 leading-relaxed max-w-2xl">
+                                          为导游、线路设计师等从业者提供实时的专业知识库支持，辅助快速生成行程方案，并实现多方任务的高效协同。
+                                       </p>
+                                    </div>
+                                 </div>
+                              )}
+
+                              {activeRoleTab === 'digital_employee' && (
+                                 <div className="flex flex-col items-center gap-8 animate-in fade-in slide-in-from-right-8 duration-500">
+                                    <div className="bg-slate-50 rounded-[2.5rem] border border-slate-100 overflow-hidden shadow-xl w-full max-w-[700px] group">
+                                       <ImageWithLoader 
+                                          src={xuniyuangongImg} 
+                                          alt="虚拟员工" 
+                                          className="w-full h-auto" 
+                                          priority="high"
+                                       />
+                                    </div>
+                                    <div className="text-center space-y-3">
+                                       <h4 className="text-3xl font-black text-slate-800">2. 24小时在线数字员工</h4>
+                                       <p className="text-violet-600 font-bold text-lg">永不疲倦 · 标准化服务 · 全天候响应</p>
+                                       <p className="text-slate-500 leading-relaxed max-w-2xl">
+                                          构建标准化、可规模化的数字员工矩阵，为企业提供7×24小时的高质量在线服务，确保每一个服务请求都能得到即时、专业的响应。
+                                       </p>
+                                    </div>
+                                 </div>
+                              )}
+                           </div>
+                           <div className="mt-8 text-center space-y-2">
+                              <div className="text-2xl font-black text-slate-800">角色智能体 · 数字化转型的新劳动力</div>
+                              <div className="text-violet-600 font-bold tracking-widest uppercase text-sm">提升人效 · 标准化输出 · 知识沉淀</div>
+                           </div>
+                        </div>
+                     )}
+
                      {currentDesign === 'xiaoxi' && (
                         <div className="w-full h-full flex items-center justify-center p-8 animate-in fade-in duration-500">
                            <div className="flex gap-12 items-start justify-center w-full max-w-[1200px] scale-[0.75]">
@@ -889,10 +1026,10 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                                              </div>
                                           </div>
                                           <div className="relative group rounded-2xl overflow-hidden border-4 border-white shadow-lg h-[240px]">
-                                             <img src={jingquImg1} alt="展示图1" className="w-full h-full object-cover" />
+                                             <ImageWithLoader src={jingquImg1} alt="展示图1" className="w-full h-full" priority="high" />
                                           </div>
                                           <div className="relative group rounded-2xl overflow-hidden border-4 border-white shadow-lg h-[240px]">
-                                             <img src={jingquImg2} alt="展示图2" className="w-full h-full object-cover" />
+                                             <ImageWithLoader src={jingquImg2} alt="展示图2" className="w-full h-full" priority="high" />
                                           </div>
                                        </div>
 
@@ -967,7 +1104,7 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                         <div className="flex flex-col items-center justify-center scale-90">
                            <div className="h-[550px] w-[260px] rounded-[2.5rem] overflow-hidden shadow-2xl border-[8px] border-slate-800 bg-white relative">
                               <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-5 bg-slate-800 rounded-b-xl z-10"></div>
-                              <img src={jiudianImg} alt="酒店智能体" className="w-full h-full object-cover" />
+                              <ImageWithLoader src={jiudianImg} alt="酒店智能体" className="w-full h-full" priority="high" />
                            </div>
                            <div className="mt-6 bg-white/50 backdrop-blur px-4 py-2 rounded-full border border-white text-[10px] font-black text-slate-400 uppercase tracking-widest">
                               Hotel Smart Stay
@@ -985,7 +1122,7 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                         <div className="flex flex-col items-center justify-center scale-90">
                            <div className="h-[550px] w-[260px] rounded-[2.5rem] overflow-hidden shadow-2xl border-[8px] border-slate-800 bg-white relative">
                               <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-5 bg-slate-800 rounded-b-xl z-10"></div>
-                              <img src={canyinImg} alt="餐饮智能体" className="w-full h-full object-cover" />
+                              <ImageWithLoader src={canyinImg} alt="餐饮智能体" className="w-full h-full" priority="high" />
                            </div>
                            <div className="mt-6 bg-white/50 backdrop-blur px-4 py-2 rounded-full border border-white text-[10px] font-black text-slate-400 uppercase tracking-widest">
                               Dining Experience
@@ -1002,7 +1139,7 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                               <div className="ml-4 px-3 py-0.5 bg-white rounded-md text-[10px] text-slate-400 border border-slate-200 flex-1 text-center font-mono">gov.travel-guizhou.com</div>
                            </div>
                            <div className="w-full bg-slate-50 p-2">
-                              <img src={dapingImg} alt="政府智能体" className="w-full h-auto rounded-lg shadow-inner" />
+                              <ImageWithLoader src={dapingImg} alt="政府智能体" className="w-full h-auto rounded-lg shadow-inner" priority="high" />
                            </div>
                         </div>
                      )}
@@ -1248,7 +1385,20 @@ const App: React.FC = () => {
 
   const [currentView, setCurrentView] = useState<'portal' | 'app'>('portal');
   const [userRole, setUserRole] = useState<UserRole>('tourist');
-  const [activeTab, setActiveTab] = useState(0);
+  useEffect(() => {
+      // 预加载关键大图
+      const criticalImages = [
+         jingquImg1, jingquImg2, huangxiaoxiImg2, dapingImg, 
+         huangxiaoxiImg1, fuzhudaoyouImg, fuzhukefuImg, xuniyuangongImg
+      ];
+      
+      criticalImages.forEach(src => {
+         const img = new Image();
+         img.src = src;
+      });
+   }, []);
+
+   const [activeTab, setActiveTab] = useState(0);
   const [subView, setSubView] = useState<'main' | 'experts' | 'chat'>('main');
   const [selectedAgent, setSelectedAgent] = useState<ServiceItem | null>(null);
   const [activeQrCode, setActiveQrCode] = useState<string | null>(null);

@@ -434,7 +434,7 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
             className={`absolute right-0 top-0 w-[1100px] h-full transition-all duration-700 ease-in-out ${isExpanded ? 'opacity-100 translate-x-0 -translate-y-10' : 'opacity-0 translate-x-12 translate-y-0 pointer-events-none'}`}
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="bg-white/90 backdrop-blur-xl rounded-[3rem] p-10 border border-white shadow-2xl h-[780px] overflow-y-auto no-scrollbar relative">
+            <div className="bg-white/90 backdrop-blur-xl rounded-[3rem] p-6 border border-white shadow-2xl h-[780px] overflow-y-auto no-scrollbar relative">
                <button 
                   onClick={() => setIsExpanded(false)}
                   className="absolute top-8 right-8 w-10 h-10 bg-slate-100 hover:bg-slate-200 text-slate-500 rounded-full flex items-center justify-center transition-colors z-50"
@@ -442,7 +442,7 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                   <ArrowRight size={20} />
                </button>
 
-               <div className="grid grid-cols-1 xl:grid-cols-[380px_1fr] gap-10 animate-in slide-in-from-right-12 duration-700">
+               <div className={`grid ${currentDesign === 'func' ? 'grid-cols-1' : 'grid-cols-1 xl:grid-cols-[380px_1fr]'} gap-6 animate-in slide-in-from-right-12 duration-700`}>
                   {/* Text Content */}
                   <div className="space-y-8">
                      {currentDesign === 'org' && (
@@ -470,7 +470,7 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                                   />
                                   <DesignFeature 
                                     icon={Box} 
-                                    t="功能插件集市" 
+                                    t="能力插件集市" 
                                     d="逐步覆盖企业经营既有的各类软件系统" 
                                     active={activeOrgTab === 'marketplace'}
                                     onClick={() => setActiveOrgTab('marketplace')}
@@ -483,9 +483,9 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                      {currentDesign === 'xiaoxi' && (
                         <>
                            <h3 className="text-4xl font-black text-teal-600 flex items-center gap-3"><Bot size={40}/> 多彩黄小西 · C端伴游</h3>
-                           <p className="text-slate-500 text-lg leading-relaxed">作为官方数字分身，提供 24h 1对1 服务。重点建立信任感与不确定性消除。同时面向数字游民与长期旅居人群，提供虚实结合的社区交互、灵活办公空间预约及在地化深度文化体验。</p>
+                           <p className="text-slate-500 text-lg leading-relaxed">核心目标是将其从行程规划问答式工具，升级为集“行程管理、主动提醒、服务调度”于一体的贵州省级的全旅程陪伴数字生命体。——不以订票为核心目标，而是一个数字导游，随时随地站在游客身边帮他提供服务。</p>
                            <ul className="space-y-4">
-                              <DesignFeature icon={LayoutDashboard} t="省级旅游行程服务总入口" d="服务资源聚合，一站式获取全省景区、酒店及交通等官方服务。" />
+                              <DesignFeature icon={LayoutDashboard} t="省级旅游行程服务总入口" d="" />
                               <DesignFeature icon={LifeBuoy} t="侦察需求式的智能体（主动服务）" d="实时捕捉游客潜在需求，动态生成个性化行程卡片，实现从‘搜攻略’到‘等服务’的体验升级。" />
                               <DesignFeature icon={Heart} t="旅游专业数字分身（协同调度）" d="构建由多个垂直领域智能体组成的数字分身矩阵，提供覆盖行前、行中、行后的全生命周期陪伴。" />
                            </ul>
@@ -630,6 +630,12 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                                     </div>
                                  </div>
                               </div>
+                              <button 
+                                 onClick={() => openExternal('http://47.109.26.72:8080/hotel_ai_os/')}
+                                 className="w-full bg-violet-600 hover:bg-violet-700 text-white px-8 py-4 rounded-2xl font-black shadow-xl flex items-center justify-center gap-3 group transition-all active:scale-95 mt-4"
+                              >
+                                 下一步规划 <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                              </button>
                            </div>
                         </>
                      )}
@@ -667,40 +673,6 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                            <button onClick={() => openExternal('https://glsw-provincescreen-test.aihuangxiaoxi.com/admin/#/index')} className="w-full bg-blue-600 hover:bg-blue-700 text-white px-8 py-5 rounded-2xl font-black shadow-xl flex items-center justify-center gap-3 group">
                               进入政府智能体 <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
                            </button>
-                        </>
-                     )}
-
-                     {currentDesign === 'func' && (
-                        <>
-                           <div className="flex items-center gap-4 mb-6">
-                              <div className="w-16 h-16 bg-teal-100 rounded-2xl flex items-center justify-center text-teal-600 shadow-lg shadow-teal-100/50">
-                                 <Cpu size={40} />
-                              </div>
-                              <div>
-                                 <h3 className="text-4xl font-black text-teal-600">功能智能体</h3>
-                                 <p className="text-slate-400 text-sm uppercase tracking-widest mt-1">Atomic Function Agents</p>
-                              </div>
-                           </div>
-                           <div className="space-y-6">
-                              <div className="bg-teal-50/50 p-6 rounded-3xl border border-teal-100/50">
-                                 <p className="text-slate-600 leading-relaxed text-lg font-medium">
-                                    专注于文旅场景中的原子化功能模块。通过多维感知游客意图，自动组合交通、餐饮、门票等插件，生成可交互、可执行的实时行程方案。
-                                 </p>
-                              </div>
-                              <div className="p-6 bg-slate-50 rounded-3xl border border-slate-100">
-                                 <h4 className="font-bold text-slate-800 mb-4 flex items-center gap-2 text-sm uppercase tracking-widest text-slate-400">核心能力集</h4>
-                                 <ul className="space-y-3">
-                                    <li className="flex items-start gap-3 text-slate-500">
-                                       <div className="w-5 h-5 rounded-full bg-teal-500 flex items-center justify-center text-white shrink-0 mt-0.5"><CheckCircle2 size={12} strokeWidth={4} /></div>
-                                       <span className="text-sm font-medium">智能决策与分析支撑：BI业务实时看板、智能营销触发器</span>
-                                    </li>
-                                    <li className="flex items-start gap-3 text-slate-500">
-                                       <div className="w-5 h-5 rounded-full bg-teal-500 flex items-center justify-center text-white shrink-0 mt-0.5"><CheckCircle2 size={12} strokeWidth={4} /></div>
-                                       <span className="text-sm font-medium">安全合规与基础设施：敏感数据沙箱、Multi-Agent标准协议</span>
-                                    </li>
-                                 </ul>
-                              </div>
-                           </div>
                         </>
                      )}
                   </div>
@@ -796,8 +768,8 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
 
                            {activeOrgTab === 'marketplace' && (
                               <div className="w-full flex flex-col items-center animate-in fade-in slide-in-from-right-10 duration-500">
-                                 <div className="bg-white rounded-[3rem] p-10 w-full max-w-[900px] shadow-2xl border border-slate-100">
-                                    <div className="flex justify-between items-center mb-10 pb-6 border-b border-slate-50">
+                                 <div className="bg-white rounded-[3rem] p-8 w-full max-w-[960px] shadow-2xl border border-slate-100">
+                                    <div className="flex justify-between items-center mb-8 pb-6 border-b border-slate-50">
                                        <div className="flex items-center gap-4">
                                           <div className="w-12 h-12 bg-indigo-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-indigo-100">
                                              <Store size={28} />
@@ -809,13 +781,13 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                                        </div>
                                     </div>
 
-                                    <div className="mb-10 bg-indigo-50/50 p-6 rounded-2xl border border-indigo-100/50">
+                                    <div className="mb-8 bg-indigo-50/50 p-6 rounded-2xl border border-indigo-100/50">
                                        <p className="text-indigo-600/80 leading-relaxed font-medium text-sm">
                                           产品到底能不能打，取决于 AI 是否能调用软件系统实现业务闭环。我们梳理了旅游产业的标准软件系统，让智能体具备“手”和“脚”。
                                        </p>
                                     </div>
                                     
-                                    <div className="grid grid-cols-2 gap-x-12 gap-y-10">
+                                    <div className="grid grid-cols-2 gap-x-10 gap-y-8">
                                        {[
                                           { 
                                              title: '业务动作连接器 (MCP 接口集)', 
@@ -839,19 +811,19 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                                           }
                                        ].map((section, idx) => (
                                           <div key={idx} className="space-y-4">
-                                             <div className={`text-xs font-black uppercase tracking-[0.2em] ${section.color} flex items-center gap-2 mb-2`}>
-                                                <div className={`w-1.5 h-1.5 rounded-full ${section.bg.replace('bg-', 'bg-')}`}></div>
+                                             <div className={`text-[10px] font-black uppercase tracking-[0.3em] ${section.color} flex items-center gap-2 mb-2 whitespace-nowrap`}>
+                                                <div className={`w-1.5 h-1.5 rounded-full ${section.color.replace('text-', 'bg-')}`}></div>
                                                 {section.title}
                                              </div>
-                                             <div className="space-y-3">
+                                             <div className="space-y-2">
                                                 {section.items.map((item, i) => (
-                                                   <div key={i} className="flex items-center gap-4 p-4 rounded-2xl hover:bg-slate-50 transition-all border border-transparent hover:border-slate-100 cursor-pointer group">
-                                                      <div className={`w-12 h-12 rounded-xl ${section.bg} flex items-center justify-center ${section.color} group-hover:scale-110 transition-transform shadow-sm`}>
-                                                         <item.i size={22} />
+                                                   <div key={i} className="flex items-center gap-3 p-3 rounded-2xl hover:bg-slate-50 transition-all border border-transparent hover:border-slate-100 cursor-pointer group">
+                                                      <div className={`w-10 h-10 rounded-xl ${section.bg} flex items-center justify-center ${section.color} group-hover:scale-110 transition-transform shadow-sm shrink-0`}>
+                                                         <item.i size={20} />
                                                       </div>
-                                                      <div>
-                                                         <div className="text-sm font-bold text-slate-800">{item.n}</div>
-                                                         <div className="text-[10px] text-slate-400 mt-0.5">{item.d}</div>
+                                                      <div className="min-w-0">
+                                                         <div className="text-sm font-bold text-slate-800 truncate">{item.n}</div>
+                                                         <div className="text-[10px] text-slate-400 mt-0.5 truncate">{item.d}</div>
                                                       </div>
                                                    </div>
                                                 ))}
@@ -1000,6 +972,12 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                            <div className="mt-6 bg-white/50 backdrop-blur px-4 py-2 rounded-full border border-white text-[10px] font-black text-slate-400 uppercase tracking-widest">
                               Hotel Smart Stay
                            </div>
+                           <button 
+                              onClick={() => openExternal('http://47.109.26.72:8080/hotel_ai_os/')}
+                              className="mt-8 w-full bg-violet-600 hover:bg-violet-700 text-white px-8 py-4 rounded-2xl font-black shadow-xl flex items-center justify-center gap-3 group transition-all active:scale-95"
+                           >
+                              下一步规划 <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                           </button>
                         </div>
                      )}
 
@@ -1056,8 +1034,29 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                      )}
 
                      {currentDesign === 'func' && (
-                        <div className="w-full animate-in fade-in slide-in-from-right-10 duration-500">
-                           <div className="grid grid-cols-1 gap-10">
+                        <div className="w-full animate-in fade-in slide-in-from-right-10 duration-500 space-y-10">
+                           <div className="flex flex-col gap-5 pb-6 border-b border-slate-100">
+                              <div className="flex items-center gap-5">
+                                 <div className="w-16 h-16 bg-teal-100 rounded-2xl flex items-center justify-center text-teal-600 shadow-lg shadow-teal-100/50 shrink-0">
+                                    <Cpu size={36} />
+                                 </div>
+                                 <div>
+                                    <h3 className="text-3xl font-black text-teal-600">功能智能体</h3>
+                                    <div className="flex items-center gap-3 mt-1.5">
+                                       <span className="text-slate-400 text-xs uppercase tracking-[0.2em] font-bold">Atomic Function Agents</span>
+                                       <div className="w-1 h-1 rounded-full bg-slate-300"></div>
+                                       <span className="text-teal-600/60 text-xs font-bold">原子化服务能力集</span>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div className="max-w-2xl">
+                                 <p className="text-slate-500 text-sm leading-relaxed font-medium">
+                                    专注于文旅场景中的原子化功能模块。通过多维感知游客意图，自动组合交通、餐饮、门票等插件，生成可交互、可执行的实时行程方案。
+                                 </p>
+                              </div>
+                           </div>
+
+                           <div className="grid grid-cols-1 gap-8">
                               {[
                                  { 
                                     title: '智能决策与分析支撑', 
@@ -1080,20 +1079,21 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                                     ]
                                  }
                               ].map((section, idx) => (
-                                 <div key={idx} className="space-y-6">
-                                    <div className={`text-base font-black uppercase tracking-[0.3em] ${section.color} flex items-center gap-3`}>
-                                       <div className={`w-2 h-2 rounded-full ${section.bg.replace('bg-', 'bg-')}`}></div>
+                                 <div key={idx} className="space-y-8">
+                                    <div className={`text-sm font-black uppercase tracking-[0.4em] ${section.color} flex items-center gap-3`}>
+                                       <div className={`w-2.5 h-2.5 rounded-full ${section.color.replace('text-', 'bg-')}`}></div>
                                        {section.title}
+                                       <div className="flex-1 h-px bg-slate-100 ml-3"></div>
                                     </div>
                                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                        {section.items.map((item, i) => (
-                                          <div key={i} className="flex flex-col gap-4 p-6 rounded-[2.5rem] bg-white/60 backdrop-blur-sm border border-white hover:bg-white hover:shadow-2xl hover:shadow-slate-200/50 transition-all cursor-pointer group relative isolate overflow-hidden">
-                                             <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-slate-100/20 to-transparent -z-10 rounded-bl-[3rem]"></div>
-                                             <div className={`w-12 h-12 rounded-2xl ${section.bg} flex items-center justify-center ${section.color} group-hover:scale-110 transition-transform shadow-sm`}>
+                                          <div key={i} className="flex flex-col gap-4 p-6 rounded-[2.5rem] bg-white border border-slate-100 hover:border-teal-500/30 hover:shadow-xl hover:shadow-teal-900/5 transition-all cursor-pointer group relative isolate overflow-hidden">
+                                             <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-teal-50/50 to-transparent -z-10 rounded-bl-[3rem]"></div>
+                                             <div className={`w-12 h-12 rounded-xl ${section.bg} flex items-center justify-center ${section.color} group-hover:scale-110 transition-transform shadow-sm`}>
                                                 <item.i size={24} />
                                              </div>
                                              <div className="space-y-2">
-                                                <div className="text-base font-black text-slate-800">{item.n}</div>
+                                                <div className="text-lg font-black text-slate-800 group-hover:text-teal-600 transition-colors whitespace-nowrap">{item.n}</div>
                                                 <div className="text-xs text-slate-500 leading-relaxed font-medium">{item.d}</div>
                                              </div>
                                           </div>
@@ -1353,9 +1353,9 @@ const App: React.FC = () => {
                   <div className="flex items-center gap-1 bg-slate-100/50 p-1.5 rounded-2xl border border-slate-200">
                      {[
                         { id: 'architecture', label: '总体架构', icon: Layers },
+                        { id: 'agent', label: '智能体', icon: Cpu },
                         { id: 'data', label: '汇数据', icon: Database },
                         { id: 'platform', label: '建平台', icon: Network },
-                        { id: 'agent', label: '智能体', icon: Cpu },
                      ].map((m) => (
                         <button
                            key={m.id}
@@ -2370,6 +2370,12 @@ const App: React.FC = () => {
                                            </div>
                                         </div>
                                      </div>
+                                     <button 
+                                        onClick={() => openExternal('http://47.109.26.72:8080/hotel_ai_os/')}
+                                        className="bg-violet-600 hover:bg-violet-700 text-white px-8 py-4 rounded-2xl font-black shadow-xl flex items-center justify-center gap-3 group transition-all active:scale-95"
+                                     >
+                                        下一步规划 <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                                     </button>
                                   </div>
                                </div>
                             )}
@@ -2399,10 +2405,10 @@ const App: React.FC = () => {
                             {designTab === 'xiaoxi' && (
                                <div className="animate-in slide-in-from-left-4">
                                   <h3 className="text-3xl font-black text-teal-600 mb-6 flex items-center gap-3"><Bot size={32}/> 多彩黄小西 · C端伴游</h3>
-                                  <p className="text-slate-500 text-lg leading-relaxed mb-10">作为官方数字分身，提供 24h 1对1 服务。重点建立信任感与不确定性消除。同时面向数字游民与长期旅居人群，提供虚实结合的社区交互、灵活办公空间预约及在地化深度文化体验。</p>
+                                  <p className="text-slate-500 text-lg leading-relaxed mb-10">核心目标是将其从行程规划问答式工具，升级为集“行程管理、主动提醒、服务调度”于一体的贵州省级的全旅程陪伴数字生命体。——不以订票为核心目标，而是一个数字导游，随时随地站在游客身边帮他提供服务。</p>
                                   
                                   <ul className="space-y-4 mb-10">
-                                     <DesignFeature icon={LayoutDashboard} t="省级旅游行程服务总入口" d="服务资源聚合，一站式获取全省景区、酒店及交通等官方服务。" />
+                                     <DesignFeature icon={LayoutDashboard} t="省级旅游行程服务总入口" d="" />
                                      <DesignFeature icon={LifeBuoy} t="侦察需求式的智能体（主动服务）" d="实时捕捉游客潜在需求，动态生成个性化行程卡片，实现从‘搜攻略’到‘等服务’的体验升级。" />
                                      <DesignFeature icon={Heart} t="旅游专业数字分身（协同调度）" d="构建由多个垂直领域智能体组成的数字分身矩阵，提供覆盖行前、行中、行后的全生命周期陪伴。" />
                                   </ul>

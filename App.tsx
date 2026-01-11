@@ -322,7 +322,7 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
   setActiveSubTab: (tab: 'status' | 'planning') => void
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [currentDesign, setCurrentDesign] = useState<'xiaoxi' | 'agency' | 'spot' | 'living' | 'gov' | 'hotel' | 'dining' | 'org'>('xiaoxi');
+  const [currentDesign, setCurrentDesign] = useState<'xiaoxi' | 'agency' | 'spot' | 'living' | 'gov' | 'hotel' | 'dining' | 'org' | 'func'>('xiaoxi');
   const [activeOrgTab, setActiveOrgTab] = useState<'saas' | 'portal' | 'marketplace'>('saas');
 
   const openExternal = (url: string) => window.open(url, '_blank', 'noopener,noreferrer');
@@ -406,19 +406,24 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
 
             {/* D. 第三层环：功能智能体 */}
             <div 
-              className="absolute top-88 left-1/2 w-[1050px] h-[260px] border-2 border-teal-400 bg-teal-50/40 rounded-[50%] [transform:translateX(-50%)_rotateX(60deg)] [transform-style:preserve-3d] z-20 transition-all group/ring"
+              className="absolute top-88 left-1/2 w-[1050px] h-[260px] border-2 border-teal-400 bg-teal-50/40 rounded-[50%] [transform:translateX(-50%)_rotateX(60deg)] [transform-style:preserve-3d] z-20 transition-all group/ring cursor-pointer hover:bg-teal-50/60"
+              onClick={(e) => {
+                e.stopPropagation();
+                setCurrentDesign('func');
+                setIsExpanded(true);
+              }}
             >
               <RingLabel label="功能智能体" color="teal" className="top-1/2 [transform:translate(-50%,-50%)_rotateX(-60deg)]" />
               
               <div className="absolute top-0 left-0 w-full h-full animate-spin-slow [transform-style:preserve-3d]" style={{ animationDuration: '100s' }}>
-                <MatrixNode label="房态查询" angle={0} color="teal" />
-                <MatrixNode label="预约送餐" angle={30} color="teal" />
-                <MatrixNode label="智能行程规划" angle={90} color="teal" />
-                <MatrixNode label="智能订购" angle={120} color="teal" />
-                <MatrixNode label="政策问答" angle={150} color="teal" />
-                <MatrixNode label="智能导览" angle={180} color="teal" />
-                <MatrixNode label="活动智能推荐" angle={240} color="teal" />
-                <MatrixNode label="游记生成" angle={270} color="teal" />
+                <MatrixNode label="房态查询" angle={0} color="teal" onClick={(e: any) => { e.stopPropagation(); setCurrentDesign('func'); setIsExpanded(true); }} />
+                <MatrixNode label="预约送餐" angle={30} color="teal" onClick={(e: any) => { e.stopPropagation(); setCurrentDesign('func'); setIsExpanded(true); }} />
+                <MatrixNode label="智能行程规划" angle={90} color="teal" onClick={(e: any) => { e.stopPropagation(); setCurrentDesign('func'); setIsExpanded(true); }} />
+                <MatrixNode label="智能订购" angle={120} color="teal" onClick={(e: any) => { e.stopPropagation(); setCurrentDesign('func'); setIsExpanded(true); }} />
+                <MatrixNode label="政策问答" angle={150} color="teal" onClick={(e: any) => { e.stopPropagation(); setCurrentDesign('func'); setIsExpanded(true); }} />
+                <MatrixNode label="智能导览" angle={180} color="teal" onClick={(e: any) => { e.stopPropagation(); setCurrentDesign('func'); setIsExpanded(true); }} />
+                <MatrixNode label="活动智能推荐" angle={240} color="teal" onClick={(e: any) => { e.stopPropagation(); setCurrentDesign('func'); setIsExpanded(true); }} />
+                <MatrixNode label="游记生成" angle={270} color="teal" onClick={(e: any) => { e.stopPropagation(); setCurrentDesign('func'); setIsExpanded(true); }} />
                 <MatrixNode label="旅居智能体" angle={300} color="teal" onClick={(e: any) => { e.stopPropagation(); setCurrentDesign('xiaoxi'); setIsExpanded(true); }} />
               </div>
             </div>
@@ -791,26 +796,6 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                                                 { n: '多端媒介触达', i: Smartphone, d: '视频号/小红书/公众号内容分发' },
                                                 { n: '即时指令推送', i: Send, d: '实时向导游及司机端下发任务' }
                                              ]
-                                          },
-                                          { 
-                                             title: '智能决策与分析支撑', 
-                                             color: 'text-emerald-600',
-                                             bg: 'bg-emerald-50',
-                                             items: [
-                                                { n: 'BI 业务实时看板', i: BarChart3, d: '基于真实交易数据的 AI 辅助决策' },
-                                                { n: '智能营销触发器', i: Zap, d: '根据库存自动触发优惠投放' },
-                                                { n: '舆情监控插件', i: Search, d: '全网评价研判与应对建议生成' }
-                                             ]
-                                          },
-                                          { 
-                                             title: '安全合规与基础设施', 
-                                             color: 'text-slate-600',
-                                             bg: 'bg-slate-50',
-                                             items: [
-                                                { n: '敏感数据沙箱', i: Lock, d: '确保 MCP 调用过程的数据安全' },
-                                                { n: 'Multi-Agent 标准协议', i: Layers, d: '支持异构系统智能体协同交互' },
-                                                { n: '知识库增强系统', i: Database, d: '业务 SOP 与专业知识 RAG 挂载' }
-                                             ]
                                           }
                                        ].map((section, idx) => (
                                           <div key={idx} className="space-y-4">
@@ -1025,6 +1010,73 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                               <div className="absolute top-0 left-1/2 -translate-x-1/2 w-16 h-4 bg-slate-800 rounded-b-xl z-50"></div>
                               <div className="w-[390px] h-[844px] origin-top-left transform scale-[0.56] bg-white">
                                  <GuideApp orders={orders} onUpdateOrder={handleUpdateOrder} />
+                              </div>
+                           </div>
+                        </div>
+                     )}
+
+                     {currentDesign === 'func' && (
+                        <div className="w-full max-w-[900px] animate-in fade-in slide-in-from-right-10 duration-500">
+                           <div className="bg-white rounded-[3rem] p-10 shadow-2xl border border-slate-100">
+                              <div className="flex items-center gap-4 mb-8 pb-6 border-b border-slate-50">
+                                 <div className="w-12 h-12 bg-teal-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-teal-100">
+                                    <Cpu size={28} />
+                                 </div>
+                                 <div>
+                                    <div className="font-black text-2xl text-slate-800">功能智能体 · 原子化服务</div>
+                                    <div className="text-slate-400 text-xs font-bold uppercase tracking-widest mt-0.5">Atomic Function Agents</div>
+                                 </div>
+                              </div>
+
+                              <div className="space-y-8">
+                                 <p className="text-slate-500 text-lg leading-relaxed font-medium">
+                                    专注于文旅场景中的原子化功能模块。通过多维感知游客意图，自动组合交通、餐饮、门票等插件，生成可交互、可执行的实时行程方案。
+                                 </p>
+                                 
+                                 <div className="grid grid-cols-1 gap-8">
+                                    {[
+                                       { 
+                                          title: '智能决策与分析支撑', 
+                                          color: 'text-emerald-600',
+                                          bg: 'bg-emerald-50',
+                                          items: [
+                                             { n: 'BI 业务实时看板', i: BarChart3, d: '基于真实交易数据的 AI 辅助决策' },
+                                             { n: '智能营销触发器', i: Zap, d: '根据库存自动触发优惠投放' },
+                                             { n: '舆情监控插件', i: Search, d: '全网评价研判与应对建议生成' }
+                                          ]
+                                       },
+                                       { 
+                                          title: '安全合规与基础设施', 
+                                          color: 'text-slate-600',
+                                          bg: 'bg-slate-50',
+                                          items: [
+                                             { n: '敏感数据沙箱', i: Lock, d: '确保 MCP 调用过程的数据安全' },
+                                             { n: 'Multi-Agent 标准协议', i: Layers, d: '支持异构系统智能体协同交互' },
+                                             { n: '知识库增强系统', i: Database, d: '业务 SOP 与专业知识 RAG 挂载' }
+                                          ]
+                                       }
+                                    ].map((section, idx) => (
+                                       <div key={idx} className="space-y-4">
+                                          <div className={`text-sm font-black uppercase tracking-[0.2em] ${section.color} flex items-center gap-2 mb-2`}>
+                                             <div className={`w-2 h-2 rounded-full ${section.bg.replace('bg-', 'bg-')}`}></div>
+                                             {section.title}
+                                          </div>
+                                          <div className="grid grid-cols-3 gap-4">
+                                             {section.items.map((item, i) => (
+                                                <div key={i} className="flex flex-col gap-3 p-5 rounded-[2rem] bg-slate-50/50 border border-slate-100 hover:bg-white hover:shadow-xl hover:shadow-slate-200/50 transition-all cursor-pointer group">
+                                                   <div className={`w-12 h-12 rounded-2xl ${section.bg} flex items-center justify-center ${section.color} group-hover:scale-110 transition-transform shadow-sm`}>
+                                                      <item.i size={24} />
+                                                   </div>
+                                                   <div className="space-y-1">
+                                                      <div className="text-sm font-black text-slate-800 whitespace-nowrap">{item.n}</div>
+                                                      <div className="text-[11px] text-slate-400 leading-snug">{item.d}</div>
+                                                   </div>
+                                                </div>
+                                             ))}
+                                          </div>
+                                       </div>
+                                    ))}
+                                 </div>
                               </div>
                            </div>
                         </div>
@@ -1523,7 +1575,7 @@ const App: React.FC = () => {
                             <div className="bg-blue-50 rounded-3xl p-8 text-slate-800 border border-blue-200 shadow-sm relative overflow-hidden group">
                               <div className="absolute top-0 right-0 w-32 h-32 bg-blue-100/50 rounded-bl-[4rem] -mr-12 -mt-12 transition-transform group-hover:scale-110" />
                               <p className="text-sm leading-relaxed relative z-10 font-medium text-slate-600">
-                                旅游可信数据空间是贵州省旅游数据流通的基础设施，是基于标准化互信协议构建的分布式可信数据协作环境。参与者通过主权身份认证，在共识规则下实现数据使用权与控制的分离交换。所有操作记录均通过分布式账本存证，确保数据来源可溯、数据权限可控、流通过程可信。一是帮助省旅游数字互联平台更好地实现数据汇集，二是帮助更好地实现贵州旅游数据要素的价值实现。
+                                旅游可信数据空间是贵州省旅游数据流通的基础设施，是利用数据沙箱、联邦学习、多方安全计算、区块链等技术，构建数据流通利用基础设施，实现数据共享使用过程“数据不出域、可用不可见，使用过程可追溯”，解决数据流通应用过程中“不敢供、不想供、不愿供”的问题
                               </p>
                             </div>
                           </div>

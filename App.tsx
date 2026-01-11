@@ -1310,34 +1310,21 @@ const App: React.FC = () => {
                                 features: ['节点管理', '门户配置'],
                                 subNodes: [
                                   {
-                                    name: '业务前台 - 贵旅集团',
+                                    name: '业务前台 (证书登录)',
                                     url: 'https://trust-business-node.aihuangxiaoxi.com/index',
-                                    account: 'test002',
-                                    password: 'Energy@123'
+                                    accounts: [
+                                      { label: '贵旅集团', account: 'test002', password: 'Energy@123' },
+                                      { label: '贵旅数网', account: 'test001', password: 'Energy@123' },
+                                      { label: '南瓜侠公司', account: 'test005', password: 'LEnergy@123' }
+                                    ]
                                   },
                                   {
-                                    name: '业务前台 - 贵旅数网',
-                                    url: 'https://trust-business-node.aihuangxiaoxi.com/index',
-                                    account: 'test001',
-                                    password: 'Energy@123'
-                                  },
-                                  {
-                                    name: '业务前台 - 南瓜侠公司',
-                                    url: 'https://trust-business-node.aihuangxiaoxi.com/index',
-                                    account: 'test005',
-                                    password: 'LEnergy@123'
-                                  },
-                                  {
-                                    name: '业务后台 - 运营方',
+                                    name: '业务后台 (运营/管理)',
                                     url: 'https://trust-business-admin.aihuangxiaoxi.com/login',
-                                    account: 'yyf',
-                                    password: 'qwer1234'
-                                  },
-                                  {
-                                    name: '业务后台 - 管理方',
-                                    url: 'https://trust-business-admin.aihuangxiaoxi.com/login',
-                                    account: 'admin',
-                                    password: 'qwer1234'
+                                    accounts: [
+                                      { label: '运营方', account: 'yyf', password: 'qwer1234' },
+                                      { label: '管理方', account: 'admin', password: 'qwer1234' }
+                                    ]
                                   }
                                 ]
                               },
@@ -1377,27 +1364,53 @@ const App: React.FC = () => {
                                     
                                     <div className="space-y-3 pt-4 border-t border-slate-50">
                                       {node.subNodes.map((sub, idx) => (
-                                        <div key={idx} className="flex items-center justify-between gap-4">
-                                          <div className="flex flex-col gap-1.5 min-w-0">
+                                        <div key={idx} className="flex items-start justify-between gap-4">
+                                          <div className="flex flex-col gap-2 min-w-0">
                                             <div className="text-[10px] font-bold text-slate-400 uppercase tracking-tight">{sub.name}</div>
-                                            <div className="flex items-center gap-2">
-                                              <div 
-                                                onClick={() => copyText(sub.account)}
-                                                className="px-2 py-1 bg-slate-50 rounded text-[10px] font-mono text-slate-500 cursor-pointer hover:bg-slate-100 hover:text-indigo-600 transition-colors"
-                                                title="点击复制账号"
-                                              >
-                                                <span className="text-slate-400 mr-1">账号:</span>{sub.account}
+                                            {sub.accounts ? (
+                                              <div className="space-y-2">
+                                                {sub.accounts.map((acc, aIdx) => (
+                                                  <div key={aIdx} className="flex flex-col gap-1">
+                                                    <div className="text-[9px] text-slate-400 font-medium">{acc.label}</div>
+                                                    <div className="flex items-center gap-2">
+                                                      <div 
+                                                        onClick={() => copyText(acc.account)}
+                                                        className="px-2 py-1 bg-slate-50 rounded text-[10px] font-mono text-slate-500 cursor-pointer hover:bg-slate-100 hover:text-indigo-600 transition-colors"
+                                                        title="点击复制账号"
+                                                      >
+                                                        <span className="text-slate-400 mr-1">账号:</span>{acc.account}
+                                                      </div>
+                                                      <div 
+                                                        onClick={() => copyText(acc.password)}
+                                                        className="px-2 py-1 bg-slate-50 rounded text-[10px] font-mono text-slate-500 cursor-pointer hover:bg-slate-100 hover:text-indigo-600 transition-colors"
+                                                        title="点击复制密码"
+                                                      >
+                                                        <span className="text-slate-400 mr-1">密码:</span>{acc.password}
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                ))}
                                               </div>
-                                              <div 
-                                                onClick={() => copyText(sub.password)}
-                                                className="px-2 py-1 bg-slate-50 rounded text-[10px] font-mono text-slate-500 cursor-pointer hover:bg-slate-100 hover:text-indigo-600 transition-colors"
-                                                title="点击复制密码"
-                                              >
-                                                <span className="text-slate-400 mr-1">密码:</span>{sub.password}
+                                            ) : (
+                                              <div className="flex items-center gap-2">
+                                                <div 
+                                                  onClick={() => copyText(sub.account)}
+                                                  className="px-2 py-1 bg-slate-50 rounded text-[10px] font-mono text-slate-500 cursor-pointer hover:bg-slate-100 hover:text-indigo-600 transition-colors"
+                                                  title="点击复制账号"
+                                                >
+                                                  <span className="text-slate-400 mr-1">账号:</span>{sub.account}
+                                                </div>
+                                                <div 
+                                                  onClick={() => copyText(sub.password)}
+                                                  className="px-2 py-1 bg-slate-50 rounded text-[10px] font-mono text-slate-500 cursor-pointer hover:bg-slate-100 hover:text-indigo-600 transition-colors"
+                                                  title="点击复制密码"
+                                                >
+                                                  <span className="text-slate-400 mr-1">密码:</span>{sub.password}
+                                                </div>
                                               </div>
-                                            </div>
+                                            )}
                                           </div>
-                                          <div className="flex items-center">
+                                          <div className="flex items-center self-center">
                                             <button 
                                               onClick={() => openExternal(sub.url)}
                                               className="bg-indigo-600 text-white px-3 py-1.5 rounded-lg text-[10px] font-bold hover:bg-indigo-700 transition-all shadow-sm"

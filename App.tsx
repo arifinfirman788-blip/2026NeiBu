@@ -30,7 +30,7 @@ import fangjianmaQrCode from './image/fangjianma.jpg';
 import jiudianImg from './image/jiudian.png';
 import canyinImg from './image/canyin.jpg';
 import dapingImg from './image/daping.png';
-import huangxiaoxiImg1 from './image/huangxiaoxi1.png';
+import huangxiaoxiImg1 from './image/ffcfd83472ae04ebb93f2e59eb423119.png';
 import huangxiaoxiImg2 from './image/huangxiaoxi1.png';
 import huangxiaoxiFenshen from './image/huangxiaoxifenshen.png';
 import jiudianFenshen from './image/jiudianfenshen.png';
@@ -2208,7 +2208,7 @@ const App: React.FC = () => {
                                        {isMenuOpen && (
                                           <div className="absolute inset-0 z-40 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200" onClick={() => setIsMenuOpen(false)}>
                                              <div className="absolute bottom-24 left-4 flex items-end gap-4" onClick={e => e.stopPropagation()}>
-                                                <img src={huangxiaoxiImg1} className="w-32 h-auto drop-shadow-2xl animate-in slide-in-from-bottom-10 duration-500" alt="Huang Xiaoxi" />
+                                                <img src="/image/huangxiaoxi1.png" className="w-32 h-auto drop-shadow-2xl animate-in slide-in-from-bottom-10 duration-500" alt="Huang Xiaoxi" />
                                                 <div className="flex flex-col gap-4 mb-8">
                                                    <button className="bg-gradient-to-r from-indigo-500 to-purple-500 text-white px-6 py-3 rounded-2xl shadow-xl flex items-center gap-3 animate-in slide-in-from-right-8 duration-300 delay-100 transform active:scale-95 transition-all hover:scale-105">
                                                       <div className="text-left">
@@ -2226,6 +2226,12 @@ const App: React.FC = () => {
                                                        <div className="text-left">
                                                          <div className="font-bold text-sm">智能导入地点/行程</div>
                                                          <div className="text-[10px] text-slate-500">粘贴链接、文本、上传图片进行识别</div>
+                                                      </div>
+                                                   </button>
+                                                   <button className="bg-white text-slate-800 px-6 py-3 rounded-2xl shadow-xl flex items-center gap-3 animate-in slide-in-from-right-8 duration-300 delay-[400ms] transform active:scale-95 transition-all hover:scale-105">
+                                                       <div className="text-left">
+                                                         <div className="font-bold text-sm">扫码创建行程</div>
+                                                         <div className="text-[10px] text-slate-500">扫描导游行程码直接加入团队行程</div>
                                                       </div>
                                                    </button>
                                                 </div>
@@ -2366,7 +2372,7 @@ const App: React.FC = () => {
             {isMenuOpen && (
                <div className="absolute inset-0 z-40 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200" onClick={() => setIsMenuOpen(false)}>
                   <div className="absolute bottom-24 left-4 flex items-end gap-4" onClick={e => e.stopPropagation()}>
-                     <img src={huangxiaoxiImg1} className="w-32 h-auto drop-shadow-2xl animate-in slide-in-from-bottom-10 duration-500" alt="Huang Xiaoxi" />
+                     <img src="/image/huangxiaoxi1.png" className="w-32 h-auto drop-shadow-2xl animate-in slide-in-from-bottom-10 duration-500" alt="Huang Xiaoxi" />
                      <div className="flex flex-col gap-4 mb-8">
                         <button className="bg-gradient-to-r from-indigo-500 to-purple-500 text-white px-6 py-3 rounded-2xl shadow-xl flex items-center gap-3 animate-in slide-in-from-right-8 duration-300 delay-100 transform active:scale-95 transition-all hover:scale-105">
                            <div className="text-left">
@@ -2384,6 +2390,12 @@ const App: React.FC = () => {
                             <div className="text-left">
                               <div className="font-bold text-sm">智能导入地点/行程</div>
                               <div className="text-[10px] text-slate-500">粘贴链接、文本、上传图片进行识别</div>
+                           </div>
+                        </button>
+                        <button className="bg-white text-slate-800 px-6 py-3 rounded-2xl shadow-xl flex items-center gap-3 animate-in slide-in-from-right-8 duration-300 delay-[400ms] transform active:scale-95 transition-all hover:scale-105">
+                            <div className="text-left">
+                              <div className="font-bold text-sm">扫码创建行程</div>
+                              <div className="text-[10px] text-slate-500">扫描导游行程码直接加入团队行程</div>
                            </div>
                         </button>
                      </div>

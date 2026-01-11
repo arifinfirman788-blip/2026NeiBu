@@ -194,14 +194,14 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                                <ul className="space-y-2">
                                   <DesignFeature 
                                     icon={Zap} 
-                                    t="免 SaaS · 零代码上线" 
+                                    t="免 SaaS · 零代码上线（高质量数据采集）" 
                                     d="问答式引导注册，分钟级完成配置，无需漫长的开发与部署周期。" 
                                     active={activeOrgTab === 'saas'}
                                     onClick={() => setActiveOrgTab('saas')}
                                   />
                                   <DesignFeature 
                                     icon={LayoutDashboard} 
-                                    t="门户式首页设计" 
+                                    t="主动式服务+多角色智能体" 
                                     d="支持省、市、县、景区、旅行社等多级组织，根据角色与场景动态生成专属首页。" 
                                     active={activeOrgTab === 'portal'}
                                     onClick={() => setActiveOrgTab('portal')}
@@ -492,8 +492,8 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                                     </div>
                                  </div>
                                  <div className="mt-8 text-center space-y-2">
-                                    <div className="text-3xl font-black text-slate-800 tracking-tight">门户式首页设计</div>
-                                    <div className="text-indigo-600 font-bold tracking-[0.2em] uppercase text-sm">整图完整展示 · 无缝适配</div>
+                                    <div className="text-3xl font-black text-slate-800 tracking-tight">主动式服务+多角色智能体</div>
+                                    <div className="text-indigo-600 font-bold tracking-[0.2em] uppercase text-sm">侦察需求式的服务（主动服务）</div>
                                  </div>
                               </div>
                            )}

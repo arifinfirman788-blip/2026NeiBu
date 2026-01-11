@@ -49,6 +49,10 @@ import yujingImg from './image2/yujing.png';
 import jingqu1Img from './image2/jingqu1.png';
 import jingqu2Img from './image2/jingqu2.png';
 import jingqu3Img from './image2/jingqu3.png';
+import zongjieImg from './image2/zongjie.png';
+import zongjie1Img from './image2/zongjie1.png';
+import lingquan1Img from './image2/lingquan1.png';
+import lingquan2Img from './image2/lingquan2.png';
 
 // --- MOBILE APP WRAPPER ---
 const MobileWrapper: React.FC<{ children: React.ReactNode; onBack: () => void; rightContent?: React.ReactNode }> = ({ children, onBack, rightContent }) => (
@@ -117,7 +121,7 @@ const BusinessProcessArea: React.FC = () => {
             title: '行程提醒', 
             desc: '在行程中对交通、天气、人流实时监控，当出现极端情况，立即推送预警信息，错峰出行', 
             icon: Zap,
-            images: [tianqiImg, yujingImg, lingdongdaoImg]
+            images: [lingdongdaoImg, tianqiImg, yujingImg]
           },
           { 
             id: 'mid-4', 
@@ -126,14 +130,26 @@ const BusinessProcessArea: React.FC = () => {
             icon: Map,
             images: [jingqu2Img, jingqu1Img, jingqu3Img]
           },
-          { id: 'mid-5', title: '每日总结', desc: '情感连接：自动生成当日精彩瞬间图文总结，记录美好旅程', icon: LineChart }
+          { 
+            id: 'mid-5', 
+            title: '每日总结', 
+            desc: '情感连接：自动生成当日精彩瞬间图文总结，记录美好旅程', 
+            icon: LineChart,
+            images: [zongjie1Img, zongjieImg]
+          }
       ]
     },
     {
       phase: '行后',
       phaseColor: 'teal',
       nodes: [
-        { id: 'post-1', title: '温情收官', desc: '服务延续：行程结束后生成全过程电子相册，提供纪念礼品选购及下次行程建议', icon: Heart }
+        { 
+          id: 'post-1', 
+          title: '温情种草', 
+          desc: '从跟团游到自由行，量身定制自由行方案，通过用户数据推送优惠券，引导用户二次旅游', 
+          icon: Heart,
+          images: [lingquan1Img, lingquan2Img]
+        }
       ]
     }
   ];

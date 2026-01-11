@@ -267,7 +267,7 @@ const BusinessProcessArea: React.FC = () => {
                             {(node as any).images ? (
                               (node as any).images.length === 1 ? (
                                 <div className="flex justify-center">
-                                  <div className="relative rounded-xl overflow-hidden border border-slate-100 shadow-sm group/img bg-slate-50 max-w-[280px] w-full">
+                                  <div className="relative rounded-xl overflow-hidden border border-slate-100 shadow-sm group/img bg-slate-50 w-full">
                                     <ImageWithLoader 
                                       src={(node as any).images[0]} 
                                       alt={`${node.title}`} 
@@ -338,7 +338,7 @@ const BusinessProcessArea: React.FC = () => {
                                       <ImageWithLoader 
                                         src={img} 
                                         alt={`${node.title}-${idx}`} 
-                                        className="w-full h-auto max-h-[240px]" 
+                                        className="w-full h-auto" 
                                         objectFit="contain"
                                       />
                                       <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent opacity-0 group-hover/img:opacity-100 transition-opacity" />
@@ -400,7 +400,20 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
   const [activeOrgTab, setActiveOrgTab] = useState<'saas' | 'portal' | 'marketplace'>('saas');
   const [activeRoleTab, setActiveRoleTab] = useState<'assistant' | 'digital_employee'>('assistant');
 
-  const openExternal = (url: string) => window.open(url, '_blank', 'noopener,noreferrer');
+  const openExternal = (url: string, account?: string, password?: string) => {
+    let targetUrl = url;
+    if (account || password) {
+      try {
+        const urlObj = new URL(url);
+        if (account) urlObj.searchParams.set('username', account);
+        if (password) urlObj.searchParams.set('password', password);
+        targetUrl = urlObj.toString();
+      } catch (e) {
+        console.error('Invalid URL', e);
+      }
+    }
+    window.open(targetUrl, '_blank', 'noopener,noreferrer');
+  };
 
   return (
     <div className="space-y-12 animate-in fade-in duration-500">
@@ -1485,7 +1498,20 @@ const App: React.FC = () => {
     setActiveModule('agent');
     setPlanningTab('matrix');
   };
-  const openExternal = (url: string) => window.open(url, '_blank', 'noopener,noreferrer')
+  const openExternal = (url: string, account?: string, password?: string) => {
+    let targetUrl = url;
+    if (account || password) {
+      try {
+        const urlObj = new URL(url);
+        if (account) urlObj.searchParams.set('username', account);
+        if (password) urlObj.searchParams.set('password', password);
+        targetUrl = urlObj.toString();
+      } catch (e) {
+        console.error('Invalid URL', e);
+      }
+    }
+    window.open(targetUrl, '_blank', 'noopener,noreferrer');
+  };
   const copyText = async (text: string) => {
     try {
       if (navigator.clipboard && window.isSecureContext) {
@@ -1881,7 +1907,7 @@ const App: React.FC = () => {
                                             <div className="text-[10px] font-bold text-slate-400 uppercase tracking-tight">{sub.name}</div>
                                             {sub.name !== '业务后台 (运营/管理)' && (
                                               <button 
-                                                onClick={() => openExternal(sub.url)}
+                                                onClick={() => openExternal(sub.url, (sub as any).account, (sub as any).password)}
                                                 className="bg-indigo-600 text-white px-2.5 py-1 rounded-lg text-[10px] font-bold hover:bg-indigo-700 transition-all shadow-sm shrink-0"
                                               >
                                                 进入
@@ -1897,7 +1923,7 @@ const App: React.FC = () => {
                                                       <div className="text-[9px] text-slate-400 font-medium">{acc.label}</div>
                                                       {sub.name === '业务后台 (运营/管理)' && (
                                                         <button 
-                                                          onClick={() => openExternal(sub.url)}
+                                                          onClick={() => openExternal(sub.url, acc.account, acc.password)}
                                                           className="bg-indigo-600 text-white px-2.5 py-1 rounded-lg text-[10px] font-bold hover:bg-indigo-700 transition-all shadow-sm shrink-0"
                                                         >
                                                           进入

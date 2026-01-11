@@ -1278,29 +1278,83 @@ const App: React.FC = () => {
                               {
                                 title: '连接器',
                                 desc: '用数方和供数方的应用端，用于数据高效流转。',
-                                url: 'https://trust-connector1.aihuangxiaoxi.com',
-                                credentials: '账号: test001 / 密码: Energy@123',
                                 icon: Network,
                                 color: 'blue',
-                                features: ['跨云互联', '数据沙箱']
+                                features: ['跨云互联', '数据沙箱'],
+                                subNodes: [
+                                  {
+                                    name: '贵旅数网连接器',
+                                    url: 'https://trust-connector1.aihuangxiaoxi.com/workbench/home',
+                                    account: 'HS@123',
+                                    password: 'Energy@123'
+                                  },
+                                  {
+                                    name: '贵旅集团连接器',
+                                    url: 'https://trust-connector2.aihuangxiaoxi.com/workbench/home',
+                                    account: 'test002',
+                                    password: 'Energy@123'
+                                  },
+                                  {
+                                    name: '南瓜侠公司连接器',
+                                    url: 'https://tds-connector-guilv.lingshu.net/workbench/home',
+                                    account: 'test005',
+                                    password: 'LEnergy@123'
+                                  }
+                                ]
                               },
                               {
                                 title: '业务节点',
                                 desc: '管理连接器；数据空间市场门户及后台管理。',
-                                url: 'https://trust-business-node.aihuangxiaoxi.com',
-                                credentials: '账号: test001 / 密码: Energy@123',
                                 icon: LayoutDashboard,
                                 color: 'indigo',
-                                features: ['节点管理', '门户配置']
+                                features: ['节点管理', '门户配置'],
+                                subNodes: [
+                                  {
+                                    name: '业务前台 - 贵旅集团',
+                                    url: 'https://trust-business-node.aihuangxiaoxi.com/index',
+                                    account: 'test002',
+                                    password: 'Energy@123'
+                                  },
+                                  {
+                                    name: '业务前台 - 贵旅数网',
+                                    url: 'https://trust-business-node.aihuangxiaoxi.com/index',
+                                    account: 'test001',
+                                    password: 'Energy@123'
+                                  },
+                                  {
+                                    name: '业务前台 - 南瓜侠公司',
+                                    url: 'https://trust-business-node.aihuangxiaoxi.com/index',
+                                    account: 'test005',
+                                    password: 'LEnergy@123'
+                                  },
+                                  {
+                                    name: '业务后台 - 运营方',
+                                    url: 'https://trust-business-admin.aihuangxiaoxi.com/login',
+                                    account: 'yyf',
+                                    password: 'qwer1234'
+                                  },
+                                  {
+                                    name: '业务后台 - 管理方',
+                                    url: 'https://trust-business-admin.aihuangxiaoxi.com/login',
+                                    account: 'admin',
+                                    password: 'qwer1234'
+                                  }
+                                ]
                               },
                               {
                                 title: '功能节点',
                                 desc: '全域路由能力，审核连接器身份与业务节点。',
-                                url: 'https://trust-functional-node.aihuangxiaoxi.com',
-                                credentials: '账号: test002 / 密码: Energy@123',
                                 icon: ShieldCheck,
                                 color: 'emerald',
-                                features: ['身份核验', '共识协作']
+                                features: ['身份核验', '共识协作'],
+                                subNodes: [
+                                  {
+                                    name: '功能后台',
+                                    url: 'https://trust-functional-admin.aihuangxiaoxi.com/workbench/workorderMGT/untreated',
+                                    account: 'admin',
+                                    password: 'qwer1234'
+                                  }
+                                ]
                               }
                             ].map((node, i) => (
                               <div key={i} className="group bg-white rounded-2xl p-6 border border-slate-200 shadow-sm transition-all hover:-translate-y-1 hover:shadow-md">
@@ -1319,25 +1373,40 @@ const App: React.FC = () => {
                                         ))}
                                       </div>
                                     </div>
-                                    <p className="text-slate-500 text-xs leading-relaxed mb-6">{node.desc}</p>
+                                    <p className="text-slate-500 text-xs leading-relaxed mb-4">{node.desc}</p>
                                     
-                                    <div className="flex items-center justify-between gap-4 pt-5 border-t border-slate-50">
-                                      <div className="px-3 py-1.5 bg-slate-50 rounded-lg text-[10px] font-mono text-slate-500 truncate">{node.credentials}</div>
-                                      <div className="flex items-center gap-2">
-                                        <button 
-                                          onClick={() => copyText(node.credentials.replace('账号: ', '').replace(' / 密码: ', ' ')) }
-                                          className="w-9 h-9 flex items-center justify-center text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-xl transition-all"
-                                          title="复制账号密码"
-                                        >
-                                          <ClipboardList size={16} />
-                                        </button>
-                                        <button 
-                                          onClick={() => openExternal(node.url)}
-                                          className="bg-indigo-600 text-white px-5 py-2 rounded-xl text-xs font-bold hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-100"
-                                        >
-                                          进入
-                                        </button>
-                                      </div>
+                                    <div className="space-y-3 pt-4 border-t border-slate-50">
+                                      {node.subNodes.map((sub, idx) => (
+                                        <div key={idx} className="flex items-center justify-between gap-4">
+                                          <div className="flex flex-col gap-1.5 min-w-0">
+                                            <div className="text-[10px] font-bold text-slate-400 uppercase tracking-tight">{sub.name}</div>
+                                            <div className="flex items-center gap-2">
+                                              <div 
+                                                onClick={() => copyText(sub.account)}
+                                                className="px-2 py-1 bg-slate-50 rounded text-[10px] font-mono text-slate-500 cursor-pointer hover:bg-slate-100 hover:text-indigo-600 transition-colors"
+                                                title="点击复制账号"
+                                              >
+                                                <span className="text-slate-400 mr-1">账号:</span>{sub.account}
+                                              </div>
+                                              <div 
+                                                onClick={() => copyText(sub.password)}
+                                                className="px-2 py-1 bg-slate-50 rounded text-[10px] font-mono text-slate-500 cursor-pointer hover:bg-slate-100 hover:text-indigo-600 transition-colors"
+                                                title="点击复制密码"
+                                              >
+                                                <span className="text-slate-400 mr-1">密码:</span>{sub.password}
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div className="flex items-center">
+                                            <button 
+                                              onClick={() => openExternal(sub.url)}
+                                              className="bg-indigo-600 text-white px-3 py-1.5 rounded-lg text-[10px] font-bold hover:bg-indigo-700 transition-all shadow-sm"
+                                            >
+                                              进入
+                                            </button>
+                                          </div>
+                                        </div>
+                                      ))}
                                     </div>
                                   </div>
                                 </div>

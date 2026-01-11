@@ -35,20 +35,261 @@ import huangxiaoxiImg2 from './image/huangxiaoxi1.png';
 import huangxiaoxiFenshen from './image/huangxiaoxifenshen.png';
 import jiudianFenshen from './image/jiudianfenshen.png';
 
+// Import image2 resources
+import xingchengdaoruImg from './image2/xingchengdaoru.png';
+import xingqianjianceImg from './image2/xingqianjiance.png';
+import lingdongdaoImg from './image2/lingdongdao.png';
+import didaguizhouImg from './image2/didaguizhou.png';
+import cheImg from './image2/che.png';
+import jiudian2Img from './image2/jiudian.png';
+import ruzhujiudianImg from './image2/ruzhujiudian.png';
+import zhoubian1Img from './image2/zhoubian1.png';
+import tianqiImg from './image2/tianqi.png';
+import yujingImg from './image2/yujing.png';
+import jingqu1Img from './image2/jingqu1.png';
+import jingqu2Img from './image2/jingqu2.png';
+import jingqu3Img from './image2/jingqu3.png';
+
 // --- MOBILE APP WRAPPER ---
-const MobileWrapper: React.FC<{ children: React.ReactNode; onBack: () => void }> = ({ children, onBack }) => (
-     <div className="min-h-[100dvh] w-full bg-[#f1f5f9] flex items-center justify-center font-sans overflow-hidden relative">
-        <div className="hidden md:block absolute top-8 left-8">
+const MobileWrapper: React.FC<{ children: React.ReactNode; onBack: () => void; rightContent?: React.ReactNode }> = ({ children, onBack, rightContent }) => (
+    <div className="min-h-[100dvh] w-full bg-slate-50 flex items-center justify-center font-sans overflow-hidden relative p-4 md:p-8">
+        <div className="hidden md:block absolute top-8 left-8 z-50">
            <button onClick={onBack} className="flex items-center gap-2 bg-white px-4 py-2 rounded-xl shadow-sm text-slate-600 font-bold hover:bg-slate-50 transition-colors border border-slate-200">
               <ArrowRight className="rotate-180" size={18} /> 返回战略规划
            </button>
         </div>
-        <div className="w-full h-[100dvh] md:h-[844px] md:w-[390px] bg-white md:rounded-[3rem] md:border-[8px] md:border-slate-800 md:shadow-2xl relative overflow-hidden flex flex-col">
-           <div className="hidden md:block absolute top-0 left-1/2 -translate-x-1/2 w-32 h-7 bg-slate-800 rounded-b-2xl z-50 pointer-events-none"></div>
-           {children}
+        
+        <div className={`flex flex-col md:flex-row gap-8 md:gap-12 items-center justify-center w-full max-w-[1400px] ${rightContent ? 'md:items-start' : 'items-center'}`}>
+          {/* Left: Mobile Phone Frame */}
+          <div className="w-full h-[100dvh] md:h-[844px] md:w-[390px] bg-white md:rounded-[3rem] md:border-[8px] md:border-slate-800 md:shadow-2xl relative overflow-hidden flex flex-col shrink-0">
+             <div className="hidden md:block absolute top-0 left-1/2 -translate-x-1/2 w-32 h-7 bg-slate-800 rounded-b-2xl z-50 pointer-events-none"></div>
+             {children}
+          </div>
+
+          {/* Right: Business Process Area */}
+          {rightContent && (
+            <div className="flex-1 w-full md:max-w-[800px] h-auto md:h-[844px] overflow-y-auto no-scrollbar animate-in slide-in-from-right-10 duration-700">
+               {rightContent}
+            </div>
+          )}
         </div>
      </div>
 );
+
+// --- COMPONENT: Business Process Area ---
+const BusinessProcessArea: React.FC = () => {
+  const [activeNode, setActiveNode] = useState<string | null>(null);
+
+  const processes = [
+    {
+      phase: '行程前',
+      phaseColor: 'blue',
+      nodes: [
+        { 
+          id: 'pre-1', 
+          title: '行程导入与检测', 
+          desc: '通过短信触达用户，提供四种方式生成行程：黄小西规划生成，支持小红书、抖音链接/图片识别，导游码扫码绑定，邀请码加入', 
+          icon: FileSearch,
+          images: [xingchengdaoruImg] 
+        }
+      ]
+    },
+    {
+      phase: '行中',
+      phaseColor: 'indigo',
+      nodes: [
+        { 
+          id: 'mid-1', 
+          title: '抵达贵州', 
+          desc: '意图感知：检测到抵达贵州，自动推送首日接机/接站信息及天气提醒', 
+          icon: Mountain,
+          images: [xingqianjianceImg, didaguizhouImg, cheImg, jiudian2Img]
+         },
+         { 
+           id: 'mid-2', 
+           title: '入住酒店', 
+           desc: '入住酒店后由酒店智能体提供更专业的服务，并且进行周边推荐', 
+           icon: BedDouble,
+           images: [ruzhujiudianImg, zhoubian1Img]
+          },
+          { 
+            id: 'mid-3', 
+            title: '行程提醒', 
+            desc: '在行程中对交通、天气、人流实时监控，当出现极端情况，立即推送预警信息，错峰出行', 
+            icon: Zap,
+            images: [tianqiImg, yujingImg, lingdongdaoImg]
+          },
+          { 
+            id: 'mid-4', 
+            title: '抵达景区', 
+            desc: '即将到达景区时，推送入园提醒门票二维码、景区导览，并通过景区智能体提供更贴心的服务', 
+            icon: Map,
+            images: [jingqu2Img, jingqu1Img, jingqu3Img]
+          },
+          { id: 'mid-5', title: '每日总结', desc: '情感连接：自动生成当日精彩瞬间图文总结，记录美好旅程', icon: LineChart }
+      ]
+    },
+    {
+      phase: '行后',
+      phaseColor: 'teal',
+      nodes: [
+        { id: 'post-1', title: '温情收官', desc: '服务延续：行程结束后生成全过程电子相册，提供纪念礼品选购及下次行程建议', icon: Heart }
+      ]
+    }
+  ];
+
+  return (
+    <div className="space-y-6">
+      <div className="relative">
+        {/* Progress Line */}
+        <div className="absolute left-[27px] top-4 bottom-4 w-1 bg-gradient-to-b from-blue-400 via-indigo-400 to-teal-400 rounded-full opacity-20"></div>
+
+        <div className="space-y-12">
+          {processes.map((phase, pIdx) => (
+            <div key={pIdx} className="relative">
+              <div className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest mb-6 ${
+                phase.phaseColor === 'blue' ? 'bg-blue-50 text-blue-600 border border-blue-100' :
+                phase.phaseColor === 'indigo' ? 'bg-indigo-50 text-indigo-600 border border-indigo-100' :
+                'bg-teal-50 text-teal-600 border border-teal-100'
+              }`}>
+                {phase.phase}
+              </div>
+
+              <div className="space-y-6">
+                {phase.nodes.map((node, nIdx) => (
+                  <div 
+                    key={node.id}
+                    onClick={() => setActiveNode(activeNode === node.id ? null : node.id)}
+                    className={`group relative flex gap-6 p-4 rounded-2xl transition-all cursor-pointer border ${
+                      activeNode === node.id 
+                        ? 'bg-white shadow-xl border-indigo-200 scale-[1.02]' 
+                        : 'hover:bg-white/60 border-transparent'
+                    }`}
+                  >
+                    {/* Node Dot */}
+                    <div className={`relative z-10 w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 transition-all ${
+                      activeNode === node.id
+                        ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-100 scale-110'
+                        : 'bg-white text-slate-400 shadow-sm border border-slate-100 group-hover:border-indigo-200 group-hover:text-indigo-500'
+                    }`}>
+                      <node.icon size={28} />
+                      {activeNode === node.id && (
+                        <div className="absolute -inset-1 rounded-2xl border-2 border-indigo-600 animate-ping opacity-20"></div>
+                      )}
+                    </div>
+
+                    <div className="flex-1 pt-1">
+                      <div className="flex items-center justify-between mb-1">
+                        <h4 className={`font-black text-lg ${activeNode === node.id ? 'text-indigo-600' : 'text-slate-800'}`}>
+                          {node.title}
+                        </h4>
+                        <ChevronRight size={18} className={`transition-transform ${activeNode === node.id ? 'rotate-90 text-indigo-500' : 'text-slate-300'}`} />
+                      </div>
+                      
+                      {activeNode === node.id && (
+                        <>
+                          <p className="text-sm text-slate-600 leading-relaxed font-medium animate-in fade-in slide-in-from-top-2 duration-300">
+                            {node.desc}
+                          </p>
+
+                          {/* Detail Content (Expandable) */}
+                          <div className="mt-6 p-4 bg-white rounded-2xl border border-slate-100 shadow-sm animate-in fade-in slide-in-from-top-4 duration-500">
+                            {(node as any).images ? (
+                              (node as any).images.length === 4 ? (
+                                <div className="flex gap-4 h-[400px]">
+                                  {/* Left: 1 Large Image */}
+                                  <div className="flex-[2] relative rounded-xl overflow-hidden border border-slate-100 shadow-sm group/img bg-slate-50">
+                                    <img 
+                                      src={(node as any).images[0]} 
+                                      alt={`${node.title}-large`} 
+                                      className="w-full h-full object-contain transition-transform duration-500 group-hover/img:scale-105" 
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent opacity-0 group-hover/img:opacity-100 transition-opacity" />
+                                  </div>
+                                  {/* Right: 3 Small Images */}
+                                  <div className="flex-1 flex flex-col gap-2">
+                                    {(node as any).images.slice(1).map((img: string, idx: number) => (
+                                      <div key={idx} className="flex-1 relative rounded-lg overflow-hidden border border-slate-100 shadow-sm group/img bg-slate-50">
+                                        <img 
+                                          src={img} 
+                                          alt={`${node.title}-small-${idx}`} 
+                                          className="w-full h-full object-contain transition-transform duration-500 group-hover/img:scale-105" 
+                                        />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent opacity-0 group-hover/img:opacity-100 transition-opacity" />
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                              ) : (node as any).images.length === 3 ? (
+                                <div className="flex gap-4 h-[400px]">
+                                  {/* Left: 1 Large Image (Image 2) */}
+                                  <div className="flex-[1.5] relative rounded-xl overflow-hidden border border-slate-100 shadow-sm group/img bg-slate-50">
+                                    <img 
+                                      src={(node as any).images[0]} 
+                                      alt={`${node.title}-large`} 
+                                      className="w-full h-full object-contain transition-transform duration-500 group-hover/img:scale-105" 
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent opacity-0 group-hover/img:opacity-100 transition-opacity" />
+                                  </div>
+                                  {/* Right: 2 Small Images (Image 1 & 3) */}
+                                  <div className="flex-1 flex flex-col gap-2">
+                                    {(node as any).images.slice(1).map((img: string, idx: number) => (
+                                      <div key={idx} className="flex-1 relative rounded-lg overflow-hidden border border-slate-100 shadow-sm group/img bg-slate-50">
+                                        <img 
+                                          src={img} 
+                                          alt={`${node.title}-small-${idx}`} 
+                                          className="w-full h-full object-contain transition-transform duration-500 group-hover/img:scale-105" 
+                                        />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent opacity-0 group-hover/img:opacity-100 transition-opacity" />
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                              ) : (
+                                <div className="grid grid-cols-2 gap-4">
+                                  {(node as any).images.map((img: string, idx: number) => (
+                                    <div key={idx} className="relative rounded-xl overflow-hidden border border-slate-100 shadow-sm group/img bg-slate-50">
+                                      <img 
+                                        src={img} 
+                                        alt={`${node.title}-${idx}`} 
+                                        className="w-full h-auto max-h-[300px] object-contain transition-transform duration-500 group-hover/img:scale-105" 
+                                      />
+                                      <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent opacity-0 group-hover/img:opacity-100 transition-opacity" />
+                                    </div>
+                                  ))}
+                                </div>
+                              )
+                            ) : (node as any).image ? (
+                              <div className="relative rounded-xl overflow-hidden border border-slate-100 shadow-sm group/img max-w-[400px] mx-auto">
+                                <img 
+                                  src={(node as any).image} 
+                                  alt={node.title} 
+                                  className="w-full h-auto object-contain transition-transform duration-500 group-hover/img:scale-105" 
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover/img:opacity-100 transition-opacity" />
+                              </div>
+                            ) : (
+                              <div className="aspect-video bg-slate-50 rounded-xl border-2 border-dashed border-slate-200 flex flex-col items-center justify-center gap-3">
+                                <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-slate-300 shadow-sm">
+                                  <Sparkles size={24} />
+                                </div>
+                                <span className="text-xs font-bold text-slate-400">正在等待节点详细图片素材...</span>
+                              </div>
+                            )}
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
 
 // --- COMPONENT: Matrix Diagram (3D Matrix View) ---
 const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterApp, orders, handleUpdateOrder, isMenuOpen, setIsMenuOpen, onRingClick, activeSubTab, setActiveSubTab }: { 
@@ -588,28 +829,27 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                      )}
                      
                      {currentDesign === 'xiaoxi' && (
-                        <div className="relative w-full h-full flex flex-col items-center justify-center scale-90">
-                           <div className="bg-white border-[12px] border-slate-900 rounded-[3.5rem] w-[320px] h-[650px] shadow-2xl overflow-hidden relative isolate">
-                              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-6 bg-slate-900 rounded-b-xl z-50"></div>
-                              <div className="flex flex-col h-full bg-slate-50 relative overflow-hidden rounded-[2.5rem] transform-gpu">
-                                 <Header userRole="tourist" onToggleRole={() => {}} className="rounded-t-[2.5rem]" />
-                                 <main className="flex-1 overflow-y-auto no-scrollbar px-2 relative">
-                                    <div className="scale-95 origin-top w-full">
-                                       <HomeView onOpenExperts={() => {}} />
-                                    </div>
-                                 </main>
-                                 {isMenuOpen && (
-                                    <div className="absolute inset-0 z-40 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200" onClick={() => setIsMenuOpen(false)}>
-                                       <div className="absolute bottom-24 left-4 flex items-end gap-4" onClick={e => e.stopPropagation()}>
-                                          <img src={huangxiaoxiImg1} className="w-24 h-auto drop-shadow-2xl animate-in slide-in-from-bottom-10 duration-500" alt="Huang Xiaoxi" />
-                                          <div className="flex flex-col gap-2 mb-4">
-                                             <div className="bg-white p-3 rounded-xl shadow-lg text-xs font-bold text-slate-800">创建新行程</div>
-                                             <div className="bg-white p-3 rounded-xl shadow-lg text-xs font-bold text-slate-800">加入行程</div>
-                                          </div>
+                        <div className="w-full h-full flex items-center justify-center p-8 animate-in fade-in duration-500">
+                           <div className="flex gap-12 items-start justify-center w-full max-w-[1200px] scale-[0.75]">
+                              {/* Left: Mobile Phone Frame */}
+                              <div className="bg-white border-[12px] border-slate-900 rounded-[3.5rem] w-[320px] h-[650px] shadow-2xl overflow-hidden relative isolate shrink-0">
+                                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-6 bg-slate-900 rounded-b-xl z-50"></div>
+                                 <div className="flex flex-col h-full bg-slate-50 relative overflow-hidden rounded-[2.5rem] transform-gpu">
+                                    <Header userRole="tourist" onToggleRole={() => {}} className="rounded-t-[2.5rem]" />
+                                    <main className="flex-1 overflow-y-auto no-scrollbar px-2 relative">
+                                       <div className="scale-95 origin-top w-full">
+                                          <HomeView onOpenExperts={() => {}} />
                                        </div>
-                                    </div>
-                                 )}
-                                 <BottomNav activeTab={0} onTabChange={() => {}} isMenuOpen={isMenuOpen} onToggleMenu={() => setIsMenuOpen(!isMenuOpen)} />
+                                    </main>
+                                    <BottomNav activeTab={0} onTabChange={() => {}} isMenuOpen={false} onToggleMenu={() => {}} />
+                                 </div>
+                              </div>
+
+                              {/* Right: Business Process Area Preview */}
+                              <div className="flex-1 overflow-y-auto no-scrollbar h-[650px]">
+                                 <div className="h-full">
+                                    <BusinessProcessArea />
+                                 </div>
                               </div>
                            </div>
                         </div>
@@ -2453,7 +2693,10 @@ const App: React.FC = () => {
       ) : userRole === 'guide' ? (
         <MobileWrapper onBack={handleBackToPortal}><GuideApp orders={orders} onUpdateOrder={handleUpdateOrder} /></MobileWrapper>
       ) : (
-        <MobileWrapper onBack={handleBackToPortal}>
+        <MobileWrapper 
+          onBack={handleBackToPortal}
+          rightContent={<BusinessProcessArea />}
+        >
           <div className="flex flex-col h-full bg-slate-50 overflow-hidden">
             <Header userRole={userRole} onToggleRole={() => handleEnterApp('agency')} />
             <main className="flex-1 overflow-y-auto no-scrollbar px-4 relative">

@@ -215,16 +215,16 @@ const ItineraryTimeline: React.FC = () => {
           id: 103,
           time: '14:00-16:00',
           type: 'spot',
-          title: '甲秀楼',
+          title: '云峰屯堡',
           icon: MapPin,
           color: 'bg-green-500',
           content: (
             <div className="bg-white rounded-xl p-3 shadow-sm border border-green-100">
-               <AgentConnect type="spot" name="甲秀楼·文旅智能体" status="客流监测中" />
+               <AgentConnect type="spot" name="云峰屯堡·文旅智能体" status="客流监测中" />
   
                <div className="flex justify-between items-start mb-2">
                   <div>
-                     <h4 className="font-bold text-gray-800">甲秀楼</h4>
+                     <h4 className="font-bold text-gray-800">云峰屯堡</h4>
                      <p className="text-xs text-gray-500 mt-0.5">建议游玩时长 1.5 小时</p>
                   </div>
                   <div className="text-xs text-green-600 font-bold bg-green-50 px-2 py-1 rounded">
@@ -242,7 +242,7 @@ const ItineraryTimeline: React.FC = () => {
                         <span className="text-[10px] text-gray-400">数字分身伴游</span>
                      </div>
                   </div>
-                  <div className="bg-gray-100/50 rounded-lg p-2 flex items-center justify-center gap-1.5 cursor-pointer hover:bg-red-50 transition-colors border border-transparent hover:border-red-100" onClick={() => setComplaintNode({title: '甲秀楼 景点游览', type: '景点'})}>
+                  <div className="bg-gray-100/50 rounded-lg p-2 flex items-center justify-center gap-1.5 cursor-pointer hover:bg-red-50 transition-colors border border-transparent hover:border-red-100" onClick={() => setComplaintNode({title: '云峰屯堡 景点游览', type: '景点'})}>
                      <ShieldAlert size={14} className="text-red-400" />
                      <span className="text-[10px] font-bold text-red-400">遇到问题？</span>
                   </div>

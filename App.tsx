@@ -969,8 +969,9 @@ const App: React.FC = () => {
   };
   const handleBackToPortal = () => {
     setCurrentView('portal');
-    // 返回到框架/架构页
-    setActiveModule('architecture');
+    // 返回到智能体总入口架构
+    setActiveModule('agent');
+    setPlanningTab('matrix');
   };
   const openExternal = (url: string) => window.open(url, '_blank', 'noopener,noreferrer')
   const copyText = async (text: string) => {

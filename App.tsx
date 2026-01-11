@@ -1362,9 +1362,9 @@ const App: React.FC = () => {
                                     </div>
                                     <p className="text-slate-500 text-xs leading-relaxed mb-4">{node.desc}</p>
                                     
-                                    <div className={`pt-4 border-t border-slate-50 ${node.title === '业务节点' ? 'grid grid-cols-1 md:grid-cols-2 gap-8' : 'space-y-3'}`}>
+                                    <div className={`pt-4 border-t border-slate-50 ${(node.title === '业务节点' || node.title === '连接器') ? 'grid grid-cols-1 md:grid-cols-2 gap-8' : 'space-y-3'}`}>
                                       {node.subNodes.map((sub, idx) => (
-                                        <div key={idx} className={`flex flex-col gap-3 ${node.title === '业务节点' ? 'bg-slate-50/50 p-4 rounded-xl border border-slate-100 hover:bg-slate-100/80 transition-colors' : ''}`}>
+                                        <div key={idx} className={`flex flex-col gap-3 ${(node.title === '业务节点' || node.title === '连接器') ? 'bg-slate-50/50 p-4 rounded-xl border border-slate-100 hover:bg-slate-100/80 transition-colors' : ''}`}>
                                           <div className="flex items-center justify-between gap-2">
                                             <div className="text-[10px] font-bold text-slate-400 uppercase tracking-tight">{sub.name}</div>
                                             <button 

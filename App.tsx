@@ -1788,8 +1788,8 @@ const App: React.FC = () => {
                                 features: ['跨云互联', '数据沙箱'],
                                 subNodes: [
                                   {
-                                    name: '贵旅集团连接器',
-                                    url: 'https://trust-connector2.aihuangxiaoxi.com/workbench/home',
+                                    name: '贵旅数网连接器',
+                                    url: 'https://trust-connector1.aihuangxiaoxi.com/workbench/home',
                                     account: 'HS@123',
                                     password: 'Energy@123'
                                   }

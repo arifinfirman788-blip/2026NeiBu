@@ -267,7 +267,7 @@ const BusinessProcessArea: React.FC = () => {
                             {(node as any).images ? (
                               (node as any).images.length === 1 ? (
                                 <div className="flex justify-center">
-                                  <div className="relative rounded-xl overflow-hidden border border-slate-100 shadow-sm group/img bg-slate-50 w-full">
+                                  <div className="relative rounded-xl overflow-hidden border border-slate-100 shadow-sm group/img bg-slate-50 max-w-[280px] w-full">
                                     <ImageWithLoader 
                                       src={(node as any).images[0]} 
                                       alt={`${node.title}`} 
@@ -338,7 +338,7 @@ const BusinessProcessArea: React.FC = () => {
                                       <ImageWithLoader 
                                         src={img} 
                                         alt={`${node.title}-${idx}`} 
-                                        className="w-full h-auto" 
+                                        className="w-full h-auto max-h-[240px]" 
                                         objectFit="contain"
                                       />
                                       <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent opacity-0 group-hover/img:opacity-100 transition-opacity" />
@@ -400,20 +400,7 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
   const [activeOrgTab, setActiveOrgTab] = useState<'saas' | 'portal' | 'marketplace'>('saas');
   const [activeRoleTab, setActiveRoleTab] = useState<'assistant' | 'digital_employee'>('assistant');
 
-  const openExternal = (url: string, account?: string, password?: string) => {
-    let targetUrl = url;
-    if (account || password) {
-      try {
-        const urlObj = new URL(url);
-        if (account) urlObj.searchParams.set('username', account);
-        if (password) urlObj.searchParams.set('password', password);
-        targetUrl = urlObj.toString();
-      } catch (e) {
-        console.error('Invalid URL', e);
-      }
-    }
-    window.open(targetUrl, '_blank', 'noopener,noreferrer');
-  };
+  const openExternal = (url: string) => window.open(url, '_blank', 'noopener,noreferrer');
 
   return (
     <div className="space-y-12 animate-in fade-in duration-500">
@@ -540,7 +527,7 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                   <div className="space-y-8">
                      {currentDesign === 'org' && (
                          <>
-                            <h3 className="text-4xl font-black text-indigo-600 flex items-center gap-3"><Layers size={40}/> 组织端智能体 · 数字化中枢</h3>
+                            <h3 className="text-2xl font-black text-indigo-600 flex items-center gap-3"><Layers size={28}/> 组织端智能体 · 数字化中枢</h3>
                             <p className="text-slate-500 text-lg leading-relaxed">为各类旅游组织提供全流程、低门槛的数字化转型方案，实现跨层级、多角色的智能协同。</p>
                             <div className="bg-slate-50 rounded-3xl p-4 border border-slate-100">
                                <h4 className="font-bold text-slate-800 mb-4 px-3 flex items-center gap-2 text-sm uppercase tracking-widest text-slate-400">
@@ -575,10 +562,9 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
 
                      {currentDesign === 'xiaoxi' && (
                         <>
-                           <h3 className="text-4xl font-black text-teal-600 flex items-center gap-3"><Bot size={40}/> 多彩黄小西 · C端伴游</h3>
+                           <h3 className="text-2xl font-black text-teal-600 flex items-center gap-3"><Bot size={28}/> 多彩黄小西 · C端伴游</h3>
                            <p className="text-slate-500 text-lg leading-relaxed">核心目标是将其从行程规划问答式工具，升级为集“行程管理、主动提醒、服务调度”于一体的贵州省级的全旅程陪伴数字生命体。——不以订票为核心目标，而是一个数字导游，随时随地站在游客身边帮他提供服务。</p>
                            <ul className="space-y-4">
-                              <DesignFeature icon={LayoutDashboard} t="省级旅游行程服务总入口" d="" />
                               <DesignFeature icon={LifeBuoy} t="侦察需求式的智能体（主动服务）" d="实时捕捉游客潜在需求，动态生成个性化行程卡片，实现从‘搜攻略’到‘等服务’的体验升级。" />
                               <DesignFeature icon={Heart} t="旅游专业数字分身（协同调度）" d="构建由多个垂直领域智能体组成的数字分身矩阵，提供覆盖行前、行中、行后的全生命周期陪伴。" />
                            </ul>
@@ -600,11 +586,11 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                      {currentDesign === 'spot' && (
                         <div className="flex flex-col h-full space-y-8">
                            <div className="flex items-center gap-4">
-                              <div className="w-16 h-16 bg-emerald-100 rounded-2xl flex items-center justify-center text-emerald-600">
-                                 <Mountain size={40}/>
+                              <div className="w-12 h-12 bg-emerald-100 rounded-2xl flex items-center justify-center text-emerald-600">
+                                 <Mountain size={28}/>
                               </div>
                               <div>
-                                 <h3 className="text-4xl font-black text-emerald-600">景区智能体 · 产品设计</h3>
+                                 <h3 className="text-2xl font-black text-emerald-600">景区智能体 · 产品设计</h3>
                                  <p className="text-slate-400 text-sm uppercase tracking-widest mt-1">Scenic Spot Agent Design</p>
                               </div>
                            </div>
@@ -649,7 +635,7 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
 
                      {currentDesign === 'agency' && (
                         <>
-                           <h3 className="text-4xl font-black text-indigo-600 flex items-center gap-3"><Briefcase size={40}/> 旅行社智能体 · B端工作台</h3>
+                           <h3 className="text-2xl font-black text-indigo-600 flex items-center gap-3"><Briefcase size={28}/> 旅行社智能体 · B端工作台</h3>
                            <p className="text-slate-500 text-lg leading-relaxed">专为旅行社打造的 AI 协同办公系统，涵盖线路设计、销售转化、导游调度等核心业务流程，通过大模型能力显著提升人效。</p>
                            
                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -699,7 +685,7 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
 
                      {currentDesign === 'hotel' && (
                         <>
-                           <h3 className="text-4xl font-black text-violet-600 flex items-center gap-3"><BedDouble size={40}/> 酒店智能体 · 智慧住宿</h3>
+                           <h3 className="text-2xl font-black text-violet-600 flex items-center gap-3"><BedDouble size={28}/> 酒店智能体 · 智慧住宿</h3>
                            <p className="text-slate-500 text-lg leading-relaxed">提供从预订、入住到离店的全流程智慧服务，实现无接触式服务闭环与高效运营。</p>
                            <ul className="space-y-4">
                               <DesignFeature icon={BedDouble} t="无接触服务" d="VR看房、在线选房、自助入住/退房。" />
@@ -735,7 +721,7 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
 
                      {currentDesign === 'dining' && (
                         <>
-                           <h3 className="text-4xl font-black text-orange-600 flex items-center gap-3"><Utensils size={40}/> 餐饮智能体 · 智慧美食</h3>
+                           <h3 className="text-2xl font-black text-orange-600 flex items-center gap-3"><Utensils size={28}/> 餐饮智能体 · 智慧美食</h3>
                            <p className="text-slate-500 text-lg leading-relaxed">连接食客与餐厅，提供智能点餐、排队取号及个性化口味推荐，提升用餐体验与餐厅运营效率。</p>
                            <ul className="space-y-4">
                              <DesignFeature icon={Utensils} t="智能点餐" d="口味画像推荐、多人协作点餐、语音下单。" />
@@ -752,7 +738,7 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
 
                      {currentDesign === 'gov' && (
                         <>
-                           <h3 className="text-4xl font-black text-blue-600 flex items-center gap-3"><Landmark size={40}/> 政府智能体 · 监管决策中枢</h3>
+                           <h3 className="text-2xl font-black text-blue-600 flex items-center gap-3"><Landmark size={28}/> 政府智能体 · 监管决策中枢</h3>
                            <p className="text-slate-500 text-lg leading-relaxed">贵州文旅智慧驾驶舱，为政府提供全省旅游数据实时监测、异常波动预警及产业分析建议。</p>
                            <div className="bg-slate-50 rounded-3xl p-6 border border-slate-100">
                               <h4 className="font-bold text-slate-800 mb-4 flex items-center gap-2">2026年规划核心功能</h4>
@@ -770,8 +756,8 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                      )}
 
                      {currentDesign === 'role' && (
-                        <>
-                           <h3 className="text-4xl font-black text-violet-600 flex items-center gap-3"><Users size={40}/> 角色智能体 · 数字孪生员工</h3>
+                         <>
+                            <h3 className="text-2xl font-black text-violet-600 flex items-center gap-3"><Users size={28}/> 角色智能体 · 数字孪生员工</h3>
                            <p className="text-slate-500 text-lg leading-relaxed">通过对优秀从业者能力的数字化建模，构建出具备专业知识、服务意识与执行能力的数字角色矩阵。</p>
                            <div className="bg-slate-50 rounded-3xl p-4 border border-slate-100">
                               <h4 className="font-bold text-slate-800 mb-4 px-3 flex items-center gap-2 text-sm uppercase tracking-widest text-slate-400">
@@ -1222,7 +1208,7 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                                     <Cpu size={36} />
                                  </div>
                                  <div>
-                                    <h3 className="text-3xl font-black text-teal-600">功能智能体</h3>
+                                    <h3 className="text-xl font-black text-teal-600">功能智能体</h3>
                                     <div className="flex items-center gap-3 mt-1.5">
                                        <span className="text-slate-400 text-xs uppercase tracking-[0.2em] font-bold">Atomic Function Agents</span>
                                        <div className="w-1 h-1 rounded-full bg-slate-300"></div>
@@ -1498,20 +1484,7 @@ const App: React.FC = () => {
     setActiveModule('agent');
     setPlanningTab('matrix');
   };
-  const openExternal = (url: string, account?: string, password?: string) => {
-    let targetUrl = url;
-    if (account || password) {
-      try {
-        const urlObj = new URL(url);
-        if (account) urlObj.searchParams.set('username', account);
-        if (password) urlObj.searchParams.set('password', password);
-        targetUrl = urlObj.toString();
-      } catch (e) {
-        console.error('Invalid URL', e);
-      }
-    }
-    window.open(targetUrl, '_blank', 'noopener,noreferrer');
-  };
+  const openExternal = (url: string) => window.open(url, '_blank', 'noopener,noreferrer')
   const copyText = async (text: string) => {
     try {
       if (navigator.clipboard && window.isSecureContext) {
@@ -1907,7 +1880,7 @@ const App: React.FC = () => {
                                             <div className="text-[10px] font-bold text-slate-400 uppercase tracking-tight">{sub.name}</div>
                                             {sub.name !== '业务后台 (运营/管理)' && (
                                               <button 
-                                                onClick={() => openExternal(sub.url, (sub as any).account, (sub as any).password)}
+                                                onClick={() => openExternal(sub.url)}
                                                 className="bg-indigo-600 text-white px-2.5 py-1 rounded-lg text-[10px] font-bold hover:bg-indigo-700 transition-all shadow-sm shrink-0"
                                               >
                                                 进入
@@ -1923,7 +1896,7 @@ const App: React.FC = () => {
                                                       <div className="text-[9px] text-slate-400 font-medium">{acc.label}</div>
                                                       {sub.name === '业务后台 (运营/管理)' && (
                                                         <button 
-                                                          onClick={() => openExternal(sub.url, acc.account, acc.password)}
+                                                          onClick={() => openExternal(sub.url)}
                                                           className="bg-indigo-600 text-white px-2.5 py-1 rounded-lg text-[10px] font-bold hover:bg-indigo-700 transition-all shadow-sm shrink-0"
                                                         >
                                                           进入
@@ -2487,7 +2460,7 @@ const App: React.FC = () => {
                          <div className="space-y-10">
                             {designTab === 'agency' && (
                                <div className="animate-in slide-in-from-left-4">
-                                  <h3 className="text-3xl font-black text-indigo-600 mb-6 flex items-center gap-3"><Briefcase size={32}/> 旅行社端 · 管理与执行</h3>
+                                  <h3 className="text-xl font-black text-indigo-600 mb-6 flex items-center gap-3"><Briefcase size={24}/> 旅行社端 · 管理与执行</h3>
                                   <p className="text-slate-500 text-lg leading-relaxed mb-10">
                                      通过 OCR 解析与 LBS 地理围栏技术，将传统“人盯人”的带团监管转变为“AI实时哨兵”。重点解决合规风控与补贴自动化。
                                   </p>
@@ -2553,7 +2526,7 @@ const App: React.FC = () => {
 
                             {designTab === 'hotel' && (
                                <div className="animate-in slide-in-from-left-4">
-                                  <h3 className="text-3xl font-black text-violet-600 mb-6 flex items-center gap-3"><BedDouble size={32}/> 酒店智能体 · 智慧住宿</h3>
+                                  <h3 className="text-xl font-black text-violet-600 mb-6 flex items-center gap-3"><BedDouble size={24}/> 酒店智能体 · 智慧住宿</h3>
                                   <p className="text-slate-500 text-lg leading-relaxed mb-10">
                                      面向住客与酒店管理方，提供从预订、入住到离店的全流程智慧服务，实现无接触式服务闭环与高效运营。
                                   </p>
@@ -2601,7 +2574,7 @@ const App: React.FC = () => {
 
                             {designTab === 'dining' && (
                                <div className="animate-in slide-in-from-left-4">
-                                  <h3 className="text-3xl font-black text-orange-600 mb-6 flex items-center gap-3"><Utensils size={32}/> 餐饮智能体 · 智慧美食</h3>
+                                  <h3 className="text-xl font-black text-orange-600 mb-6 flex items-center gap-3"><Utensils size={24}/> 餐饮智能体 · 智慧美食</h3>
                                   <p className="text-slate-500 text-lg leading-relaxed mb-10">
                                      连接食客与餐厅，提供智能点餐、排队取号及个性化口味推荐，提升用餐体验与餐厅运营效率。
                                   </p>
@@ -2623,11 +2596,10 @@ const App: React.FC = () => {
 
                             {designTab === 'xiaoxi' && (
                                <div className="animate-in slide-in-from-left-4">
-                                  <h3 className="text-3xl font-black text-teal-600 mb-6 flex items-center gap-3"><Bot size={32}/> 多彩黄小西 · C端伴游</h3>
+                                  <h3 className="text-xl font-black text-teal-600 mb-6 flex items-center gap-3"><Bot size={24}/> 多彩黄小西 · C端伴游</h3>
                                   <p className="text-slate-500 text-lg leading-relaxed mb-10">核心目标是将其从行程规划问答式工具，升级为集“行程管理、主动提醒、服务调度”于一体的贵州省级的全旅程陪伴数字生命体。——不以订票为核心目标，而是一个数字导游，随时随地站在游客身边帮他提供服务。</p>
                                   
                                   <ul className="space-y-4 mb-10">
-                                     <DesignFeature icon={LayoutDashboard} t="省级旅游行程服务总入口" d="" />
                                      <DesignFeature icon={LifeBuoy} t="侦察需求式的智能体（主动服务）" d="实时捕捉游客潜在需求，动态生成个性化行程卡片，实现从‘搜攻略’到‘等服务’的体验升级。" />
                                      <DesignFeature icon={Heart} t="旅游专业数字分身（协同调度）" d="构建由多个垂直领域智能体组成的数字分身矩阵，提供覆盖行前、行中、行后的全生命周期陪伴。" />
                                   </ul>
@@ -2650,7 +2622,7 @@ const App: React.FC = () => {
                            {(designTab === 'spot' || designTab === 'gov') && (
                               designTab === 'spot' ? (
                                 <div className="animate-in slide-in-from-left-4">
-                                   <h3 className="text-3xl font-black text-emerald-600 mb-6 flex items-center gap-3"><Mountain size={32}/> 景区智能体 · 产品端设计</h3>
+                                   <h3 className="text-xl font-black text-emerald-600 mb-6 flex items-center gap-3"><Mountain size={24}/> 景区智能体 · 产品端设计</h3>
                                    <p className="text-slate-500 text-lg leading-relaxed mb-8">
                                       专注于景区场景的智能化管理与游客服务，通过打通票务、导览、安防等系统，提供全方位的数智化运营支持。
                                    </p>
@@ -2721,7 +2693,7 @@ const App: React.FC = () => {
                                 </div>
                               ) : (
                                  <div className="animate-in slide-in-from-left-4">
-                                    <h3 className="text-3xl font-black text-blue-600 mb-6 flex items-center gap-3"><Landmark size={32}/> 政府智能体 · 监管决策中枢</h3>
+                                    <h3 className="text-xl font-black text-blue-600 mb-6 flex items-center gap-3"><Landmark size={24}/> 政府智能体 · 监管决策中枢</h3>
                                     <p className="text-slate-500 text-lg leading-relaxed mb-6">
                                        政府智能体1.0版本已进入测试及验证阶段，初步构建起服务游客、企业、政府的协同产品矩阵，其中<span className="font-bold text-slate-700">贵州文旅智慧驾驶舱</span>已基本完成开发。
                                     </p>

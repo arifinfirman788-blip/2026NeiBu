@@ -267,18 +267,18 @@ const BusinessProcessArea: React.FC = () => {
                             {(node as any).images ? (
                               (node as any).images.length === 1 ? (
                                 <div className="flex justify-center">
-                                  <div className="relative rounded-xl overflow-hidden border border-slate-100 shadow-sm group/img bg-slate-50 max-w-[280px] w-full">
-                                    <ImageWithLoader 
-                                      src={(node as any).images[0]} 
-                                      alt={`${node.title}`} 
-                                      className="w-full h-auto" 
-                                      objectFit="contain"
-                                    />
+                                  <div className="relative rounded-xl overflow-hidden border border-slate-100 shadow-sm group/img bg-slate-50 max-w-[280px] w-full h-[360px]">
+                                     <ImageWithLoader 
+                                       src={(node as any).images[0]} 
+                                       alt={`${node.title}`} 
+                                       className="w-full h-full" 
+                                       objectFit="contain"
+                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent opacity-0 group-hover/img:opacity-100 transition-opacity" />
                                   </div>
                                 </div>
                               ) : (node as any).images.length === 4 ? (
-                                <div className="flex gap-4 h-[300px]">
+                                <div className="flex gap-4 h-[280px]">
                                   {/* Left: 1 Large Image */}
                                   <div className="flex-[2] relative rounded-xl overflow-hidden border border-slate-100 shadow-sm group/img bg-slate-50">
                                     <ImageWithLoader 
@@ -305,7 +305,7 @@ const BusinessProcessArea: React.FC = () => {
                                   </div>
                                 </div>
                               ) : (node as any).images.length === 3 ? (
-                                <div className="flex gap-4 h-[300px]">
+                                <div className="flex gap-4 h-[280px]">
                                   {/* Left: 1 Large Image (Image 2) */}
                                   <div className="flex-[1.5] relative rounded-xl overflow-hidden border border-slate-100 shadow-sm group/img bg-slate-50">
                                     <ImageWithLoader 
@@ -332,13 +332,13 @@ const BusinessProcessArea: React.FC = () => {
                                   </div>
                                 </div>
                               ) : (
-                                <div className={`grid ${ (node as any).images.length === 2 ? 'grid-cols-2' : 'grid-cols-2' } gap-4`}>
+                                <div className="grid grid-cols-2 gap-4">
                                   {(node as any).images.map((img: string, idx: number) => (
-                                    <div key={idx} className="relative rounded-xl overflow-hidden border border-slate-100 shadow-sm group/img bg-slate-50">
+                                    <div key={idx} className="relative rounded-xl overflow-hidden border border-slate-100 shadow-sm group/img bg-slate-50 h-[240px]">
                                       <ImageWithLoader 
                                         src={img} 
                                         alt={`${node.title}-${idx}`} 
-                                        className="w-full h-auto max-h-[240px]" 
+                                        className="w-full h-full" 
                                         objectFit="contain"
                                       />
                                       <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent opacity-0 group-hover/img:opacity-100 transition-opacity" />
@@ -348,11 +348,11 @@ const BusinessProcessArea: React.FC = () => {
                               )
                             ) : (node as any).image ? (
                               <div className="flex justify-center">
-                                <div className="relative rounded-xl overflow-hidden border border-slate-100 shadow-sm group/img bg-slate-50 max-w-[280px] w-full">
+                                <div className="relative rounded-xl overflow-hidden border border-slate-100 shadow-sm group/img bg-slate-50 max-w-[280px] w-full h-[360px]">
                                   <ImageWithLoader 
                                     src={(node as any).image} 
                                     alt={node.title} 
-                                    className="w-full h-auto" 
+                                    className="w-full h-full" 
                                     objectFit="contain"
                                   />
                                   <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover/img:opacity-100 transition-opacity" />
@@ -485,7 +485,7 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
               
               <div className="absolute top-0 left-0 w-full h-full animate-spin-slow [transform-style:preserve-3d]" style={{ animationDuration: '80s', animationDirection: 'reverse' }}>
                 <MatrixNode label="销售" angle={0} color="violet" />
-                <MatrixNode label="导游" angle={30} color="violet" />
+                <MatrixNode label="导游" angle={30} color="violet" onClick={() => window.open(window.location.origin + window.location.pathname + '?role=guide', '_blank')} />
                 <MatrixNode label="线路设计师" angle={330} color="violet" />
                 <MatrixNode label="行业专家" angle={90} color="violet" />
                 <MatrixNode label="气象助手" angle={110} color="violet" />
@@ -551,6 +551,7 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                                     d="问答式引导注册，分钟级完成配置，无需漫长的开发与部署周期。" 
                                     active={activeOrgTab === 'saas'}
                                     onClick={() => setActiveOrgTab('saas')}
+                                    demoUrl="http://117.187.1.7:58811/onboarding"
                                   />
                                   <DesignFeature 
                                     icon={LayoutDashboard} 
@@ -558,6 +559,7 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                                     d="主动式服务+多角色智能体，根据角色与场景动态生成专属首页" 
                                     active={activeOrgTab === 'portal'}
                                     onClick={() => setActiveOrgTab('portal')}
+                                    demoUrl="http://117.187.1.7:58811/digital-twin/"
                                   />
                                   <DesignFeature 
                                     icon={Box} 
@@ -565,6 +567,7 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                                     d="逐步覆盖企业经营既有的各类软件系统" 
                                     active={activeOrgTab === 'marketplace'}
                                     onClick={() => setActiveOrgTab('marketplace')}
+                                    demoUrl="http://117.187.1.7:58811/library"
                                   />
                                </ul>
                             </div>
@@ -854,9 +857,18 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                                        </div>
                                     </div>
                                  </div>
-                                 <div className="mt-8 text-center space-y-2">
-                                    <div className="text-2xl font-black text-slate-800">免实施、免安装、免部署</div>
-                                    <div className="text-indigo-600 font-bold tracking-widest uppercase text-sm">问答式引导注册上线</div>
+                                 <div className="mt-8 text-center space-y-4">
+                                    <div className="space-y-2">
+                                       <div className="text-2xl font-black text-slate-800">免实施、免安装、免部署</div>
+                                       <div className="text-indigo-600 font-bold tracking-widest uppercase text-sm">问答式引导注册上线</div>
+                                    </div>
+                                    <button 
+                                       onClick={() => window.open('http://117.187.1.7:58811/onboarding', '_blank')}
+                                       className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-2xl font-black shadow-lg transition-all active:scale-95 flex items-center gap-2 mx-auto"
+                                    >
+                                       <ExternalLink size={20} />
+                                       进入在线演示
+                                    </button>
                                  </div>
                               </div>
                            )}
@@ -877,9 +889,18 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                                        <div className="text-slate-800 font-bold text-sm tracking-tight">酒店分身</div>
                                     </div>
                                  </div>
-                                 <div className="mt-8 text-center space-y-2">
-                                    <div className="text-3xl font-black text-slate-800 tracking-tight">门户式首页设计</div>
-                                    <div className="text-indigo-600 font-bold tracking-[0.2em] uppercase text-sm">主动式服务+多角色智能体，根据角色与场景动态生成专属首页</div>
+                                 <div className="mt-8 text-center space-y-4">
+                                    <div className="space-y-2">
+                                       <div className="text-3xl font-black text-slate-800 tracking-tight">门户式首页设计</div>
+                                       <div className="text-indigo-600 font-bold tracking-[0.2em] uppercase text-sm">主动式服务+多角色智能体，根据角色与场景动态生成专属首页</div>
+                                    </div>
+                                    <button 
+                                       onClick={() => window.open('http://117.187.1.7:58811/digital-twin/', '_blank')}
+                                       className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-2xl font-black shadow-lg transition-all active:scale-95 flex items-center gap-2 mx-auto"
+                                    >
+                                       <ExternalLink size={20} />
+                                       进入在线演示
+                                    </button>
                                  </div>
                               </div>
                            )}
@@ -950,9 +971,18 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                                        ))}
                                     </div>
                                  </div>
-                                 <div className="mt-8 text-center space-y-2">
-                                    <div className="text-2xl font-black text-slate-800">打通业务系统 · 赋予智能体行动力</div>
-                                    <div className="text-indigo-600 font-bold tracking-widest uppercase text-sm">标准化 MCP 接口集 · 插件化原子能力</div>
+                                 <div className="mt-8 text-center space-y-4">
+                                    <div className="space-y-2">
+                                       <div className="text-2xl font-black text-slate-800">打通业务系统 · 赋予智能体行动力</div>
+                                       <div className="text-indigo-600 font-bold tracking-widest uppercase text-sm">标准化 MCP 接口集 · 插件化原子能力</div>
+                                    </div>
+                                    <button 
+                                       onClick={() => window.open('http://117.187.1.7:58811/library', '_blank')}
+                                       className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-2xl font-black shadow-lg transition-all active:scale-95 flex items-center gap-2 mx-auto"
+                                    >
+                                       <ExternalLink size={20} />
+                                       进入在线演示
+                                    </button>
                                  </div>
                               </div>
                            )}
@@ -1416,6 +1446,16 @@ const App: React.FC = () => {
     if (unlocked === 'true') {
       setIsUnlocked(true);
     }
+
+    // 处理 URL 参数实现自动跳转
+    const params = new URLSearchParams(window.location.search);
+    const role = params.get('role');
+    if (role === 'guide') {
+      setUserRole('guide');
+      setCurrentView('app');
+      setSubView('main');
+      setActiveTab(0);
+    }
   }, []);
 
   const [currentView, setCurrentView] = useState<'portal' | 'app'>('portal');
@@ -1532,7 +1572,7 @@ const App: React.FC = () => {
                      <img src={huangxiaoxiImg1} alt="Logo" className="w-16 h-16 object-contain" />
                      <div className="flex flex-col">
                         <span className="text-2xl font-black tracking-tight text-slate-900 leading-none">贵旅数网</span>
-                        <span className="text-indigo-600 text-xs font-bold tracking-[0.2em] mt-1.5 uppercase">2026 战略规划</span>
+                        <span className="text-indigo-600 text-xs font-bold tracking-[0.2em] mt-1.5 uppercase">2026年1月12日</span>
                      </div>
                   </div>
                   <div className="flex items-center gap-1 bg-slate-100/50 p-1.5 rounded-2xl border border-slate-200">
@@ -3095,9 +3135,9 @@ const DesignTabItem = ({ active, onClick, label }: any) => (
    </button>
 );
 
-const DesignFeature = ({ icon: Icon, t, d, active, onClick }: any) => (
+const DesignFeature = ({ icon: Icon, t, d, active, onClick, demoUrl }: any) => (
    <li 
-     className={`flex gap-4 items-start group p-3 rounded-2xl transition-all cursor-pointer ${
+     className={`flex gap-4 items-start group p-3 rounded-2xl transition-all cursor-pointer relative ${
        active ? 'bg-indigo-50 shadow-sm border border-indigo-100' : 'hover:bg-slate-50 border border-transparent'
      }`}
      onClick={onClick}
@@ -3107,9 +3147,23 @@ const DesignFeature = ({ icon: Icon, t, d, active, onClick }: any) => (
       }`}>
          <Icon size={20} />
       </div>
-      <div>
-         <div className={`text-sm font-bold mb-1 transition-colors ${active ? 'text-indigo-900' : 'text-slate-800'}`}>{t}</div>
-         <div className={`text-xs leading-relaxed transition-colors ${active ? 'text-indigo-600' : 'text-slate-400'}`}>{d}</div>
+      <div className="flex-1">
+         <div className="flex items-center justify-between gap-2">
+            <div className={`text-sm font-bold transition-colors ${active ? 'text-indigo-900' : 'text-slate-800'}`}>{t}</div>
+            {demoUrl && (
+               <button 
+                  onClick={(e) => {
+                     e.stopPropagation();
+                     window.open(demoUrl, '_blank');
+                  }}
+                  className="shrink-0 flex items-center gap-1 px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-600 hover:bg-indigo-200 text-[10px] font-bold transition-colors"
+               >
+                  <ExternalLink size={10} />
+                  演示链接
+               </button>
+            )}
+         </div>
+         <div className={`text-xs leading-relaxed mt-1 transition-colors ${active ? 'text-indigo-600' : 'text-slate-400'}`}>{d}</div>
       </div>
    </li>
 );

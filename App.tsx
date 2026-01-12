@@ -1139,12 +1139,6 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                            <div className="mt-6 bg-white/50 backdrop-blur px-4 py-2 rounded-full border border-white text-[10px] font-black text-slate-400 uppercase tracking-widest">
                               Hotel Smart Stay
                            </div>
-                           <button 
-                              onClick={() => openExternal('http://47.109.26.72:8080/hotel_ai_os/')}
-                              className="mt-8 w-full bg-violet-600 hover:bg-violet-700 text-white px-8 py-4 rounded-2xl font-black shadow-xl flex items-center justify-center gap-3 group transition-all active:scale-95"
-                           >
-                              下一步规划 <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
-                           </button>
                         </div>
                      )}
 

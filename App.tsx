@@ -2245,8 +2245,8 @@ const App: React.FC = () => {
                               sub: '景区、餐饮、酒店企业端入口',
                               url: 'https://www.lbymt.com/config/home/home?sysFlag=sj',
                               accounts: [
-                                { label: '景区企业端 (荔波县云上老乡餐馆)', account: '15985402914', pass: 'Aa402914', note: '右上角选择景区' },
-                                { label: '酒店企业端 (荔波县玉屏石缘客栈)', account: '13765417466', pass: 'Qwe1234567_', note: '右上角选择酒店' }
+                                { label: '景区企业端 (贵旅数网)', account: '13658545528', pass: 'Ymt@1234', note: '右上角选择景区' },
+                                { label: '酒店企业端 (贵旅数网)', account: '15286009622', pass: 'Cy123456', note: '右上角选择酒店' }
                               ],
                               icon: Building2,
                               color: 'indigo'

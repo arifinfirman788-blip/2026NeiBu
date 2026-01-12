@@ -1798,18 +1798,6 @@ const App: React.FC = () => {
                                     url: 'https://trust-connector1.aihuangxiaoxi.com/workbench/home',
                                     account: 'HS@123',
                                     password: 'Energy@123'
-                                  },
-                                  {
-                                    name: '贵旅集团连接器',
-                                    url: 'https://trust-connector2.aihuangxiaoxi.com/workbench/home',
-                                    account: 'test002',
-                                    password: 'Energy@123'
-                                  },
-                                  {
-                                    name: '南瓜侠公司连接器',
-                                    url: 'https://tds-connector-guilv.lingshu.net/workbench/home',
-                                    account: 'test005',
-                                    password: 'LEnergy@123'
                                   }
                                 ]
                               },
@@ -1824,9 +1812,7 @@ const App: React.FC = () => {
                                     name: '业务前台 (证书登录)',
                                     url: 'https://trust-business-node.aihuangxiaoxi.com/index',
                                     accounts: [
-                                      { label: '贵旅集团', account: 'test002', password: 'Energy@123' },
-                                      { label: '贵旅数网', account: 'test001', password: 'Energy@123' },
-                                      { label: '南瓜侠公司', account: 'test005', password: 'LEnergy@123' }
+                                      { label: '贵旅数网', account: 'test001', password: 'Energy@123' }
                                     ]
                                   },
                                   {
@@ -1878,14 +1864,12 @@ const App: React.FC = () => {
                                         <div key={idx} className={`flex flex-col gap-3 ${(node.title === '业务节点' || node.title === '连接器') ? 'bg-slate-50/50 p-4 rounded-xl border border-slate-100 hover:bg-slate-100/80 transition-colors' : ''}`}>
                                           <div className="flex items-center justify-between gap-2">
                                             <div className="text-[10px] font-bold text-slate-400 uppercase tracking-tight">{sub.name}</div>
-                                            {sub.name !== '业务后台 (运营/管理)' && (
-                                              <button 
-                                                onClick={() => openExternal(sub.url)}
-                                                className="bg-indigo-600 text-white px-2.5 py-1 rounded-lg text-[10px] font-bold hover:bg-indigo-700 transition-all shadow-sm shrink-0"
-                                              >
-                                                进入
-                                              </button>
-                                            )}
+                                            <button 
+                                              onClick={() => openExternal(sub.url)}
+                                              className="bg-indigo-600 text-white px-2.5 py-1 rounded-lg text-[10px] font-bold hover:bg-indigo-700 transition-all shadow-sm shrink-0"
+                                            >
+                                              进入
+                                            </button>
                                           </div>
                                           <div className="flex flex-col gap-2 min-w-0">
                                             {sub.accounts ? (
@@ -1894,14 +1878,6 @@ const App: React.FC = () => {
                                                   <div key={aIdx} className="flex flex-col gap-1.5">
                                                     <div className="flex items-center justify-between gap-2">
                                                       <div className="text-[9px] text-slate-400 font-medium">{acc.label}</div>
-                                                      {sub.name === '业务后台 (运营/管理)' && (
-                                                        <button 
-                                                          onClick={() => openExternal(sub.url)}
-                                                          className="bg-indigo-600 text-white px-2.5 py-1 rounded-lg text-[10px] font-bold hover:bg-indigo-700 transition-all shadow-sm shrink-0"
-                                                        >
-                                                          进入
-                                                        </button>
-                                                      )}
                                                     </div>
                                                     <div className="flex flex-wrap items-center gap-2">
                                                       <div 

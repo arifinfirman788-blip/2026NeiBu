@@ -1781,21 +1781,6 @@ const App: React.FC = () => {
                             <div className="text-xs font-bold text-slate-400 uppercase tracking-widest px-2">核心组成节点</div>
                             {[
                               {
-                                title: '连接器',
-                                desc: '用数方和供数方的应用端，用于数据高效流转。',
-                                icon: Network,
-                                color: 'blue',
-                                features: ['跨云互联', '数据沙箱'],
-                                subNodes: [
-                                  {
-                                    name: '贵旅数网连接器',
-                                    url: 'https://trust-connector1.aihuangxiaoxi.com/workbench/home',
-                                    account: 'HS@123',
-                                    password: 'Energy@123'
-                                  }
-                                ]
-                              },
-                              {
                                 title: '业务节点',
                                 desc: '管理连接器；数据空间市场门户及后台管理。',
                                 icon: LayoutDashboard,
@@ -1816,6 +1801,21 @@ const App: React.FC = () => {
                                       { label: '运营方', account: 'yyf', password: 'qwer1234' },
                                       { label: '管理方', account: 'admin', password: 'qwer1234' }
                                     ]
+                                  }
+                                ]
+                              },
+                              {
+                                title: '连接器',
+                                desc: '用数方和供数方的应用端，用于数据高效流转。',
+                                icon: Network,
+                                color: 'blue',
+                                features: ['跨云互联', '数据沙箱'],
+                                subNodes: [
+                                  {
+                                    name: '贵旅数网连接器',
+                                    url: 'https://trust-connector1.aihuangxiaoxi.com/workbench/home',
+                                    account: 'HS@123',
+                                    password: 'Energy@123'
                                   }
                                 ]
                               },

@@ -559,7 +559,6 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                                     d="主动式服务+多角色智能体，根据角色与场景动态生成专属首页" 
                                     active={activeOrgTab === 'portal'}
                                     onClick={() => setActiveOrgTab('portal')}
-                                    demoUrl="http://117.187.1.7:58811/digital-twin/"
                                   />
                                   <DesignFeature 
                                     icon={Box} 
@@ -791,6 +790,7 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                                    d="帮助企业拥有永不疲倦的各类数字员工，实现全天候、标准化的高质量服务。" 
                                    active={activeRoleTab === 'digital_employee'}
                                    onClick={() => setActiveRoleTab('digital_employee')}
+                                   demoUrl="http://117.187.1.7:58811/digital-twin/"
                                  />
                               </ul>
                            </div>
@@ -894,13 +894,6 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                                        <div className="text-3xl font-black text-slate-800 tracking-tight">门户式首页设计</div>
                                        <div className="text-indigo-600 font-bold tracking-[0.2em] uppercase text-sm">主动式服务+多角色智能体，根据角色与场景动态生成专属首页</div>
                                     </div>
-                                    <button 
-                                       onClick={() => window.open('http://117.187.1.7:58811/digital-twin/', '_blank')}
-                                       className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-2xl font-black shadow-lg transition-all active:scale-95 flex items-center gap-2 mx-auto"
-                                    >
-                                       <ExternalLink size={20} />
-                                       进入在线演示
-                                    </button>
                                  </div>
                               </div>
                            )}
@@ -1039,6 +1032,13 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                                           构建标准化、可规模化的数字员工矩阵，为企业提供7×24小时的高质量在线服务，确保每一个服务请求都能得到即时、专业的响应。
                                        </p>
                                     </div>
+                                    <button 
+                                       onClick={() => window.open('http://117.187.1.7:58811/digital-twin/', '_blank')}
+                                       className="bg-violet-600 hover:bg-violet-700 text-white px-8 py-3 rounded-2xl font-black shadow-lg transition-all active:scale-95 flex items-center gap-2 mx-auto"
+                                    >
+                                       <ExternalLink size={20} />
+                                       进入在线演示
+                                    </button>
                                  </div>
                               )}
                            </div>

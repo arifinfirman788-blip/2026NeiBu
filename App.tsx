@@ -2217,19 +2217,28 @@ const App: React.FC = () => {
                           <div className="w-1 h-6 bg-amber-500 rounded-full" />
                           <h3 className="text-xl font-black text-slate-800">平台各端入口</h3>
                         </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                           {[
                             {
-                              name: '企业端 / 采购端',
-                              sub: '景区、餐饮、酒店企业及采购方入口',
+                              name: '企业端',
+                              sub: '景区、餐饮、酒店企业端入口',
                               url: 'https://www.lbymt.com/config/home/home?sysFlag=sj',
                               accounts: [
                                 { label: '景区企业端 (荔波县云上老乡餐馆)', account: '15985402914', pass: 'Aa402914', note: '右上角选择景区' },
-                                { label: '酒店企业端 (荔波县玉屏石缘客栈)', account: '13765417466', pass: 'Qwe1234567_', note: '右上角选择酒店' },
-                                { label: '采购端账号', account: '13885022658', pass: 'Ty123456', note: '右上角选旅行社' }
+                                { label: '酒店企业端 (荔波县玉屏石缘客栈)', account: '13765417466', pass: 'Qwe1234567_', note: '右上角选择酒店' }
                               ],
                               icon: Building2,
                               color: 'indigo'
+                            },
+                            {
+                              name: '采购端',
+                              sub: '省旅游数智互联平台采购端',
+                              url: 'https://ly.ymtcloud.com/wap/tradeMall.html',
+                              accounts: [
+                                { label: '采购端账号', account: '13885022658', pass: 'Ty123456', note: '右上角选旅行社' }
+                              ],
+                              icon: ShoppingBag,
+                              color: 'blue'
                             },
                             {
                               name: '供应链金融端',

@@ -411,7 +411,7 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
 
       <div className="relative flex flex-col items-center overflow-hidden">
         {/* 0. 顶部触点层 */}
-        <div className={`flex gap-4 mb-16 transition-all duration-700 ${isExpanded ? '-translate-x-[400px]' : ''}`}>
+        <div className={`flex items-center gap-4 mb-16 transition-all duration-700 ${isExpanded ? '-translate-x-[400px]' : ''}`}>
           <div className="flex items-center gap-2 bg-gradient-to-r from-blue-50 to-indigo-50 px-4 py-2 rounded-full border border-indigo-100 shadow-sm">
             <span className="text-xs font-black text-indigo-400">服务触点</span>
             <div className="h-4 w-px bg-indigo-200"></div>
@@ -419,6 +419,17 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
               <span key={t} className="text-xs font-bold text-slate-600 px-2">{t}</span>
             ))}
           </div>
+
+          <button 
+            onClick={() => openExternal('https://arifinfirman788-blip.github.io/huangxiaoxi-gaode/')}
+            className="flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white px-4 py-2 rounded-full border border-emerald-400 shadow-lg shadow-emerald-200/50 transition-all hover:scale-105 active:scale-95 group"
+          >
+            <div className="w-5 h-5 bg-white/20 rounded-full flex items-center justify-center group-hover:bg-white/30 transition-colors">
+              <Map size={12} className="text-white" />
+            </div>
+            <span className="text-xs font-black tracking-tight">多彩黄小西X高德地图</span>
+            <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
+          </button>
         </div>
 
         <div className="w-full flex justify-center relative min-h-[900px]" onClick={() => isExpanded && setIsExpanded(false)}>

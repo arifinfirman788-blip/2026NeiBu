@@ -779,14 +779,14 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                               <ul className="space-y-2">
                                  <DesignFeature 
                                    icon={UserCheck} 
-                                   t="1. 辅助旅游从业人员" 
+                                   t="辅助旅游从业人员" 
                                    d="作为从业者的“数字助手”，提供专业知识支持、方案快速生成与任务协同。" 
                                    active={activeRoleTab === 'assistant'}
                                    onClick={() => setActiveRoleTab('assistant')}
                                  />
                                  <DesignFeature 
                                    icon={Clock} 
-                                   t="2. 24小时在线数字员工" 
+                                   t="24小时在线数字员工" 
                                    d="帮助企业拥有永不疲倦的各类数字员工，实现全天候、标准化的高质量服务。" 
                                    active={activeRoleTab === 'digital_employee'}
                                    onClick={() => setActiveRoleTab('digital_employee')}
@@ -1006,7 +1006,7 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                                        </div>
                                     </div>
                                     <div className="text-center space-y-3">
-                                       <h4 className="text-3xl font-black text-slate-800">1. 辅助旅游从业人员</h4>
+                                       <h4 className="text-3xl font-black text-slate-800">辅助旅游从业人员</h4>
                                        <p className="text-violet-600 font-bold text-lg">数字化助手 · 专业知识支持 · 方案快速生成</p>
                                        <p className="text-slate-500 leading-relaxed max-w-2xl">
                                           为导游、线路设计师等从业者提供实时的专业知识库支持，辅助快速生成行程方案，并实现多方任务的高效协同。
@@ -1026,7 +1026,7 @@ const MatrixDiagram = ({ onNavigate, onAgentClick, setActiveQrCode, handleEnterA
                                        />
                                     </div>
                                     <div className="text-center space-y-3">
-                                       <h4 className="text-3xl font-black text-slate-800">2. 24小时在线数字员工</h4>
+                                       <h4 className="text-3xl font-black text-slate-800">24小时在线数字员工</h4>
                                        <p className="text-violet-600 font-bold text-lg">永不疲倦 · 标准化服务 · 全天候响应</p>
                                        <p className="text-slate-500 leading-relaxed max-w-2xl">
                                           构建标准化、可规模化的数字员工矩阵，为企业提供7×24小时的高质量在线服务，确保每一个服务请求都能得到即时、专业的响应。
